@@ -31,16 +31,17 @@
 
 %% [x1 y1] [x2 y2] -> [x y], where x = x1 - x2, y = y1 - y2
 /vsub {
-  aload pop
-  3 2 roll
-  aload pop 
-  exch
-  4 -1 roll
-  sub 
-  3 1 roll
-  sub 
-  2 array 
-  astore 
+  aload pop    % [x1 y1] x2 y2 
+  3 2 roll     % x2 y2 [x1 y1]
+  aload pop    % x2 y2 x1 y1
+  exch         % x2 y2 y1 x1
+  4 -1 roll    % y2 y1 x1 x2 
+  sub          % y2 y1 x', x' = x1 - x2
+  3 1 roll     % x' y2 y1 
+  exch         % x' y1 y2 
+  sub          % x' y', y' = y1 - y2 
+  2 array      % x' y' [. .]
+  astore       % [x' y']
 } def
 
 %% [x y] -> [x' y'] where x' = -x, y' = -y
@@ -74,7 +75,7 @@
   aload pop       % [xa ya] [xb yb] [xc yc]
   exch            % [xa ya] [xc yc] [xb yb]
   dup             % [xa ya] [xc yc] [xb yb] [xb yb]
-  vneg             % [xa ya] [xc yc] [xb yb] [-xb -yb]
+  vneg            % [xa ya] [xc yc] [xb yb] [-xb -yb]
   3 1 roll        % [xa ya] [-xb -yb] [xc yc] [xb yb] 
   4 -1 roll       % [-xb -yb] [xc yc] [xb yb] [xa ya]
   vadd            % [-xb -yb] [xc yc] [xa+xb ya+yb]
@@ -82,4 +83,24 @@
   3 array         % [xa+xb ya+yb] [-xb -yb] [xc yc] [. . .]
   astore          % [ [xa+xb ya+yb] [-xb -yb] [xc yc] ]
 } def
+
+%% (a’, b’, c’) = (a + (b + c) / 2, (b + c) / 2, (c − b) / 2)
+%% [ [xa ya] [xb yb] [xc yc] ]
+/toss-box {
+  aload pop       % [xa ya] [xb yb] [xc yc]
+  2 copy          % [xa ya] [xb yb] [xc yc] [xb yb] [xc yc] 
+  exch            % [xa ya] [xb yb] [xc yc] [xc yc] [xb yb]
+  vsub            % [xa ya] [xb yb] [xc yc] [xc-xb yc-yb]
+  0.5 vscale      % [xa ya] [xb yb] [xc yc] [(xc-xb)/2 (yc-yb)/2]
+  4 1 roll        % [(xc-xb)/2 (yc-yb)/2] [xa ya] [xb yb] [xc yc]
+  vadd            % [(xc-xb)/2 (yc-yb)/2] [xa ya] [xb+xc yb+yc]
+  0.5 vscale      % [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2]
+  dup             % [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2] [(xb+xc)/2 (yb+yc)/2]
+  4 1 roll        % [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2]
+  vadd            % [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [xa+(xb+xc)/2 ya+(yb+yc)/2]
+  3 1 roll        % [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2]
+  3 array         % [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [. . .]
+  astore          % [ [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] ]
+} def
+
 
