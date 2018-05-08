@@ -111,7 +111,31 @@
   cvx            % [ p exec 
   /turn-box      % [ p exec /turn-box 
   cvx            % [ p exec turn-box
-  exch           % [ turn-box p exec
+  3 1 roll       % [ turn-box p exec
   ]              % [ turn-box p exec ]
   cvx            % { turn-box p exec }
+} def
+
+/flip {
+  [              % p [
+  exch           % [ p
+  /exec          % [ p /exec 
+  cvx            % [ p exec 
+  /flip-box      % [ p exec /flip-box 
+  cvx            % [ p exec flip-box
+  3 1 roll       % [ flip-box p exec
+  ]              % [ flip-box p exec ]
+  cvx            % { flip-box p exec }
+} def
+
+/toss {
+  [              % p [
+  exch           % [ p
+  /exec          % [ p /exec 
+  cvx            % [ p exec 
+  /toss-box      % [ p exec /toss-box 
+  cvx            % [ p exec toss-box
+  3 1 roll       % [ toss-box p exec
+  ]              % [ toss-box p exec ]
+  cvx            % { toss-box p exec }
 } def
