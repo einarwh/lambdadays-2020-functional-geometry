@@ -1,0 +1,85 @@
+%! 
+
+% Fish
+
+%% [x y] f -> [x' y'] where x' = x * f, y' = y * f 
+/vscale {
+  exch 
+  aload pop
+  2 index
+  mul 
+  3 1 roll
+  mul 
+  exch 
+  2 array 
+  astore  
+} def
+
+%% [x1 y1] [x2 y2] -> [x y], where x = x1 + x2, y = y1 + y2
+/vadd {
+  aload pop
+  3 2 roll
+  aload pop 
+  exch
+  4 -1 roll
+  add 
+  3 1 roll
+  add 
+  2 array 
+  astore 
+} def
+
+%% [x1 y1] [x2 y2] -> [x y], where x = x1 - x2, y = y1 - y2
+/vsub {
+  aload pop
+  3 2 roll
+  aload pop 
+  exch
+  4 -1 roll
+  sub 
+  3 1 roll
+  sub 
+  2 array 
+  astore 
+} def
+
+%% [x y] -> [x' y'] where x' = -x, y' = -y
+/vneg {
+  aload pop    % x y
+  neg          % x -y
+  exch         % -y x
+  neg          % -y -x
+  exch         % -x -y 
+  2 array      % -x -y [. .]
+  astore       % [-x -y] 
+} def
+
+%% (a + b, c, -b)
+%% [ [xa ya] [xb yb] [xc yc] ]
+/turn-box { 
+  aload pop       % [xa ya] [xb yb] [xc yc]
+  exch            % [xa ya] [xc yc] [xb yb]
+  dup             % [xa ya] [xc yc] [xb yb] [xb yb]
+  4 -1 roll       % [xc yc] [xb yb] [xb yb] [xa ya]
+  vadd            % [xc yc] [xb yb] [xa+xb ya+yb]
+  3 1 roll        % [xa+xb ya+yb] [xc yc] [xb yb]
+  vneg            % [xa+xb ya+yb] [xc yc] [-xb -yb]
+  3 array         % [xa+xb ya+yb] [xc yc] [-xb -yb] [. . .]
+  astore          % [ [xa+xb ya+yb] [xc yc] [-xb -yb] ]
+} def
+
+%% (a + b, -b, c)
+%% [ [xa ya] [xb yb] [xc yc] ]
+/flip-box {
+  aload pop       % [xa ya] [xb yb] [xc yc]
+  exch            % [xa ya] [xc yc] [xb yb]
+  dup             % [xa ya] [xc yc] [xb yb] [xb yb]
+  vneg             % [xa ya] [xc yc] [xb yb] [-xb -yb]
+  3 1 roll        % [xa ya] [-xb -yb] [xc yc] [xb yb] 
+  4 -1 roll       % [-xb -yb] [xc yc] [xb yb] [xa ya]
+  vadd            % [-xb -yb] [xc yc] [xa+xb ya+yb]
+  3 1 roll        % [xa+xb ya+yb] [-xb -yb] [xc yc]
+  3 array         % [xa+xb ya+yb] [-xb -yb] [xc yc] [. . .]
+  astore          % [ [xa+xb ya+yb] [-xb -yb] [xc yc] ]
+} def
+
