@@ -2,6 +2,48 @@
 
 %%% A postscript about recursive fish.
 
+%% The letter F
+
+/fletter {
+  [ [ (polygon)
+      [ [ 0.30 0.20 ]
+        [ 0.40 0.20 ]
+        [ 0.40 0.45 ]
+        [ 0.60 0.45 ]
+        [ 0.60 0.55 ]
+        [ 0.40 0.55 ]
+        [ 0.40 0.70 ]
+        [ 0.70 0.70 ]
+        [ 0.70 0.80 ]
+        [ 0.30 0.80 ] ] ] ]
+} def
+
+%mapper : Box -> Vector -> Vector 
+%mapper { a, b, c } { x, y } =
+%  add a (add (scale x b) (scale y c))
+
+% box -> vector -> vector 
+/make-mapper {
+  [              % v
+  exch %box      % v box
+  { 
+    aload pop    % v a b c 
+    4 -1 roll    % a b c v 
+    aload pop    % a b c x y 
+    exch         % a b c y x
+    3 1 roll     % a b x c y
+    vscale       % a b x cy
+    3 1 roll     % a cy b x 
+    vscale       % a cy bx 
+    vadd         % a bc 
+    vadd         % abc
+  } /exec cvx 
+  ] cvx          %
+} def
+
+/box [ [100 100] [400 0] [0 400] ] def 
+/mapper box make-mapper def
+
 %% [x y] f -> [x' y'] where x' = x * f, y' = y * f 
 /vscale {
   exch           % f [x y]
