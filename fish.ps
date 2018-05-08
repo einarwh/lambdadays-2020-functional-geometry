@@ -103,4 +103,15 @@
   astore         % [ [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] ]
 } def
 
-
+%% picture -> picture
+/turn {
+  [              % p [
+  exch           % [ p
+  /exec          % [ p /exec 
+  cvx            % [ p exec 
+  /turn-box      % [ p exec /turn-box 
+  cvx            % [ p exec turn-box
+  exch           % [ turn-box p exec
+  ]              % [ turn-box p exec ]
+  cvx            % { turn-box p exec }
+} def
