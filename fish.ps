@@ -158,6 +158,26 @@
   astore         % [ [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] ]
 } def
 
+/move-vert {       % bx f 
+  exch             % f bx
+  aload pop        % f a b c 
+  dup              % f a b c c
+  5 -1 roll        % a b c c f
+  vscale           % a b c c'
+  4 -1 roll        % b c c' a
+  vadd             % b c a'
+  3 1 roll         % a' b c 
+  3 array astore   % [ a' b c ]
+} def
+
+/scale-vert {      % bx f 
+  exch             % f bx 
+  aload pop        % f a b c
+  4 -1 roll        % a b c f
+  vscale           % a b c'
+  3 array astore   % [ a b c' ]  
+} def 
+
 %% picture -> picture
 /turn {
   [              % p [
@@ -195,8 +215,75 @@
   cvx            % { toss-box p exec }
 } def
 
+% Consumes: 
+%  p1 p2 m n 
+% Produces: 
+%  p  
+
+/above-temp {
+  [                % box * p1 p2 m n [
+    5 1 roll       % box [ p1 p2 m n
+    {
+      1 index      % box p1 p2 m n m 
+      add          % box p1 p2 m t
+      div          % box p1 p2 f
+      dup          % box p1 p2 f f 
+      1            % box p1 p2 f f 1
+      exch         % box p1 p2 f 1 f 
+      sub          % box p1 p2 f f'
+      dup          % box p1 p2 f f' f'
+      3 1 roll     % box p1 p2 f' f f'
+      6 -1 roll    % p1 p2 f' f f' box 
+      dup          % p1 p2 f' f f' box box 
+      7 1 roll     % box p1 p2 f' f f' box  
+      move-vert    % box p1 p2 f' f box'    (box' = box f' mv)
+      exch         % box p1 p2 f' box' f   
+      scale-vert   % box p1 p2 f' box1
+    } /exec cvx 
+  ] cvx
+} def
+
+/above-ratio {
+  [                % box * p1 p2 m n [
+    5 1 roll       % box [ p1 p2 m n
+    {
+      1 index      % box p1 p2 m n m 
+      add          % box p1 p2 m t
+      div          % box p1 p2 f
+      dup          % box p1 p2 f f 
+      1            % box p1 p2 f f 1
+      exch         % box p1 p2 f 1 f 
+      sub          % box p1 p2 f f'
+      dup          % box p1 p2 f f' f'
+      3 1 roll     % box p1 p2 f' f f'
+      6 -1 roll    % p1 p2 f' f f' box 
+      dup          % p1 p2 f' f f' box box 
+      7 1 roll     % box p1 p2 f' f f' box
+      exch         % box p1 p2 f' f box f'  
+      move-vert    % box p1 p2 f' f box'    (box' = box f' mv)
+      exch         % box p1 p2 f' box' f 
+      scale-vert   % box p1 p2 f' box1
+      4 -1 roll    % box p2 f' box1 p1
+      exec         % box p2 f'
+      exch         % box f' p2 
+      3 1 roll     % p2 box f'
+      scale-vert   % p2 box2 
+      exch         % box2 p2 
+      exec         %
+    } /exec cvx 
+  ] cvx
+} def
+
+/above {
+  1 1 aboveRatio
+} def 
+
 /some-box [ [120 80] [200 0] [0 200] ] def
 
 /f-picture { draw-f } create-picture def
 
 % some-box /f-picture load toss exec  
+
+/fp { == } def 
+
+% fp fp 3 2 above-temp 
