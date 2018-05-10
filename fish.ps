@@ -4,45 +4,58 @@
 
 %% The letter F
 
-/fletter {
-  [ [ (polygon)
-      [ [ 0.30 0.20 ]
-        [ 0.40 0.20 ]
-        [ 0.40 0.45 ]
-        [ 0.60 0.45 ]
-        [ 0.60 0.55 ]
-        [ 0.40 0.55 ]
-        [ 0.40 0.70 ]
-        [ 0.70 0.70 ]
-        [ 0.70 0.80 ]
-        [ 0.30 0.80 ] ] ] ]
+/draw-f {
+  newpath
+  0.30 0.20 moveto 
+  0.40 0.20 lineto
+  0.40 0.45 lineto
+  0.60 0.45 lineto
+  0.60 0.55 lineto
+  0.40 0.55 lineto
+  0.40 0.70 lineto
+  0.70 0.70 lineto
+  0.70 0.80 lineto
+  0.30 0.80 lineto
+  closepath
+  0.01 setlinewidth
+  stroke 
 } def
 
-%mapper : Box -> Vector -> Vector 
-%mapper { a, b, c } { x, y } =
-%  add a (add (scale x b) (scale y c))
+% [x y]
+/vlength {
+  aload pop      % x y
+  dup mul        % x y*y
+  exch           % y*y x
+  dup mul        % y*y x*x
+  add 
+  sqrt 
+} def 
 
-% box -> vector -> vector 
-/make-mapper {
-  [              % v
-  exch %box      % v box
-  { 
-    aload pop    % v a b c 
-    4 -1 roll    % a b c v 
-    aload pop    % a b c x y 
-    exch         % a b c y x
-    3 1 roll     % a b x c y
-    vscale       % a b x cy
-    3 1 roll     % a cy b x 
-    vscale       % a cy bx 
-    vadd         % a bc 
-    vadd         % abc
-  } /exec cvx 
-  ] cvx          %
-} def
-
-/box [ [100 100] [400 0] [0 400] ] def 
-/mapper box make-mapper def
+% Consumes: a procedure that draws lines for a picture.
+% Produces: a picture-procedure that consumes a box and draws a picture.
+/create-picture {    % bx
+  [ exch             % [ d 
+    { 
+      gsave
+      exch           % d bx 
+      aload pop      % d a b c 
+      3 -1 roll      % d b c a
+      aload pop      % d b c xa ya
+      translate      % d b c 
+      vlength        % d b cl
+      exch           % d cl b
+      dup            % d cl b b 
+      vlength        % d cl b bl 
+      3 1 roll       % d bl cl b 
+      aload pop      % d bl cl xb yb
+      exch atan      % d bl cl ag
+      rotate         % d bl cl 
+      scale          % d
+      exec           % 
+      grestore       
+    } /exec cvx 
+  ] cvx 
+} def 
 
 %% [x y] f -> [x' y'] where x' = x * f, y' = y * f 
 /vscale {
@@ -181,3 +194,9 @@
   ]              % [ toss-box p exec ]
   cvx            % { toss-box p exec }
 } def
+
+/some-box [ [120 80] [200 0] [0 200] ] def
+
+/f-picture { draw-f } create-picture def
+
+% some-box /f-picture load toss exec  
