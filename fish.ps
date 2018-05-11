@@ -21,6 +21,40 @@
   stroke 
 } def
 
+/draw-george {
+  newpath
+
+  0.00 0.55 moveto
+  0.15 0.45 lineto 
+  0.30 0.55 lineto
+  0.40 0.50 lineto 
+  0.20 0.00 lineto 
+
+  0.00 0.80 moveto 
+  0.15 0.60 lineto
+  0.30 0.65 lineto
+  0.40 0.65 lineto
+  0.35 0.80 lineto
+  0.40 1.00 lineto
+
+  0.60 1.00 moveto 
+  0.65 0.80 lineto 
+  0.60 0.65 lineto 
+  0.80 0.65 lineto
+  1.00 0.45 lineto
+
+  1.00 0.20 moveto 
+  0.60 0.50 lineto 
+  0.80 0.00 lineto
+
+  0.40 0.00 moveto 
+  0.50 0.30 lineto 
+  0.60 0.00 lineto
+
+  0.01 setlinewidth
+  stroke 
+} def 
+
 % [x y]
 /vlength {
   aload pop      % x y
@@ -29,6 +63,19 @@
   dup mul        % y*y x*x
   add 
   sqrt 
+} def 
+
+% [x1 y1] [x2 y2]
+/dotproduct {
+  aload pop          % [x1 y1] x2 y2 
+  3 -1 roll          % x2 y2 [x1 y1]
+  aload pop          % x2 y2 x1 y1
+  exch               % x2 y2 y1 x1 
+  4 1 roll           % x1 x2 y2 y1
+  mul                % x1 x2 y
+  3 1 roll           % y x1 x2 
+  mul                % y x 
+  add                % dp
 } def 
 
 % Consumes: a procedure that draws lines for a picture.
@@ -41,15 +88,39 @@
       aload pop      % d a b c 
       3 -1 roll      % d b c a
       aload pop      % d b c xa ya
+
+      (translate) == 
+      2 copy == == 
+
       translate      % d b c 
-      vlength        % d b cl
-      exch           % d cl b
-      dup            % d cl b b 
-      vlength        % d cl b bl 
-      3 1 roll       % d bl cl b 
-      aload pop      % d bl cl xb yb
-      exch atan      % d bl cl ag
-      rotate         % d bl cl 
+      aload          % d b c xc yc c
+      vlength        % d b c xc yc cl
+      4 1 roll       % d cl b xc yc 
+      exch atan      % d cl b ac 
+      exch           % d cl ac b
+      aload          % d cl ac xb yb b
+      vlength        % d cl ac xb yb bl
+      4 1 roll       % d cl bl ac xb yb
+      exch atan      % d cl bl ac ab
+      dup            % d cl bl ac ab ab 
+      3 1 roll       % d cl bl ab ac ab
+      sub            % d cl bl ab da
+      dup abs div    % d cl bl ab x    | x = 1 or -1
+      dup neg        % d cl bl ab x -x
+      1 add 90 mul   % d cl bl ab x g  | g = 0 or 180
+      3 -1 roll      % d cl bl x g ab
+      add            % d cl bl x ang
+
+      (rotate) ==
+      dup == 
+
+      rotate         % d cl bl x
+      mul            % d cl bl'
+      exch           % d bl' cl
+
+      (scale) ==
+      2 copy == ==
+
       scale          % d
       exec           % 
       grestore       
@@ -70,7 +141,7 @@
   astore         % [x' y']
 } def
 
-%% [x1 y1] [x2 y2] -> [x y], where x = x1 + x2, y = y1 + y2
+%% [x1 y1] [x2 y2] -> [x y], where x = x1 + x2 y1 + y2
 /vadd {
   aload pop      % [x1 y1] x2 y2
   3 2 roll       % x2 y2 [x1 y1]
@@ -84,7 +155,7 @@
   astore         % [x' y']
 } def
 
-%% [x1 y1] [x2 y2] -> [x y], where x = x1 - x2, y = y1 - y2
+%% [x1 y1] [x2 y2] -> [x y], where x = x1 - x2 y1 - y2
 /vsub {
   aload pop      % [x1 y1] x2 y2 
   3 2 roll       % x2 y2 [x1 y1]
@@ -205,15 +276,12 @@
 
 %% picture -> picture
 /turn {
-  [              % p [
-  exch           % [ p
-  /exec          % [ p /exec 
-  cvx            % [ p exec 
-  /turn-box      % [ p exec /turn-box 
-  cvx            % [ p exec turn-box
-  3 1 roll       % [ turn-box p exec
-  ]              % [ turn-box p exec ]
-  cvx            % { turn-box p exec }
+  [                % p [
+    exch           % [ p
+    /turn-box cvx  % [ p turn-box 
+    exch           % [ turn-box p 
+    /exec cvx      % [ turn-box p exec
+  ] cvx            % { turn-box p exec }
 } def
 
 /flip {
@@ -326,9 +394,11 @@
   ] cvx   
 } def
 
-/some-box [ [120 80] [200 0] [0 200] ] def
+/some-box [ [20 500] [250 0] [0 250] ] def
 
 /f-picture { draw-f } create-picture def
+
+/george-picture { draw-george } create-picture def
 
 % some-box /f-picture load toss exec  
 
