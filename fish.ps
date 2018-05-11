@@ -170,6 +170,21 @@
   3 array astore   % [ a' b c ]
 } def
 
+
+/move-hori {       % bx f
+  exch             % f bx
+  aload pop        % f a b c
+  exch             % f a c b 
+  dup              % f a c b b 
+  5 -1 roll        % a c b b f
+  vscale           % a c b b'
+  4 -1 roll        % c b b' a 
+  vadd             % c b a
+  3 1 roll         % a c b 
+  exch             % a b c 
+  3 array astore   % [a' b c ]
+} def
+
 /scale-vert {      % bx f 
   exch             % f bx 
   aload pop        % f a b c
@@ -177,6 +192,16 @@
   vscale           % a b c'
   3 array astore   % [ a b c' ]  
 } def 
+
+/scale-hori {       % bx f 
+  exch             % f bx 
+  aload pop        % f a b c 
+  exch             % f a c b 
+  4 -1 roll        % a c b f 
+  vscale           % a c b'
+  exch             % a b' c 
+  3 array astore   % [ a b' c ]
+} def
 
 %% picture -> picture
 /turn {
@@ -215,34 +240,8 @@
   cvx            % { toss-box p exec }
 } def
 
-% Consumes: 
-%  p1 p2 m n 
-% Produces: 
-%  p  
-
-/above-temp {
-  [                % box * p1 p2 m n [
-    5 1 roll       % box [ p1 p2 m n
-    {
-      1 index      % box p1 p2 m n m 
-      add          % box p1 p2 m t
-      div          % box p1 p2 f
-      dup          % box p1 p2 f f 
-      1            % box p1 p2 f f 1
-      exch         % box p1 p2 f 1 f 
-      sub          % box p1 p2 f f'
-      dup          % box p1 p2 f f' f'
-      3 1 roll     % box p1 p2 f' f f'
-      6 -1 roll    % p1 p2 f' f f' box 
-      dup          % p1 p2 f' f f' box box 
-      7 1 roll     % box p1 p2 f' f f' box  
-      move-vert    % box p1 p2 f' f box'    (box' = box f' mv)
-      exch         % box p1 p2 f' box' f   
-      scale-vert   % box p1 p2 f' box1
-    } /exec cvx 
-  ] cvx
-} def
-
+% Consumes: p1 p2 m n 
+% Produces: p  
 /above-ratio {
   [                % box * p1 p2 m n [
     5 1 roll       % box [ p1 p2 m n
@@ -275,8 +274,57 @@
 } def
 
 /above {
-  1 1 aboveRatio
+  1 1 above-ratio
 } def 
+
+% Consumes: p1 p2 m n 
+% Produces: p  
+/beside-ratio {
+  [                % box * p1 p2 m n [
+    5 1 roll       % box [ p1 p2 m n
+    {
+      1 index      % box p1 p2 m n m 
+      add          % box p1 p2 m t
+      div          % box p1 p2 f
+      dup          % box p1 p2 f f 
+      1            % box p1 p2 f f 1
+      exch         % box p1 p2 f 1 f 
+      sub          % box p1 p2 f f'
+      exch         % box p1 p2 f' f
+      dup          % box p1 p2 f' f f
+      6 -1 roll    % p1 p2 f' f f box
+      dup          % p1 p2 f' f f box box 
+      3 2 roll     % p1 p2 f' f box box f 
+      scale-hori   % p1 p2 f' f box box1 
+      6 -1 roll    % p2 f' f box box1 p1 
+      exec         % p2 f' f box 
+      exch         % p2 f' box f
+      move-hori    % p2 f' box'
+      exch         % p2 box' f'
+      scale-hori   % p2 box2 
+      exch         % box2 p2 
+      exec 
+    } /exec cvx 
+  ] cvx
+} def
+
+/beside {
+  1 1 beside-ratio 
+} def 
+
+/quartet {
+  [                % box * nw ne sw se [
+    5 1 roll       % box [ nw ne sw se
+    {              % box nw ne sw se 
+      beside       % box nw ne s 
+      4 1 roll     % s box nw ne 
+      beside       % s box n 
+      3 -1 roll    % box n s 
+      above        % box p 
+      exec 
+    } /exec cvx 
+  ] cvx   
+} def
 
 /some-box [ [120 80] [200 0] [0 200] ] def
 
@@ -284,6 +332,6 @@
 
 % some-box /f-picture load toss exec  
 
-/fp { == } def 
+% some-box /f-picture load dup turn 3 2 above-ratio exec
 
-% fp fp 3 2 above-temp 
+% some-box /f-picture load dup flip dup dup flip quartet exec 
