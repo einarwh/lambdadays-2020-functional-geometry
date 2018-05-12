@@ -289,6 +289,8 @@
 
       dup 180 ge { 360 sub } if 
 
+      dup -180 le { 360 add } if
+
       %(delta-angle') ==
       %dup == 
 
@@ -581,6 +583,48 @@
   ] cvx   
 } def
 
+% Consumes: w m e 
+% Produces: p'
+/row {
+  [                    % box * w m e [
+    4 1 roll           % box [ w m e
+    {                  % box w m e 
+      beside           % box w me 
+      1 2 beside-ratio % box p'
+      exec             % 
+    } /exec cvx 
+  ] cvx     
+} def
+
+% Consumes: n m s 
+% Produces: p'
+/column {
+  [                    % box * n m s [
+    4 1 roll           % box [ n m s
+    {                  % box n m s 
+      above            % box n ms  
+      1 2 above-ratio  % box p'
+      exec             % 
+    } /exec cvx 
+  ] cvx     
+} def
+
+/nonet {
+  [                % box * nw nm ne mw mm me sw sm se [
+    10 1 roll       % box [ nw nm ne mw mm me sw sm se
+    {              % box nw nm ne mw mm me sw sm se
+      row          % box nw nm ne mw mm me s 
+      7 1 roll     % box s nw nm ne mw mm me
+      row          % box s nw nm ne m
+      5 1 roll     % box m s nw nm n 
+      row          % box m s n 
+      3 1 roll     % box n m s 
+      column       % box p'
+      exec 
+    } /exec cvx 
+  ] cvx   
+} def
+
 % Consumes: p1 p2 
 % Produces: p  
 /over {
@@ -657,7 +701,72 @@
   ] cvx
 } def 
 
-/some-box [ [220 500] [250 0] [0 250] ] def
+% Consumes: p n 
+% Produces: p'
+/corner {
+  [                  % box * p n [
+    3 1 roll         % box [ p n
+    {                % box p n
+      dup            % box p n n
+      0 le           % box p n, n <= 0
+      {
+        pop pop      % box 
+        /blank load  % box blank
+      } 
+      {              % box p n, n > 1
+        1 sub        % box p n-1
+        1 index      % box p n-1 p
+        exch         % box p p n-1 
+        2 copy       % box p p n-1 p n-1
+        corner       % box p p n-1 c 
+        3 1 roll     % box p c p n-1
+        side         % box p c s 
+        dup turn     % box p c s s' 
+        4 -1 roll    % box c s s' p 
+        utile        % box c s s' u
+        quartet      % box p'
+      } ifelse
+      exec           %
+    } /exec cvx
+  ] cvx
+} def 
+
+% Consumes: p k
+% Produces: p' 
+/square-limit {
+  [                  % box * p k [
+    3 1 roll         % box [ p k
+    {                % box p k
+      2 copy         % box p k p k
+      1 index        % box p k p k p 
+      utile          % box p k p k u 
+      5 1 roll       % box u p k p k 
+      side           % box u p k z
+      3 1 roll       % box u z p k 
+      corner         % box u z c 
+      dup turn       % box u z nw sw 
+      dup turn       % box u z nw sw se 
+      dup turn       % box u z nw sw se ne
+      3 1 roll       % box u z nw ne sw se 
+      5 -1 roll      % box u nw ne sw se n
+      dup turn       % box u nw ne sw se n w 
+      dup turn       % box u nw ne sw se n w s
+      dup turn       % box u nw ne sw se n w s e
+      6 1 roll       % box u nw ne e sw se n w s 
+      4 1 roll       % box u nw ne e sw s se n w
+      6 1 roll       % box u nw ne w e sw s se n
+      7 1 roll       % box u nw n ne w e sw s se 
+      9 -1 roll      % box nw n ne w e sw s se u 
+      5 1 roll       % box nw n ne w u e sw s se 
+      nonet          % box p'
+      exec           %
+    } /exec cvx
+  ] cvx
+} def
+
+/some-box [ [100 400] [400 0] [0 400] ] def
+
+/big-box [ [50 200] [500 0] [0 500] ] def
 
 /blank { pop } def 
 
@@ -671,7 +780,13 @@
 
 % some-box /fh-picture load utile /blank load dup 2 index quartet exec 
 
-some-box /fh-picture load 2 side exec
+% some-box /fh-picture load 3 corner exec
+
+% some-box /fh-picture load turn turn turn exec 
+
+big-box /fh-picture load 3 square-limit exec 
+
+% some-box /fh-picture load dup dup dup dup dup dup dup dup nonet exec 
 
 % some-box /f-picture load toss exec  
 
