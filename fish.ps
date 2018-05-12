@@ -2,7 +2,7 @@
 
 %%% A postscript about recursive fish.
 
-%%% Drawings
+%%% DRAWING PROCEDURES
 
 /draw-f {
   newpath
@@ -223,7 +223,8 @@
 
 } def
 
-%%% Vector procedures
+
+%%% VECTOR PROCEDURES 
 
 % [x y]
 /vlength {
@@ -247,6 +248,157 @@
   mul                % y x 
   add                % dp
 } def 
+
+%% [x y] f -> [x' y'] where x' = x * f, y' = y * f 
+/vscale {
+  exch           % f [x y]
+  aload pop      % f x y
+  2 index        % f x y f 
+  mul            % f x y', y' = y * f
+  3 1 roll       % y' f x
+  mul            % y' x', x' = f * x
+  exch           % x' y'
+  2 array        % x' y' [. .]
+  astore         % [x' y']
+} def
+
+%% [x1 y1] [x2 y2] -> [x y], where x = x1 + x2 y1 + y2
+/vadd {
+  aload pop      % [x1 y1] x2 y2
+  3 2 roll       % x2 y2 [x1 y1]
+  aload pop      % x2 y2 x1 y1
+  exch           % x2 y2 y1 x1
+  4 -1 roll      % y2 y1 x1 x2
+  add            % y2 y1 x', x' = x1 + x2 
+  3 1 roll       % x' y2 y1
+  add            % x' y', y' = y2 + y1
+  2 array        % x' y' [. .]
+  astore         % [x' y']
+} def
+
+%% [x1 y1] [x2 y2] -> [x y], where x = x1 - x2 y1 - y2
+/vsub {
+  aload pop      % [x1 y1] x2 y2 
+  3 2 roll       % x2 y2 [x1 y1]
+  aload pop      % x2 y2 x1 y1
+  exch           % x2 y2 y1 x1
+  4 -1 roll      % y2 y1 x1 x2 
+  sub            % y2 y1 x', x' = x1 - x2
+  3 1 roll       % x' y2 y1 
+  exch           % x' y1 y2 
+  sub            % x' y', y' = y1 - y2 
+  2 array        % x' y' [. .]
+  astore         % [x' y']
+} def
+
+%% [x y] -> [x' y'] where x' = -x, y' = -y
+/vneg {
+  aload pop      % x y
+  neg            % x -y
+  exch           % -y x
+  neg            % -y -x
+  exch           % -x -y 
+  2 array        % -x -y [. .]
+  astore         % [-x -y] 
+} def
+
+
+%%% BOX PROCEDURES
+
+%% (a + b, c, -b)
+%% [ [xa ya] [xb yb] [xc yc] ]
+/turn-box { 
+  aload pop      % [xa ya] [xb yb] [xc yc]
+  exch           % [xa ya] [xc yc] [xb yb]
+  dup            % [xa ya] [xc yc] [xb yb] [xb yb]
+  4 -1 roll      % [xc yc] [xb yb] [xb yb] [xa ya]
+  vadd           % [xc yc] [xb yb] [xa+xb ya+yb]
+  3 1 roll       % [xa+xb ya+yb] [xc yc] [xb yb]
+  vneg           % [xa+xb ya+yb] [xc yc] [-xb -yb]
+  3 array        % [xa+xb ya+yb] [xc yc] [-xb -yb] [. . .]
+  astore         % [ [xa+xb ya+yb] [xc yc] [-xb -yb] ]
+} def
+
+%% (a + b, -b, c)
+%% [ [xa ya] [xb yb] [xc yc] ]
+/flip-box {
+  aload pop      % [xa ya] [xb yb] [xc yc]
+  exch           % [xa ya] [xc yc] [xb yb]
+  dup            % [xa ya] [xc yc] [xb yb] [xb yb]
+  vneg           % [xa ya] [xc yc] [xb yb] [-xb -yb]
+  3 1 roll       % [xa ya] [-xb -yb] [xc yc] [xb yb] 
+  4 -1 roll      % [-xb -yb] [xc yc] [xb yb] [xa ya]
+  vadd           % [-xb -yb] [xc yc] [xa+xb ya+yb]
+  3 1 roll       % [xa+xb ya+yb] [-xb -yb] [xc yc]
+  3 array        % [xa+xb ya+yb] [-xb -yb] [xc yc] [. . .]
+  astore         % [ [xa+xb ya+yb] [-xb -yb] [xc yc] ]
+} def
+
+%% (a’, b’, c’) = (a + (b + c) / 2, (b + c) / 2, (c − b) / 2)
+%% [ [xa ya] [xb yb] [xc yc] ]
+/toss-box {
+  aload pop      % [xa ya] [xb yb] [xc yc]
+  2 copy         % [xa ya] [xb yb] [xc yc] [xb yb] [xc yc] 
+  exch           % [xa ya] [xb yb] [xc yc] [xc yc] [xb yb]
+  vsub           % [xa ya] [xb yb] [xc yc] [xc-xb yc-yb]
+  0.5 vscale     % [xa ya] [xb yb] [xc yc] [(xc-xb)/2 (yc-yb)/2]
+  4 1 roll       % [(xc-xb)/2 (yc-yb)/2] [xa ya] [xb yb] [xc yc]
+  vadd           % [(xc-xb)/2 (yc-yb)/2] [xa ya] [xb+xc yb+yc]
+  0.5 vscale     % [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2]
+  dup            % [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2] [(xb+xc)/2 (yb+yc)/2]
+  4 1 roll       % [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2]
+  vadd           % [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [xa+(xb+xc)/2 ya+(yb+yc)/2]
+  3 1 roll       % [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2]
+  3 array        % [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [. . .]
+  astore         % [ [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] ]
+} def
+
+/move-vert {       % bx f 
+  exch             % f bx
+  aload pop        % f a b c 
+  dup              % f a b c c
+  5 -1 roll        % a b c c f
+  vscale           % a b c c'
+  4 -1 roll        % b c c' a
+  vadd             % b c a'
+  3 1 roll         % a' b c 
+  3 array astore   % [ a' b c ]
+} def
+
+/move-hori {       % bx f
+  exch             % f bx
+  aload pop        % f a b c
+  exch             % f a c b 
+  dup              % f a c b b 
+  5 -1 roll        % a c b b f
+  vscale           % a c b b'
+  4 -1 roll        % c b b' a 
+  vadd             % c b a
+  3 1 roll         % a c b 
+  exch             % a b c 
+  3 array astore   % [a' b c ]
+} def
+
+/scale-vert {      % bx f 
+  exch             % f bx 
+  aload pop        % f a b c
+  4 -1 roll        % a b c f
+  vscale           % a b c'
+  3 array astore   % [ a b c' ]  
+} def 
+
+/scale-hori {       % bx f 
+  exch             % f bx 
+  aload pop        % f a b c 
+  exch             % f a c b 
+  4 -1 roll        % a c b f 
+  vscale           % a c b'
+  exch             % a b' c 
+  3 array astore   % [ a b' c ]
+} def
+
+
+%%% PICTURE PROCEDURES
 
 % Consumes: a procedure that draws lines for a picture.
 % Produces: a picture-procedure that consumes a box and draws a picture.
@@ -316,152 +468,6 @@
     } /exec cvx 
   ] cvx 
 } def 
-
-%% [x y] f -> [x' y'] where x' = x * f, y' = y * f 
-/vscale {
-  exch           % f [x y]
-  aload pop      % f x y
-  2 index        % f x y f 
-  mul            % f x y', y' = y * f
-  3 1 roll       % y' f x
-  mul            % y' x', x' = f * x
-  exch           % x' y'
-  2 array        % x' y' [. .]
-  astore         % [x' y']
-} def
-
-%% [x1 y1] [x2 y2] -> [x y], where x = x1 + x2 y1 + y2
-/vadd {
-  aload pop      % [x1 y1] x2 y2
-  3 2 roll       % x2 y2 [x1 y1]
-  aload pop      % x2 y2 x1 y1
-  exch           % x2 y2 y1 x1
-  4 -1 roll      % y2 y1 x1 x2
-  add            % y2 y1 x', x' = x1 + x2 
-  3 1 roll       % x' y2 y1
-  add            % x' y', y' = y2 + y1
-  2 array        % x' y' [. .]
-  astore         % [x' y']
-} def
-
-%% [x1 y1] [x2 y2] -> [x y], where x = x1 - x2 y1 - y2
-/vsub {
-  aload pop      % [x1 y1] x2 y2 
-  3 2 roll       % x2 y2 [x1 y1]
-  aload pop      % x2 y2 x1 y1
-  exch           % x2 y2 y1 x1
-  4 -1 roll      % y2 y1 x1 x2 
-  sub            % y2 y1 x', x' = x1 - x2
-  3 1 roll       % x' y2 y1 
-  exch           % x' y1 y2 
-  sub            % x' y', y' = y1 - y2 
-  2 array        % x' y' [. .]
-  astore         % [x' y']
-} def
-
-%% [x y] -> [x' y'] where x' = -x, y' = -y
-/vneg {
-  aload pop      % x y
-  neg            % x -y
-  exch           % -y x
-  neg            % -y -x
-  exch           % -x -y 
-  2 array        % -x -y [. .]
-  astore         % [-x -y] 
-} def
-
-%% (a + b, c, -b)
-%% [ [xa ya] [xb yb] [xc yc] ]
-/turn-box { 
-  aload pop      % [xa ya] [xb yb] [xc yc]
-  exch           % [xa ya] [xc yc] [xb yb]
-  dup            % [xa ya] [xc yc] [xb yb] [xb yb]
-  4 -1 roll      % [xc yc] [xb yb] [xb yb] [xa ya]
-  vadd           % [xc yc] [xb yb] [xa+xb ya+yb]
-  3 1 roll       % [xa+xb ya+yb] [xc yc] [xb yb]
-  vneg           % [xa+xb ya+yb] [xc yc] [-xb -yb]
-  3 array        % [xa+xb ya+yb] [xc yc] [-xb -yb] [. . .]
-  astore         % [ [xa+xb ya+yb] [xc yc] [-xb -yb] ]
-} def
-
-%% (a + b, -b, c)
-%% [ [xa ya] [xb yb] [xc yc] ]
-/flip-box {
-  aload pop      % [xa ya] [xb yb] [xc yc]
-  exch           % [xa ya] [xc yc] [xb yb]
-  dup            % [xa ya] [xc yc] [xb yb] [xb yb]
-  vneg           % [xa ya] [xc yc] [xb yb] [-xb -yb]
-  3 1 roll       % [xa ya] [-xb -yb] [xc yc] [xb yb] 
-  4 -1 roll      % [-xb -yb] [xc yc] [xb yb] [xa ya]
-  vadd           % [-xb -yb] [xc yc] [xa+xb ya+yb]
-  3 1 roll       % [xa+xb ya+yb] [-xb -yb] [xc yc]
-  3 array        % [xa+xb ya+yb] [-xb -yb] [xc yc] [. . .]
-  astore         % [ [xa+xb ya+yb] [-xb -yb] [xc yc] ]
-} def
-
-%% (a’, b’, c’) = (a + (b + c) / 2, (b + c) / 2, (c − b) / 2)
-%% [ [xa ya] [xb yb] [xc yc] ]
-/toss-box {
-  aload pop      % [xa ya] [xb yb] [xc yc]
-  2 copy         % [xa ya] [xb yb] [xc yc] [xb yb] [xc yc] 
-  exch           % [xa ya] [xb yb] [xc yc] [xc yc] [xb yb]
-  vsub           % [xa ya] [xb yb] [xc yc] [xc-xb yc-yb]
-  0.5 vscale     % [xa ya] [xb yb] [xc yc] [(xc-xb)/2 (yc-yb)/2]
-  4 1 roll       % [(xc-xb)/2 (yc-yb)/2] [xa ya] [xb yb] [xc yc]
-  vadd           % [(xc-xb)/2 (yc-yb)/2] [xa ya] [xb+xc yb+yc]
-  0.5 vscale     % [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2]
-  dup            % [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2] [(xb+xc)/2 (yb+yc)/2]
-  4 1 roll       % [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2]
-  vadd           % [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [xa+(xb+xc)/2 ya+(yb+yc)/2]
-  3 1 roll       % [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2]
-  3 array        % [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [. . .]
-  astore         % [ [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] ]
-} def
-
-/move-vert {       % bx f 
-  exch             % f bx
-  aload pop        % f a b c 
-  dup              % f a b c c
-  5 -1 roll        % a b c c f
-  vscale           % a b c c'
-  4 -1 roll        % b c c' a
-  vadd             % b c a'
-  3 1 roll         % a' b c 
-  3 array astore   % [ a' b c ]
-} def
-
-
-/move-hori {       % bx f
-  exch             % f bx
-  aload pop        % f a b c
-  exch             % f a c b 
-  dup              % f a c b b 
-  5 -1 roll        % a c b b f
-  vscale           % a c b b'
-  4 -1 roll        % c b b' a 
-  vadd             % c b a
-  3 1 roll         % a c b 
-  exch             % a b c 
-  3 array astore   % [a' b c ]
-} def
-
-/scale-vert {      % bx f 
-  exch             % f bx 
-  aload pop        % f a b c
-  4 -1 roll        % a b c f
-  vscale           % a b c'
-  3 array astore   % [ a b c' ]  
-} def 
-
-/scale-hori {       % bx f 
-  exch             % f bx 
-  aload pop        % f a b c 
-  exch             % f a c b 
-  4 -1 roll        % a c b f 
-  vscale           % a c b'
-  exch             % a b' c 
-  3 array astore   % [ a b' c ]
-} def
 
 %% picture -> picture
 /turn {
@@ -764,9 +770,8 @@
   ] cvx
 } def
 
-/some-box [ [100 400] [400 0] [0 400] ] def
 
-/big-box [ [50 200] [500 0] [0 500] ] def
+%%% PICTURES
 
 /blank { pop } def 
 
@@ -775,6 +780,14 @@
 /george-picture { draw-george } create-picture def
 
 /fh-picture { draw-hfish } create-picture def 
+
+
+%%% BOXES
+
+/some-box [ [100 400] [400 0] [0 400] ] def
+
+/big-box [ [50 200] [500 0] [0 500] ] def
+
 
 % some-box /fh-picture load exec 
 
