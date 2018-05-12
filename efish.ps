@@ -225,11 +225,18 @@
 
 
 %%% TODO: should read primary and secondary color from stack.
+% Consumes: 
+%  - primary-color [ r g b ] 
+%  - secondary-color [ r g b ]
 /draw-efish {
    newpath 
 
+   % pc sc 
+
    0.007 setlinewidth
    1 setlinejoin
+
+   % FISH BODY
 
    0.000  0.000 moveto 
 
@@ -273,105 +280,23 @@
 
    closepath 
 
-   fill
+   % pc sc 
 
-   1 1 1 setrgbcolor
+   % Fish body uses primary color.
 
-   % THE EYES
+   exch                      % sc pc
+   aload                     % sc r g b pc 
+   5 1 roll                  % pc sc r g b 
 
-   % LEFT EYE
-
-   newpath
-
-   0.004  0.800 moveto 
-
-  -0.012  0.770 
-  -0.017  0.685 
-  -0.008  0.592 curveto 
-
-   0.010  0.617 
-   0.045  0.660 
-   0.074  0.685 curveto
-
-   0.068  0.696 
-   0.040  0.772 
-   0.004  0.800 curveto 
-
-   closepath 
+   setrgbcolor % pc          % pc sc  
 
    fill
 
-   % RIGHT EYE
+   % Done with fish body.
 
-   newpath 
-
-   0.095  0.870 moveto 
-
-   0.090  0.830 
-   0.095  0.775 
-   0.115  0.715 curveto 
-
-   0.140  0.740 
-   0.165  0.760 
-   0.205  0.782 curveto 
-
-   0.200  0.790 
-   0.160  0.840 
-   0.095  0.870 curveto 
-
-   closepath 
-
-   fill 
-
-   0 0 0 setrgbcolor
-
-   % INNER LEFT EYE
-
-   newpath 
-
-   0.018  0.720 moveto 
-
-   0.010  0.700 
-   0.005  0.685 
-   0.008  0.618 curveto 
-
-   0.010  0.622 
-   0.035  0.652 
-   0.057  0.674 curveto 
-
-   0.053  0.684 
-   0.038  0.708 
-   0.018  0.720 curveto 
-
-   closepath 
-
-   fill
-
-   % INNER RIGHT EYE 
-
-   newpath 
-
-   0.128  0.810 moveto 
-
-   0.122  0.795 
-   0.126  0.760 
-   0.132  0.736 curveto 
-
-   0.139  0.740
-   0.154  0.756 
-   0.185  0.774 curveto 
-
-   0.174  0.783 
-   0.150  0.805 
-   0.128  0.810 curveto 
-
-   closepath 
-
-   fill
+   % pc sc 
 
    % FISH DETAILS 
-
-   1 1 1 setrgbcolor % secondary color 
 
    newpath 
 
@@ -477,8 +402,152 @@
    0.422 0.520 
    0.474 0.538 curveto
 
+   % Fish details use secondary color.
+
+   % pc sc 
+
+   aload                      % pc r g b sc 
+   4 1 roll                   % pc sc r g b
+   
+   setrgbcolor % sc           % pc sc  
 
    stroke 
+
+   % Done with fish details.
+
+
+   % THE EYES
+
+   % Outer eyes:
+   % Use secondary color for outer eyes fill unless primary color is white.
+   % Always stroke outer eyes with secondary color.
+   
+   % Inner eyes:
+   % Use primary color for inner eyes fill unless primary color is white.
+
+   % Is the primary color white?
+   % Add r g b values, the value should be 3 for white.
+
+   % pc sc 
+
+   exch                      % sc pc 
+   aload                     % sc r g b pc
+   5 1 roll                  % pc sc r g b
+
+   add add 3 eq              % pc sc
+   {
+     exch                    % sc pc 
+   } if                      % ic oc 
+
+   % LEFT EYE
+
+   newpath
+
+   0.004  0.800 moveto 
+
+  -0.012  0.770 
+  -0.017  0.685 
+  -0.008  0.592 curveto 
+
+   0.010  0.617 
+   0.045  0.660 
+   0.074  0.685 curveto
+
+   0.068  0.696 
+   0.040  0.772 
+   0.004  0.800 curveto 
+
+   closepath 
+
+   gsave
+   aload                     % ic r g b oc
+   4 1 roll                  % ic oc r g b
+   setrgbcolor % oc          % ic oc 
+   fill 
+   grestore 
+
+   stroke 
+
+   % RIGHT EYE
+
+   newpath 
+
+   0.095  0.870 moveto 
+
+   0.090  0.830 
+   0.095  0.775 
+   0.115  0.715 curveto 
+
+   0.140  0.740 
+   0.165  0.760 
+   0.205  0.782 curveto 
+
+   0.200  0.790 
+   0.160  0.840 
+   0.095  0.870 curveto 
+
+   closepath 
+
+   gsave
+   aload                     % ic r g b oc
+   pop                       % ic r g b
+   setrgbcolor % oc          % ic 
+   fill 
+   grestore 
+
+   % outer eye stroke is always secondary color 
+
+   stroke
+
+   % INNER LEFT EYE
+
+   % ic 
+
+   aload pop                 % r g b
+
+   setrgbcolor % ic          % (empty stack)
+
+   newpath 
+
+   0.018  0.720 moveto 
+
+   0.010  0.700 
+   0.005  0.685 
+   0.008  0.618 curveto 
+
+   0.010  0.622 
+   0.035  0.652 
+   0.057  0.674 curveto 
+
+   0.053  0.684 
+   0.038  0.708 
+   0.018  0.720 curveto 
+
+   closepath 
+
+   fill
+
+   % INNER RIGHT EYE 
+
+   newpath 
+
+   0.128  0.810 moveto 
+
+   0.122  0.795 
+   0.126  0.760 
+   0.132  0.736 curveto 
+
+   0.139  0.740
+   0.154  0.756 
+   0.185  0.774 curveto 
+
+   0.174  0.783 
+   0.150  0.805 
+   0.128  0.810 curveto 
+
+   closepath 
+
+   fill
 
 } def
 
@@ -1039,7 +1108,9 @@
 
 /fh-picture { draw-hfish } create-picture def 
 
-/fish-picture { draw-efish } create-picture def 
+%/fish-picture { [1 1 1] [0 0 0] draw-efish } create-picture def 
+/fish-picture { [0.5 0.5 0.5] [1 1 1] draw-efish } create-picture def 
+%/fish-picture { [0 0 0] [1 1 1] draw-efish } create-picture def 
 
 %%% BOXES
 
