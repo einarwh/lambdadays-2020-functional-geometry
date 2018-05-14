@@ -1085,6 +1085,38 @@
 
 % Consumes: p 
 % Produces: p' 
+/ttile-1 {
+  [                          % lens * p [
+    exch                     % lens [ p
+    {                        % lens p
+      dup                    % lens p p 
+      toss flip rehue        % lens p pn
+      dup                    % lens p pn pn  
+      turn turn turn rehue   % lens p pn pe
+      over over              % lens p'
+      exec
+    } /exec cvx
+  ] cvx
+} def
+
+% Consumes: p 
+% Produces: p' 
+/ttile-2 {
+  [                               % lens * p [
+    exch                          % lens [ p
+    {                             % lens p
+      dup                         % lens p p 
+      toss flip rehue rehue       % lens p pn
+      dup                         % lens p pn pn  
+      turn turn turn rehue rehue  % lens p pn pe
+      over over                   % lens p'
+      exec
+    } /exec cvx
+  ] cvx
+} def
+
+% Consumes: p 
+% Produces: p' 
 /utile {
   [                  % lens * p [
     exch             % lens [ p
@@ -1095,6 +1127,62 @@
       dup turn       % lens pn pw ps pe 
       over over over % lens p'
       exec           %
+    } /exec cvx
+  ] cvx
+} def 
+
+% Consumes: p
+% Produces: p'
+/rehue {               
+  [                     % lens * p [
+    exch                % lens [ p
+    {                   % lens p
+      exch              % p lens
+      rehue-lens        % p lens'
+      exch              % lens' p 
+      exec           %
+    } /exec cvx
+  ] cvx
+} def
+
+/utile-1 {
+  [                          % lens * p [
+    exch                     % lens [ p
+    {                        % lens p
+      toss flip              % lens pn
+      dup rehue turn         % lens pn pw
+      dup rehue rehue turn   % lens pn pw ps 
+      dup rehue turn         % lens pn pw ps pe 
+      over over over         % lens p'
+      exec                   %
+    } /exec cvx
+  ] cvx
+} def 
+
+/utile-2 {
+  [                          % lens * p [
+    exch                     % lens [ p
+    {                        % lens p
+      toss flip rehue        % lens pn
+      dup rehue rehue turn   % lens pn pw
+      dup rehue rehue turn   % lens pn pw ps 
+      dup rehue turn         % lens pn pw ps pe 
+      over over over         % lens p'
+      exec                   %
+    } /exec cvx
+  ] cvx
+} def 
+
+/utile-3 {
+  [                          % lens * p [
+    exch                     % lens [ p
+    {                        % lens p
+      toss flip              % lens pn
+      dup rehue turn         % lens pn pw
+      dup rehue turn         % lens pn pw ps 
+      dup rehue rehue turn   % lens pn pw ps pe 
+      over over over         % lens p'
+      exec                   %
     } /exec cvx
   ] cvx
 } def 
@@ -1131,6 +1219,69 @@
 
 % Consumes: p n 
 % Produces: p'
+/side-1 {
+  [                     % lens * p n [
+    3 1 roll            % lens [ p n
+    {                   % lens p n
+      dup               % lens p n n
+      0 le              % lens p n, n <= 0
+      {
+        pop pop         % lens 
+        /blank load     % lens blank
+      } 
+      {                 % lens p n, n > 1
+        1 sub           % lens p n-1
+        1 index         % lens p n-1 p
+        exch            % lens p p n-1 
+        side-1          % lens p s
+        dup             % lens p s s 
+        3 -1 roll       % lens s s p 
+        ttile-1 rehue   % lens s s t 
+        dup             % lens s s t t
+        turn            % lens s s t t' 
+        exch            % lens s s t' t 
+        rehue           % lens s s t' t^
+        quartet         % lens q
+      } ifelse
+      exec           %
+    } /exec cvx
+  ] cvx
+} def 
+
+% Consumes: p n 
+% Produces: p'
+/side-2 {
+  [                     % lens * p n [
+    3 1 roll            % lens [ p n
+    {                   % lens p n
+      dup               % lens p n n
+      0 le              % lens p n, n <= 0
+      {
+        pop pop         % lens 
+        /blank load     % lens blank
+      } 
+      {                 % lens p n, n > 1
+        1 sub           % lens p n-1
+        1 index         % lens p n-1 p
+        exch            % lens p p n-1 
+        side-2          % lens p s
+        dup             % lens p s s 
+        3 -1 roll       % lens s s p 
+        ttile-2         % lens s s t 
+        dup             % lens s s t t
+        turn            % lens s s t t' 
+        exch            % lens s s t' t 
+        rehue rehue     % lens s s t' t^
+        quartet         % lens q
+      } ifelse
+      exec           %
+    } /exec cvx
+  ] cvx
+} def 
+
+
+% Consumes: p n 
+% Produces: p'
 /corner {
   [                  % lens * p n [
     3 1 roll         % lens [ p n
@@ -1158,6 +1309,72 @@
     } /exec cvx
   ] cvx
 } def 
+
+% Consumes: p n 
+% Produces: p'
+/corner-1 {
+  [                  % lens * p n [
+    3 1 roll         % lens [ p n
+    {                % lens p n
+      dup            % lens p n n
+      0 le           % lens p n, n <= 0
+      {
+        pop pop      % lens 
+        /blank load  % lens blank
+      } 
+      {              % lens p n, n > 1
+        1 sub        % lens p n-1
+        1 index      % lens p n-1 p
+        exch         % lens p p n-1 
+        2 copy       % lens p p n-1 p n-1
+        corner-1     % lens p p n-1 c 
+        3 1 roll     % lens p c p n-1
+        2 copy       % lens p c p n-1 p n-1
+        side-1       % lens p c p n-1 s
+        3 1 roll     % lens p c s p n-1 
+        side-2 turn  % lens p c s-1 s-2' 
+        4 -1 roll    % lens c s-1 s-2' p 
+        utile-3      % lens c s-1 s-2' u
+        quartet      % lens p'
+      } ifelse
+      exec           %
+    } /exec cvx
+  ] cvx
+} def 
+
+% Consumes: p n 
+% Produces: p'
+/corner-2 {
+  [                  % lens * p n [
+    3 1 roll         % lens [ p n
+    {                % lens p n
+      dup            % lens p n n
+      0 le           % lens p n, n <= 0
+      {
+        pop pop      % lens 
+        /blank load  % lens blank
+      } 
+      {              % lens p n, n > 1
+        1 sub        % lens p n-1
+        1 index      % lens p n-1 p
+        exch         % lens p p n-1 
+        2 copy       % lens p p n-1 p n-1
+        corner-2     % lens p p n-1 c 
+        3 1 roll     % lens p c p n-1
+        2 copy       % lens p c p n-1 p n-1
+        side-2       % lens p c p n-1 s-2
+        3 1 roll     % lens p c s-2 p n-1 
+        side-1 turn  % lens p c s-2 s-1' 
+        4 -1 roll    % lens c s-2 s-1' p 
+        utile-2      % lens c s-2 s-1' u
+        quartet      % lens p'
+      } ifelse
+      exec           %
+    } /exec cvx
+  ] cvx
+} def 
+
+
 
 % Consumes: p k
 % Produces: p' 
@@ -1192,6 +1409,43 @@
   ] cvx
 } def
 
+% Consumes: p k
+% Produces: p' 
+/sq-limit {
+  [                     % lens * p k [
+    3 1 roll            % lens [ p k
+    {                   % lens p k
+      1 index           % lens p k p 
+      utile-1           % lens p k mmu
+      3 1 roll          % lens mmu p k 
+      2 copy            % lens mmu p k p k
+      corner-1          % lens mmu p k nwc
+      dup               % lens mmu p k nwc nwc
+      5 1 roll          % lens nwc mmu p k nwc
+      turn turn         % lens nwc mmu p k sec  
+      3 1 roll          % lens nwc mmu sec p k
+      2 copy            % lens nwc mmu sec p k p k 
+      side-1            % lens nwc mmu sec p k nms
+      dup               % lens nwc mmu sec p k nms nms  
+      6 1 roll          % lens nwc nms mmu sec p k nms
+      turn turn         % lens nwc nms mmu sec p k sms 
+      4 1 roll          % lens nwc nms mmu sms sec p k
+      2 copy            % lens nwc nms mmu sms sec p k p k 
+      corner-2 turn     % lens nwc nms mmu sms sec p k swc 
+      dup               % lens nwc nms mmu sms sec p k swc swc 
+      turn turn         % lens nwc nms mmu sms sec p k swc nec 
+      7 1 roll          % lens nwc nms nec mmu sms sec p k swc
+      5 1 roll          % lens nwc nms nec mmu swc sms sec p k 
+      side-2 turn       % lens nwc nms nec mmu swc sms sec wms 
+      dup               % lens nwc nms nec mmu swc sms sec wms wms
+      6 1 roll          % lens nwc nms nec wms mmu swc sms sec wms
+      turn turn         % lens nwc nms nec wms mmu swc sms sec ems
+      4 1 roll          % lens nwc nms nec wms mmu ems swc sms sec
+      nonet             % lens p'
+      exec              %
+    } /exec cvx
+  ] cvx
+} def
 
 %%% PICTURES
 
@@ -1207,15 +1461,15 @@
 /fish-picture { draw-efish } create-picture def 
 %/fish-picture { [0 0 0] [1 1 1] draw-efish } create-picture def 
 
-%%% BOXES
+%%% BOXES AND LENSES
 
 /some-box [ [100 400] [400 0] [0 400] ] def
 
 /big-box [ [50 200] [500 0] [0 500] ] def
 
 /some-colors [ 
-    [ [ 0.5 0.5 0.5 ] [ 1 1 1 ] ]   % grey white 
     [ [ 1 1 1 ] [ 0 0 0 ] ]         % white black
+    [ [ 0.5 0.5 0.5 ] [ 1 1 1 ] ]   % grey white 
     [ [ 0 0 0 ] [ 1 1 1 ] ] ]       % black white 
 def
 
@@ -1231,7 +1485,7 @@ def
 
 % big-box /fh-picture load 3 square-limit exec 
 
-some-lens rehue-lens rehue-lens /fish-picture load exec 
+some-lens /fish-picture load 4 sq-limit exec 
 
 % some-box /fh-picture load dup dup dup dup dup dup dup dup nonet exec 
 
