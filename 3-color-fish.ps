@@ -1,6 +1,12 @@
-%! 
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: Three shades of fish - a postscript on functional geometry
+%%Creator: Einar W. Høst (einarwh@gmail.com)
+%%Pages: 1
+%%EndComments
+%%BeginProlog
+%%EndProlog
 
-%%% A postscript about recursive fish.
+%%Page: 1 1
 
 %%% DRAWING PROCEDURES
 
@@ -1463,7 +1469,7 @@
 
 %%% BOXES AND LENSES
 
-/some-box [ [100 400] [400 0] [0 400] ] def
+/some-box [ [100 200] [400 0] [0 400] ] def
 
 /big-box [ [50 200] [500 0] [0 500] ] def
 
@@ -1501,3 +1507,6 @@ some-lens /fish-picture load 4 sq-limit exec
 
 % gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
 
+%%Trailer
+%%Pages:      1
+%%EOF
