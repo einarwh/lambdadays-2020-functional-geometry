@@ -1,0 +1,144 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: Escher birb tesselation
+%%Creator: Einar W. Høst 
+%%Pages: 1
+%%EndComments
+%%BeginProlog
+%%EndProlog
+
+%%Page: 1 1
+
+%%% DRAWING PROCEDURES
+
+/draw-point {   % x y 
+  2 copy        % x y x y 
+  exch          % x y y x 
+  0.01 sub         % x y y x-1
+  exch          % x y x-1 y 
+  0.01 sub         % x y x-1 y-1
+  4 2 roll      % x-1 y-1 x y 
+  exch          % x-1 y-1 y x 
+  0.01 add         % x-1 y-1 y x+1
+  exch          % x-1 y-1 x+1 y
+  0.01 add         % x-1 y-1 x+1 y+1
+  4 copy        % x-1 y-1 x+1 y+1 x-1 y-1 x+1 y+1
+  3 1 roll      % x-1 y-1 x+1 y+1 x-1 y+1 y-1 x+1
+  exch          % x-1 y-1 x+1 y+1 x-1 y+1 x+1 y-1 
+  moveto lineto 
+  moveto lineto
+} def 
+
+/draw-birb {
+  newpath
+
+  0 0 0 setrgbcolor
+
+  0.000 0.000 moveto 
+  
+  0.126 0.016
+  0.189 0.042
+  0.268 0.181 curveto 
+
+  0.111 0.253
+  0.069 0.316
+  0.084 0.484 curveto 
+
+  0.232 0.521
+  0.332 0.511
+  0.405 0.432 curveto
+
+  0.484 0.516
+  0.547 0.674
+  0.500 0.866 curveto 
+
+  0.690 0.811
+  0.795 0.677
+  0.828 0.567 curveto
+
+  0.723 0.543
+  0.665 0.461
+  0.623 0.315 curveto
+
+  0.761 0.218
+  0.836 0.223
+  0.977 0.323 curveto
+
+  1.058 0.185
+  1.049 0.117
+  1.000 0.000 curveto
+
+  0.842 0.174
+  0.684 0.200
+  0.526 0.132 curveto 
+
+  0.484 0.068
+  0.516 -0.068
+  0.474 -0.132 curveto
+  
+  0.316 -0.200
+  0.158 -0.174
+  0.000 0.000 curveto 
+  
+  closepath
+  0.01 setlinewidth
+  stroke 
+
+  1 0 0 setrgbcolor
+
+  newpath
+
+  0.005 setlinewidth
+
+  0.126 0.016 draw-point
+  0.189 0.042 draw-point
+
+  0.111 0.253 draw-point
+  0.069 0.316 draw-point
+
+  0.232 0.521 draw-point
+  0.332 0.511 draw-point
+
+  0.484 0.516 draw-point
+  0.547 0.674 draw-point
+
+  0.690 0.811 draw-point
+  0.795 0.677 draw-point
+
+  0.723 0.543 draw-point
+  0.665 0.461 draw-point
+
+  0.761 0.218 draw-point
+  0.836 0.223 draw-point
+
+  1.058 0.185 draw-point
+  1.049 0.117 draw-point
+
+  0.842 0.174 draw-point 
+  0.684 0.200 draw-point
+
+  0.484 0.068 draw-point
+  0.516 -0.068 draw-point
+
+  0.316 -0.200 draw-point
+  0.158 -0.174 draw-point
+
+  stroke
+
+} def
+
+
+%%% PICTURES
+
+/blank { pop } def 
+
+50 200 translate 
+
+400 400 scale 
+
+draw-birb
+
+% gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
+
+%%Trailer
+%%Pages:      1
+%%EOF
