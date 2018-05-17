@@ -33,6 +33,89 @@
 
   0 0 0 setrgbcolor
 
+   0.000  0.000 moveto 
+
+   % South side
+   
+   0.134  0.093
+   0.237  0.128
+   0.396  0.137 curveto 
+
+   0.420  0.013
+   0.447 -0.069
+   0.526 -0.168 curveto
+
+   0.630 -0.092 
+   0.681 -0.021
+   0.679  0.132 curveto 
+
+   0.821  0.121
+   0.905  0.079
+   1.000  0.000 curveto 
+
+   % East side 
+
+   1.072 0.224 
+   1.015 0.374
+   0.877 0.476 curveto 
+
+   0.801 0.481
+   0.699 0.385
+   0.623 0.390 curveto
+
+   0.485 0.492 
+   0.428 0.642
+   0.500 0.866 curveto
+
+   % West side
+
+   0.384 0.823
+   0.306 0.772
+   0.225 0.654 curveto 
+
+   0.359 0.579
+   0.395 0.500
+   0.408 0.372 curveto
+   
+   0.283 0.353
+   0.199 0.370
+   0.079 0.411 curveto
+
+   0.008 0.269
+  -0.014 0.163
+   0.000 0.000 curveto 
+
+  closepath
+
+  0.01 setlinewidth
+
+  stroke
+
+  1 0 0 setrgbcolor
+
+  0.005 setlinewidth 
+
+  % South side
+
+   0.134  0.093 draw-point
+   0.237  0.128 draw-point
+   0.420  0.013 draw-point
+   0.447 -0.069 draw-point
+   0.630 -0.092 draw-point
+   0.681 -0.021 draw-point
+   0.821  0.121 draw-point
+   0.905  0.079 draw-point
+
+  %closepath
+  stroke
+
+} def
+
+/draw-birb-old {
+  newpath
+
+  0 0 0 setrgbcolor
+
   0.000 0.000 moveto 
   
   0.126 0.016
@@ -65,6 +148,7 @@
 
   1.058 0.185
   1.049 0.117
+
   1.000 0.000 curveto
 
   0.842 0.174
@@ -131,7 +215,7 @@
 
 /blank { pop } def 
 
-50 200 translate 
+100 200 translate 
 
 400 400 scale 
 
