@@ -111,115 +111,140 @@
 
 } def
 
-/draw-birb-old {
-  newpath
+% tx = [ pos ang len ]
+% pos = [ x y ]
+% ang is angle (0, 60, 120, 180, 240, 300)
+% len is length of side in triangle
 
-  0 0 0 setrgbcolor
 
-  0.000 0.000 moveto 
+% Consumes: tx
+% Produces: txw txe txn txm
+/create-toxes {         % tx
+  (create-toxes) == 
+  dup == 
+
+  (prepare) == 
+
+  aload pop             % pos ang len
+  2 div                 % pos ang len' 
+  3 array astore        % txw
+
+  (west-tox) == 
+  dup == 
+
+  aload                 % pos ang len' txw
+  4 1 roll              % txw pos ang len' 
+  3 -1 roll             % txw ang len' pos
+  aload pop             % txw ang len' x y
+  3 -1 roll             % txw ang x y len'
+  dup                   % txw ang x y len' len'
+  4 1 roll              % txw ang len' x y len'
+  dup                   % txw ang len' x y len' len'
+  3 1 roll              % txw ang len' x len' y len'
+  60 sin mul add        % txw ang len' x len' y'
+  3 1 roll              % txw ang len' y' x len' 
+  60 cos 1 add mul      % txw ang len' y' x dx
+  add                   % txw ang len' y' x'
+  exch                  % txw ang len' x' y'
   
-  0.126 0.016
-  0.189 0.042
-  0.268 0.181 curveto 
-
-  0.111 0.253
-  0.069 0.316
-  0.084 0.484 curveto 
-
-  0.232 0.521
-  0.332 0.511
-  0.405 0.432 curveto
-
-  0.484 0.516
-  0.547 0.674
-  0.500 0.866 curveto 
-
-  0.690 0.811
-  0.795 0.677
-  0.828 0.567 curveto
-
-  0.723 0.543
-  0.665 0.461
-  0.623 0.315 curveto
-
-  0.761 0.218
-  0.836 0.223
-  0.977 0.323 curveto
-
-  1.058 0.185
-  1.049 0.117
-
-  1.000 0.000 curveto
-
-  0.842 0.174
-  0.684 0.200
-  0.526 0.132 curveto 
-
-  0.484 0.068
-  0.516 -0.068
-  0.474 -0.132 curveto
+  (stac3...) ==
+  stack
+  (...stac3) == 
   
-  0.316 -0.200
-  0.158 -0.174
-  0.000 0.000 curveto 
+  2 array astore        % txw ang len' pos'
+  3 1 roll              % txw pos' ang len'
+  3 array astore        % txw tx' 
+
+  (tx') == 
+  dup == 
+
+  % east
+  aload                 % txw pos' ang len' tx'
+  4 1 roll              % txw tx' pos' ang len' 
+  exch                  % txw tx' pos' len' ang 
+
+  240 add 360 mod       % txw tx' pos' len' ange
+  exch                  % txw tx' pos' ange len'
+  3 array astore        % txw tx' txe
+
+  (east-tox) == 
+  dup == 
+
+  exch                  % txw txe tx'
+
+  % north
+  aload                 % txw txe pos' ang len' tx'
+  4 1 roll              % txw txe tx' pos' ang len' 
+  exch                  % txw txe tx' pos' len' ang 
+  120 add 360 mod       % txw txe tx' pos' len' angn
+  exch                  % txw txe tx' pos' angn len'
+  3 array astore        % txw txe tx' txn
   
-  closepath
-  0.01 setlinewidth
-  stroke 
+  (north-tox) == 
+  dup == 
+  
+  exch                  % txw txe txn tx'
 
-  1 0 0 setrgbcolor
+  % middle
+  aload pop             % txw txe txn pos' ang len'
+  exch                  % txw txe txn pos' len' ang 
+  180 add 360 mod       % txw txe txn pos' len' angn
+  exch                  % txw txe txn pos' angn len'
+  3 array astore        % txw txe txn txm
 
-  newpath
+  (middle-tox) == 
+  dup == 
 
-  0.005 setlinewidth
+} def 
 
-  0.126 0.016 draw-point
-  0.189 0.042 draw-point
+%%% PICTURE PROCEDURES 
 
-  0.111 0.253 draw-point
-  0.069 0.316 draw-point
+% Consumes: a procedure that draws lines for a picture.
+% Produces: a picture-procedure that consumes a box and draws a picture.
+/create-picture {    % tx * dp
+  [ exch             % tx * [ dp 
+    {                % tx dp
+      gsave          % tx dp
+      exch           % dp tx
+      aload pop      % dp pos ang len
+      3 -1 roll      % dp ang len pos 
+      aload pop      % dp ang len x y 
+      translate      % dp ang len 
+      dup            % dp ang len len 
+      scale          % dp ang 
+      rotate         % dp
+      exec           % 
+      grestore       %
+    } /exec cvx 
+  ] cvx 
+} def 
 
-  0.232 0.521 draw-point
-  0.332 0.511 draw-point
-
-  0.484 0.516 draw-point
-  0.547 0.674 draw-point
-
-  0.690 0.811 draw-point
-  0.795 0.677 draw-point
-
-  0.723 0.543 draw-point
-  0.665 0.461 draw-point
-
-  0.761 0.218 draw-point
-  0.836 0.223 draw-point
-
-  1.058 0.185 draw-point
-  1.049 0.117 draw-point
-
-  0.842 0.174 draw-point 
-  0.684 0.200 draw-point
-
-  0.484 0.068 draw-point
-  0.516 -0.068 draw-point
-
-  0.316 -0.200 draw-point
-  0.158 -0.174 draw-point
-
-  stroke
-
+/quad-tri {          % tx * p 
+  [ exch             % tx * [ p 
+    {                % tx p 
+      exch           % p tx 
+      create-toxes   % p txw txe txn txm 
+      4 index        % p txw txe txn txm p
+      exec           % p txw txe txn 
+      3 index        % p txw txe txn p 
+      exec           % p txw txe 
+      2 index        % p txw txe p 
+      exec           % p txw
+      exch           % txw p 
+      exec
+    } /exec cvx
+  ] cvx 
 } def
-
 
 %%% PICTURES
 
 /blank { pop } def 
 
-100 200 translate 
+/birb-picture { draw-birb } create-picture def 
 
-400 400 scale 
+/some-tox [ [100 100] 0 250 ] def
 
-draw-birb
+some-tox /birb-picture load quad-tri exec
 
 % gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
 
