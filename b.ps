@@ -1,4 +1,12 @@
-%!
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: Three shades of fish - a postscript on functional geometry
+%%Creator: Einar W. Høst 
+%%Pages: 1
+%%EndComments
+%%BeginProlog
+%%EndProlog
+
+%%Page: 1 1
 
 %%% DRAWING PROCEDURES
 
@@ -46,8 +54,8 @@
    0.681 -0.021
    0.679  0.132 curveto 
 
-   0.821  0.121
-   0.905  0.079
+   0.818  0.128
+   0.901  0.086
    1.000  0.000 curveto 
 
    % East side 
@@ -66,8 +74,8 @@
 
    % West side
 
-   0.384 0.823
-   0.306 0.772
+   0.376 0.823
+   0.298 0.772
    0.225 0.654 curveto 
 
    0.359 0.579
@@ -84,6 +92,8 @@
 
   closepath
 
+   
+
   aload pop                  % r g b
 
   gsave
@@ -93,12 +103,130 @@
 
   0 0 0 setrgbcolor 
 
-  0.01 setlinewidth
+  0.004 setlinewidth
+
+  stroke
+
+  % Lines
+
+  newpath
+
+  % BEAK
+
+  0.405 0.823 moveto 
+
+  0.413 0.795 
+  0.435 0.772
+  0.475 0.770 curveto
+
+  0.446 0.778 moveto
+
+  0.460 0.825
+  0.480 0.840 
+  0.500 0.866 curveto 
+
+  % WING LINES
+
+% Line 1
+
+  0.098 0.316 moveto 
+  0.072 0.220 
+  0.060 0.150 
+  0.068 0.047 curveto 
+  
+% Line 2
+
+  0.155 0.300 moveto
+  0.140 0.228 
+  0.132 0.160 
+  0.137 0.080 curveto
+
+% Line 3
+
+  0.215 0.289 moveto
+  0.205 0.228 
+  0.198 0.170 
+  0.203 0.105 curveto
+
+% Line 4
+
+  0.276 0.282 moveto
+  0.270 0.230 
+  0.262 0.170 
+  0.268 0.123 curveto
+
+% Line 5  
+
+  0.337 0.276 moveto
+  0.330 0.230 
+  0.328 0.175 
+  0.332 0.132 curveto 
+
+% Line 6
+
+  0.400 0.279 moveto
+  0.392 0.230 
+  0.392 0.180 
+  0.396 0.137 curveto
+
+%%%%%%
+
+% Line 7
+
+  0.652 0.290 moveto
+  0.669 0.232 
+  0.682 0.182 
+  0.679 0.132 curveto 
+
+% Line 8
+
+  0.699 0.298 moveto
+  0.722 0.238 
+  0.729 0.180  
+  0.727 0.127 curveto
+  
+% Line 9 
+
+  0.748 0.310 moveto
+  0.772 0.241 
+  0.782 0.178 
+  0.779 0.121 curveto
+
+% Line 10
+  
+  0.798 0.325 moveto
+  0.830 0.244 
+  0.838 0.170 
+  0.832 0.105 curveto
+  
+% Line 11
+
+  0.848 0.340 moveto
+  0.882 0.252  
+  0.898 0.160 
+  0.883 0.083 curveto
+
+% Line 12
+  
+  0.898 0.360 moveto
+  0.950 0.260 
+  0.964 0.154 
+  0.942 0.045 curveto
+
+% HEAD
+  0.253 0.637 moveto 
+  0.262 0.654 
+  0.274 0.669 
+  0.282 0.679 curveto
+      
+  0.282 0.617 moveto 
+  0.288 0.628 
+  0.293 0.636 
+  0.299 0.644 curveto
 
   stroke
 
   % Eye
-
 
   newpath
    0.367 0.753 0.01 0 360 arc 
@@ -106,10 +234,10 @@
 
   fill 
 
-  0.005 setlinewidth
+  0.004 setlinewidth
 
   newpath
-   0.367 0.753 0.03 0 360 arc 
+   0.367 0.753 0.02 0 360 arc 
   closepath
 
   stroke 
@@ -467,6 +595,12 @@ def
 
 /some-lens [ some-colors some-tox ] def
 
-some-lens /birb-picture load self-tri dup skip-top exch skip-2 diamant exec
+%some-lens /birb-picture load self-tri dup skip-top exch skip-2 diamant exec
 
+some-lens /birb-picture load exec 
 
+% gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
+
+%%Trailer
+%%Pages:      1
+%%EOF
