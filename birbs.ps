@@ -1,5 +1,5 @@
 %!PS-Adobe-2.0 EPSF-2.0
-%%Title: Escher birb tesselation
+%%Title: Three shades of fish - a postscript on functional geometry
 %%Creator: Einar W. Høst 
 %%Pages: 1
 %%EndComments
@@ -54,8 +54,8 @@
    0.681 -0.021
    0.679  0.132 curveto 
 
-   0.821  0.121
-   0.905  0.079
+   0.818  0.128
+   0.901  0.086
    1.000  0.000 curveto 
 
    % East side 
@@ -74,8 +74,8 @@
 
    % West side
 
-   0.384 0.823
-   0.306 0.772
+   0.376 0.823
+   0.298 0.772
    0.225 0.654 curveto 
 
    0.359 0.579
@@ -92,6 +92,8 @@
 
   closepath
 
+   
+
   aload pop                  % r g b
 
   gsave
@@ -101,9 +103,145 @@
 
   0 0 0 setrgbcolor 
 
-  0.01 setlinewidth
+  0.004 setlinewidth
 
   stroke
+
+  % Lines
+
+  newpath
+
+  % BEAK
+
+  0.405 0.823 moveto 
+
+  0.413 0.795 
+  0.435 0.772
+  0.475 0.770 curveto
+
+  0.446 0.778 moveto
+
+  0.460 0.825
+  0.480 0.840 
+  0.500 0.866 curveto 
+
+  % WING LINES
+
+% Line 1
+
+  0.098 0.316 moveto 
+  0.072 0.220 
+  0.060 0.150 
+  0.068 0.047 curveto 
+  
+% Line 2
+
+  0.155 0.300 moveto
+  0.140 0.228 
+  0.132 0.160 
+  0.137 0.080 curveto
+
+% Line 3
+
+  0.215 0.289 moveto
+  0.205 0.228 
+  0.198 0.170 
+  0.203 0.105 curveto
+
+% Line 4
+
+  0.276 0.282 moveto
+  0.270 0.230 
+  0.262 0.170 
+  0.268 0.123 curveto
+
+% Line 5  
+
+  0.337 0.276 moveto
+  0.330 0.230 
+  0.328 0.175 
+  0.332 0.132 curveto 
+
+% Line 6
+
+  0.400 0.279 moveto
+  0.392 0.230 
+  0.392 0.180 
+  0.396 0.137 curveto
+
+%%%%%%
+
+% Line 7
+
+  0.652 0.290 moveto
+  0.669 0.232 
+  0.682 0.182 
+  0.679 0.132 curveto 
+
+% Line 8
+
+  0.699 0.298 moveto
+  0.722 0.238 
+  0.729 0.180  
+  0.727 0.127 curveto
+  
+% Line 9 
+
+  0.748 0.310 moveto
+  0.772 0.241 
+  0.782 0.178 
+  0.779 0.121 curveto
+
+% Line 10
+  
+  0.798 0.325 moveto
+  0.830 0.244 
+  0.838 0.170 
+  0.832 0.105 curveto
+  
+% Line 11
+
+  0.848 0.340 moveto
+  0.882 0.252  
+  0.898 0.160 
+  0.883 0.083 curveto
+
+% Line 12
+  
+  0.898 0.360 moveto
+  0.950 0.260 
+  0.964 0.154 
+  0.942 0.045 curveto
+
+% HEAD
+  0.253 0.637 moveto 
+  0.262 0.654 
+  0.274 0.669 
+  0.282 0.679 curveto
+      
+  0.282 0.617 moveto 
+  0.288 0.628 
+  0.293 0.636 
+  0.299 0.644 curveto
+
+  stroke
+
+  % Eye
+
+  newpath
+   0.367 0.753 0.01 0 360 arc 
+  closepath
+
+  fill 
+
+  0.004 setlinewidth
+
+  newpath
+   0.367 0.753 0.02 0 360 arc 
+  closepath
+
+  stroke 
+
 
 %  (end draw-birb) ==
 
@@ -126,40 +264,41 @@
   dup                   % pos theta side side 
   4 1 roll              % side pos theta side
 
-  step-point            % side pos'
+  1 index               % side pos theta side theta 
+  4 1 roll              % side theta pos theta side
+  
+  step-point            % side theta pos'
 
-  60                    % side pos' 60
-  3 -1 roll             % pos' 60 side 
+  exch                  % side pos' theta
+
+  60 add                % side pos' theta'
+
+  3 -1 roll             % pos' theta' side 
 
   step-point 
-
 } def
 
 % Consumes: tx
 % Produces: txw txe txn txm
 /create-toxes {         % tx
-  (create-toxes begin) ==
-  (original-tox) ==  
-  dup == 
+%  (create-toxes begin) ==
+%  (original-tox) ==  
+%  dup == 
 
   aload pop             % pos ang len
   2 div                 % pos ang len' 
   3 array astore        % txw
 
-  (west-tox) == 
-  dup == 
+%  (west-tox) == 
+%  dup == 
 
   aload                 % pos ang len' txw
   4 1 roll              % txw pos ang len'
   
-  (stack...) ==
-  stack
-  (.) == 
-
   cross-point           % txw ^pos
 
-  (x-point) ==
-  dup == 
+%  (x-point) ==
+%  dup == 
 
   % east 
   1 index               % txw ^pos txw
@@ -173,8 +312,8 @@
   3 1 roll              % txw ^pos ^pos ange len'
   3 array astore        % txw ^pos txe
 
-  (east-tox) ==
-  dup == 
+%  (east-tox) ==
+%  dup == 
 
   exch                  % txw txe ^pos
 
@@ -191,6 +330,9 @@
   3 array astore        % txw txe ^pos txn
   exch                  % txw txe txn ^pos
 
+%  (north-tox) ==
+%  dup ==
+
   % middle 
   3 index               % txw txe txn ^pos txw
   aload pop             % txw txe txn ^pos pos ang len'
@@ -206,7 +348,10 @@
 
   pop                   % txw txe txn txm 
 
-  (end create-toxes) == 
+%  (middle-tox) ==
+%  dup ==
+
+%  (end create-toxes) == 
 } def 
 
 %%% PICTURE PROCEDURES 
@@ -290,16 +435,9 @@
 } def
 
 /inv-color {                 % ls * p 
-%  (inv-color begin) == 
   [ exch                     % ls * [ p 
     {                        % ls p 
-
       exch                   % p ls 
-
-%      (inv-color execution begin) == 
-%      (lens) == 
-%      dup == 
-
       aload pop              % p cs tx
       exch                   % p tx cs
       aload pop              % p tx c1 c2 
@@ -309,12 +447,8 @@
       2 array astore         % p ls' 
       exch                   % ls' p
       exec
-
-%      (end inv-color execution) == 
-
     } /exec cvx 
   ] cvx
-%  (end inv-color) ==
 } def
 
 % Consumes: a picture 
@@ -329,23 +463,141 @@
 %  (end self-tri) ==
 } def
 
+% Consumes: a picture 
+% Produces: a picture 
+/diamond {                   % ls * p
+  [ exch                     % ls * [ p 
+    {                        % ls p 
+      exch                   % p ls 
+      dup                    % p ls ls
+      aload pop              % p ls cs tx 
+      aload pop              % p ls cs pos ang len 
+      2 copy                 % p ls cs pos ang len ang len
+      5 2 roll               % p ls cs ang len pos ang len 
+      step-point             % p ls cs ang len pos'
+      3 1 roll               % p ls cs pos' ang len 
+      exch                   % p ls cs pos' len ang 
+      180 add 360 mod        % p ls cs pos' len ang'
+      exch                   % p ls cs pos' ang' len 
+      3 array astore         % p ls cs tx'
+      2 array astore         % p ls ls'
+      2 index                % p ls ls' p 
+      exec                   % p ls
+      exch                   % ls p 
+      exec 
+    } /exec cvx
+  ] cvx 
+} def
+
+/diamant {                   % ls * pn ps
+  [ 3 1 roll                 % ls * [ pn ps 
+    {                        % ls pn ps
+      3 -1 roll              % pn ps ls 
+      dup                    % pn ps ls ls
+      aload pop              % pn ps ls cs tx 
+      aload pop              % pn ps ls cs pos ang len 
+      exch                   % pn ps ls cs pos len ang 
+      300 add 360 mod        % pn ps ls cs pos len ang'
+      exch                   % pn ps ls cs pos ang' len 
+      3 array astore         % pn ps ls cs tx'
+      2 array astore         % pn ps ls ls'
+      3 -1 roll              % pn ls ls' ps
+      inv-color              % pn ls ls' ps'
+      exec                   % pn ls
+      exch                   % ls pn 
+      exec 
+    } /exec cvx
+  ] cvx 
+} def
+
+% Consumes: a picture 
+% Produces: a picture
+/skip-top {               % p
+  dup dup                 % p p p
+  /blank load             % p p p _
+  exch                    % p p _ p 
+  inv-color
+  quad-tri                % p' 
+} def 
+
+% Consumes: a picture 
+% Produces: a picture
+/skip-2 {                 % p
+  dup dup                 % p p p
+  /blank load             % p p p _
+  3 1 roll                % p _ p p 
+  inv-color
+  quad-tri                % p' 
+} def 
+
+% Consumes: a picture 
+% Produces: a picture
+/skip-tri {               % p
+  /blank load             % p _
+  
+  % west                  
+  dup                     % p _ _ 
+
+  2 index                 % p _ _ p
+  dup dup                 % p _ _ p p p 
+  inv-color               % p _ _ p p p'
+  quad-tri                % p _ w
+
+  stack
+
+  3 1 roll                % w p _ 
+
+  % east (skip what, north?)
+  1 index                 % w p _ p 
+  dup dup                 % w p _ p p p
+  3 index                 % w p _ p p p _
+  exch                    % w p _ p p _ p 
+  inv-color               % w p _ p p _ p'
+  quad-tri                % w p _ e
+
+  3 1 roll                % w e p _ 
+
+  % north 
+  1 index                 % w e p _ p 
+  dup dup                 % w e p _ p p p
+  3 index                 % w e p _ p p p _
+  3 1 roll                % w e p _ p _ p p 
+  inv-color               % w e p _ p _ p p'
+  quad-tri                % w e p _ n
+
+  3 1 roll                % w e n p _
+  
+  % middle 
+  pop                     % w e n p
+  dup dup dup             % w e n p p p p
+  inv-color               % w e n p p p p'
+  quad-tri                % w e n m
+
+  quad-tri
+  
+} def
+
 %%% PICTURES
 
 /blank { pop } def 
 
 /birb-picture { draw-birb } create-picture def 
 
-/some-tox [ [100 100] 0 200 ] def
+/some-tox [ [100 300] 0 400 ] def
+
+/other-tox [ [250 186.602539] 240 100 ] def
 
 /some-colors [ 
     [ 1 1 1 ]          % white
-    [ 0.4 0.4 0.4 ]    % dark grey 
+    [ 0.3 0.3 0.3 ]    % dark grey 
 ]
 def
 
 /some-lens [ some-colors some-tox ] def
 
-some-lens /birb-picture load self-tri self-tri exec
+some-lens /birb-picture load self-tri dup skip-top exch skip-2 diamant exec
+
+%some-lens /birb-picture load exec 
 
 % gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
 
