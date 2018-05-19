@@ -34,10 +34,6 @@
 /draw-birb {                 % color
   newpath
 
-%  (draw-birb begin) ==
-%  (color) ==
-%  dup == 
-
    0.000  0.000 moveto 
 
    % South side
@@ -101,7 +97,7 @@
   fill 
   grestore 
 
-  0 0 0 setrgbcolor 
+  0.5 0.5 0.5 setrgbcolor 
 
   0.004 setlinewidth
 
@@ -242,9 +238,6 @@
 
   stroke 
 
-
-%  (end draw-birb) ==
-
 } def
 
 /step-point {           % pos theta side   
@@ -281,24 +274,15 @@
 % Consumes: tx
 % Produces: txw txe txn txm
 /create-toxes {         % tx
-%  (create-toxes begin) ==
-%  (original-tox) ==  
-%  dup == 
 
   aload pop             % pos ang len
   2 div                 % pos ang len' 
   3 array astore        % txw
 
-%  (west-tox) == 
-%  dup == 
-
   aload                 % pos ang len' txw
   4 1 roll              % txw pos ang len'
   
   cross-point           % txw ^pos
-
-%  (x-point) ==
-%  dup == 
 
   % east 
   1 index               % txw ^pos txw
@@ -311,9 +295,6 @@
   2 index               % txw ^pos ange len' ^pos
   3 1 roll              % txw ^pos ^pos ange len'
   3 array astore        % txw ^pos txe
-
-%  (east-tox) ==
-%  dup == 
 
   exch                  % txw txe ^pos
 
@@ -330,9 +311,6 @@
   3 array astore        % txw txe ^pos txn
   exch                  % txw txe txn ^pos
 
-%  (north-tox) ==
-%  dup ==
-
   % middle 
   3 index               % txw txe txn ^pos txw
   aload pop             % txw txe txn ^pos pos ang len'
@@ -348,10 +326,6 @@
 
   pop                   % txw txe txn txm 
 
-%  (middle-tox) ==
-%  dup ==
-
-%  (end create-toxes) == 
 } def 
 
 %%% PICTURE PROCEDURES 
@@ -359,20 +333,11 @@
 % Consumes: a procedure that draws lines for a picture.
 % Produces: a picture-procedure that consumes a lens [colors tox] and draws a picture.
 /create-picture {    % ls * dp
-%  (create-picture begin) ==
   [ exch             % ls * [ dp 
     {                % ls dp
       gsave          % ls dp
       exch           % dp ls
-      
-      
       aload pop      % dp cs tx
-      
-%      (create-picture picture execution begin) == 
-%      (tox) ==
-%      dup == 
-
-      
       aload pop      % dp cs pos ang len
       3 -1 roll      % dp cs ang len pos 
       aload pop      % dp cs ang len x y 
@@ -384,29 +349,18 @@
       exch           % c dp
       exec           % 
       grestore       %
-      
-%      (end create-picture picture execution) ==
-    
     } /exec cvx 
   ] cvx 
-%  (end create-picture) ==
 } def 
 
 % Consumes: 4 pictures
 % Produces: a single picture (lens -> drawing)
 /quad-tri {                  % ls * pw pe pn pm 
-%  (quad-tri begin) ==
   [                          % ls * pw pe pn pm [
     5 1 roll                 % ls * [ pw pe pn pm 
     {                        % ls pw pe pn pm
       5 -1 roll              % pw pe pn pm ls 
-
       aload pop              % pw pe pn pm cs tx
- 
-%      (quad-tri picture execution begin) ==        
-%      (tox) ==
-%      dup == 
-
       create-toxes           % pw pe pn pm cs txw txe txn txm
       4 index                % pw pe pn pm cs txw txe txn txm cs
       4 1 roll               % pw pe pn pm cs txw cs txe txn txm 
@@ -426,12 +380,8 @@
       exec                   % lsw pw lse pe 
       exec                   % lsw ps 
       exec                   %
-
-%      (end quad-tri picture execution) ==        
-
     } /exec cvx 
   ] cvx
-%  (end quad-tri) == 
 } def
 
 /inv-color {                 % ls * p 
@@ -463,33 +413,7 @@
 %  (end self-tri) ==
 } def
 
-% Consumes: a picture 
-% Produces: a picture 
-/diamond {                   % ls * p
-  [ exch                     % ls * [ p 
-    {                        % ls p 
-      exch                   % p ls 
-      dup                    % p ls ls
-      aload pop              % p ls cs tx 
-      aload pop              % p ls cs pos ang len 
-      2 copy                 % p ls cs pos ang len ang len
-      5 2 roll               % p ls cs ang len pos ang len 
-      step-point             % p ls cs ang len pos'
-      3 1 roll               % p ls cs pos' ang len 
-      exch                   % p ls cs pos' len ang 
-      180 add 360 mod        % p ls cs pos' len ang'
-      exch                   % p ls cs pos' ang' len 
-      3 array astore         % p ls cs tx'
-      2 array astore         % p ls ls'
-      2 index                % p ls ls' p 
-      exec                   % p ls
-      exch                   % ls p 
-      exec 
-    } /exec cvx
-  ] cvx 
-} def
-
-/diamant {                   % ls * pn ps
+/diamond {                   % ls * pn ps
   [ 3 1 roll                 % ls * [ pn ps 
     {                        % ls pn ps
       3 -1 roll              % pn ps ls 
@@ -512,7 +436,7 @@
 
 % Consumes: a picture 
 % Produces: a picture
-/skip-top {               % p
+/skip-north {             % p
   dup dup                 % p p p
   /blank load             % p p p _
   exch                    % p p _ p 
@@ -522,7 +446,7 @@
 
 % Consumes: a picture 
 % Produces: a picture
-/skip-2 {                 % p
+/skip-east {              % p
   dup dup                 % p p p
   /blank load             % p p p _
   3 1 roll                % p _ p p 
@@ -547,7 +471,7 @@
 
   3 1 roll                % w p _ 
 
-  % east (skip what, north?)
+  % east
   1 index                 % w p _ p 
   dup dup                 % w p _ p p p
   3 index                 % w p _ p p p _
@@ -583,19 +507,17 @@
 
 /birb-picture { draw-birb } create-picture def 
 
-/some-tox [ [100 300] 0 400 ] def
-
-/other-tox [ [250 186.602539] 240 100 ] def
+/some-tox [ [100 440] 0 400 ] def
 
 /some-colors [ 
-    [ 1 1 1 ]          % white
-    [ 0.3 0.3 0.3 ]    % dark grey 
+    [ 1 1 1 ]    % white
+    [ 0 0 0 ]    % black 
 ]
 def
 
 /some-lens [ some-colors some-tox ] def
 
-some-lens /birb-picture load self-tri dup skip-top exch skip-2 diamant exec
+some-lens /birb-picture load self-tri dup skip-north exch skip-east diamond exec
 
 %some-lens /birb-picture load exec 
 
