@@ -1,5 +1,5 @@
 %!PS-Adobe-2.0 EPSF-2.0
-%%Title: Three shades of fish - a postscript on functional geometry
+%%Title: Escher birb tesselation.
 %%Creator: Einar W. Høst 
 %%Pages: 1
 %%EndComments
@@ -87,8 +87,6 @@
    0.000 0.000 curveto 
 
   closepath
-
-   
 
   aload pop                  % r g b
 
@@ -404,13 +402,11 @@
 % Consumes: a picture 
 % Produces: a picture
 /self-tri { 
-%  (self-tri begin) == 
   dup 
   dup 
   dup 
   inv-color 
   quad-tri 
-%  (end self-tri) ==
 } def
 
 /diamond {                   % ls * pn ps
@@ -453,53 +449,6 @@
   inv-color
   quad-tri                % p' 
 } def 
-
-% Consumes: a picture 
-% Produces: a picture
-/skip-tri {               % p
-  /blank load             % p _
-  
-  % west                  
-  dup                     % p _ _ 
-
-  2 index                 % p _ _ p
-  dup dup                 % p _ _ p p p 
-  inv-color               % p _ _ p p p'
-  quad-tri                % p _ w
-
-  stack
-
-  3 1 roll                % w p _ 
-
-  % east
-  1 index                 % w p _ p 
-  dup dup                 % w p _ p p p
-  3 index                 % w p _ p p p _
-  exch                    % w p _ p p _ p 
-  inv-color               % w p _ p p _ p'
-  quad-tri                % w p _ e
-
-  3 1 roll                % w e p _ 
-
-  % north 
-  1 index                 % w e p _ p 
-  dup dup                 % w e p _ p p p
-  3 index                 % w e p _ p p p _
-  3 1 roll                % w e p _ p _ p p 
-  inv-color               % w e p _ p _ p p'
-  quad-tri                % w e p _ n
-
-  3 1 roll                % w e n p _
-  
-  % middle 
-  pop                     % w e n p
-  dup dup dup             % w e n p p p p
-  inv-color               % w e n p p p p'
-  quad-tri                % w e n m
-
-  quad-tri
-  
-} def
 
 %%% PICTURES
 
