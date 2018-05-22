@@ -817,7 +817,6 @@
   2 array astore        % lens
 } def
 
-
 %%% PICTURE PROCEDURES
 
 % Consumes: a procedure that draws lines for a picture.
@@ -1003,60 +1002,36 @@
   1 1 beside-ratio 
 } def 
 
-/quartet {
-  [                % lens * nw ne sw se [
-    5 1 roll       % lens [ nw ne sw se
-    {              % lens nw ne sw se 
-      beside       % lens nw ne s 
-      4 1 roll     % s lens nw ne 
-      beside       % s lens n 
-      3 -1 roll    % lens n s 
-      above        % lens p 
-      exec 
-    } /exec cvx 
-  ] cvx   
+/quartet {              % nw ne sw se
+  beside                % nw ne s 
+  3 1 roll              % s nw ne 
+  beside                % s n 
+  exch                  % n s
+  above                 % p 
 } def
 
 % Consumes: w m e 
 % Produces: p'
-/row {
-  [                    % lens * w m e [
-    4 1 roll           % lens [ w m e
-    {                  % lens w m e 
-      beside           % lens w me 
-      1 2 beside-ratio % lens p'
-      exec             % 
-    } /exec cvx 
-  ] cvx     
+/row {                  % w m e
+  beside                % w m 
+  1 2 beside-ratio      % p'
 } def
 
 % Consumes: n m s 
 % Produces: p'
-/column {
-  [                    % lens * n m s [
-    4 1 roll           % lens [ n m s
-    {                  % lens n m s 
-      above            % lens n ms  
-      1 2 above-ratio  % lens p'
-      exec             % 
-    } /exec cvx 
-  ] cvx     
+/column {               % n m s 
+  above                 % n ms
+  1 2 above-ratio       % p'
 } def
 
 /nonet {
-  [                % lens * nw nm ne mw mm me sw sm se [
-    10 1 roll      % lens [ nw nm ne mw mm me sw sm se
-    {              % lens nw nm ne mw mm me sw sm se
-      row          % lens nw nm ne mw mm me s 
-      7 1 roll     % lens s nw nm ne mw mm me
-      row          % lens s nw nm ne m
-      5 1 roll     % lens m s nw nm n 
-      row          % lens m s n 
-      3 1 roll     % lens n m s 
-      column       % lens p'
-      exec 
-    } /exec cvx 
-  ] cvx   
+  row          % nw nm ne mw mm me s 
+  7 1 roll     % s nw nm ne mw mm me
+  row          % s nw nm ne m
+  5 1 roll     % m s nw nm n 
+  row          % m s n 
+  3 1 roll     % n m s 
+  column       % p'   
 } def
 
 % Consumes: p1 p2 
@@ -1076,65 +1051,41 @@
 % Consumes: p 
 % Produces: p' 
 /ttile {
-  [                  % lens * p [
-    exch             % lens [ p
-    {                % lens p
-      dup            % lens p p 
-      toss flip      % lens p pn
-      dup            % lens p pn pn  
-      turn turn turn % lens p pn pe
-      over over      % lens p'
-      exec
-    } /exec cvx
-  ] cvx
+  dup                   % p p 
+  toss flip             % p pn
+  dup                   % p pn pn  
+  turn turn turn        % p pn pe
+  over over             % p'
 } def
 
 % Consumes: p 
 % Produces: p' 
 /ttile-1 {
-  [                          % lens * p [
-    exch                     % lens [ p
-    {                        % lens p
-      dup                    % lens p p 
-      toss flip rehue        % lens p pn
-      dup                    % lens p pn pn  
-      turn turn turn rehue   % lens p pn pe
-      over over              % lens p'
-      exec
-    } /exec cvx
-  ] cvx
+  dup                   % p p 
+  toss flip rehue       % p pn
+  dup                   % p pn pn  
+  turn turn turn rehue  % p pn pe
+  over over             % p'
 } def
 
 % Consumes: p 
 % Produces: p' 
 /ttile-2 {
-  [                               % lens * p [
-    exch                          % lens [ p
-    {                             % lens p
-      dup                         % lens p p 
-      toss flip rehue rehue       % lens p pn
-      dup                         % lens p pn pn  
-      turn turn turn rehue rehue  % lens p pn pe
-      over over                   % lens p'
-      exec
-    } /exec cvx
-  ] cvx
+  dup                        % p p 
+  toss flip rehue rehue      % p pn
+  dup                        % p pn pn  
+  turn turn turn rehue rehue % p pn pe
+  over over                  % p'
 } def
 
 % Consumes: p 
 % Produces: p' 
 /utile {
-  [                  % lens * p [
-    exch             % lens [ p
-    {                % lens p
-      toss flip      % lens pn
-      dup turn       % lens pn pw
-      dup turn       % lens pn pw ps 
-      dup turn       % lens pn pw ps pe 
-      over over over % lens p'
-      exec           %
-    } /exec cvx
-  ] cvx
+  toss flip                  % pn
+  dup turn                   % pn pw
+  dup turn                   % pn pw ps 
+  dup turn                   % pn pw ps pe 
+  over over over             % p'
 } def 
 
 % Consumes: p
@@ -1152,45 +1103,27 @@
 } def
 
 /utile-1 {
-  [                          % lens * p [
-    exch                     % lens [ p
-    {                        % lens p
-      toss flip              % lens pn
-      dup rehue turn         % lens pn pw
-      dup rehue rehue turn   % lens pn pw ps 
-      dup rehue turn         % lens pn pw ps pe 
-      over over over         % lens p'
-      exec                   %
-    } /exec cvx
-  ] cvx
+  toss flip                  % pn
+  dup rehue turn             % pn pw
+  dup rehue rehue turn       % pn pw ps 
+  dup rehue turn             % pn pw ps pe 
+  over over over             % p'
 } def 
 
 /utile-2 {
-  [                          % lens * p [
-    exch                     % lens [ p
-    {                        % lens p
-      toss flip rehue        % lens pn
-      dup rehue rehue turn   % lens pn pw
-      dup rehue rehue turn   % lens pn pw ps 
-      dup rehue turn         % lens pn pw ps pe 
-      over over over         % lens p'
-      exec                   %
-    } /exec cvx
-  ] cvx
+  toss flip rehue            % pn
+  dup rehue rehue turn       % pn pw
+  dup rehue rehue turn       % pn pw ps 
+  dup rehue turn             % pn pw ps pe 
+  over over over             % p'
 } def 
 
 /utile-3 {
-  [                          % lens * p [
-    exch                     % lens [ p
-    {                        % lens p
-      toss flip              % lens pn
-      dup rehue turn         % lens pn pw
-      dup rehue turn         % lens pn pw ps 
-      dup rehue rehue turn   % lens pn pw ps pe 
-      over over over         % lens p'
-      exec                   %
-    } /exec cvx
-  ] cvx
+  toss flip                  % pn
+  dup rehue turn             % pn pw
+  dup rehue turn             % pn pw ps 
+  dup rehue rehue turn       % pn pw ps pe 
+  over over over             % p'
 } def 
 
 % Consumes: p n 
@@ -1380,8 +1313,6 @@
   ] cvx
 } def 
 
-
-
 % Consumes: p k
 % Produces: p' 
 /square-limit {
@@ -1418,39 +1349,33 @@
 % Consumes: p k
 % Produces: p' 
 /sq-limit {
-  [                     % lens * p k [
-    3 1 roll            % lens [ p k
-    {                   % lens p k
-      1 index           % lens p k p 
-      utile-1           % lens p k mmu
-      3 1 roll          % lens mmu p k 
-      2 copy            % lens mmu p k p k
-      corner-1          % lens mmu p k nwc
-      dup               % lens mmu p k nwc nwc
-      5 1 roll          % lens nwc mmu p k nwc
-      turn turn         % lens nwc mmu p k sec  
-      3 1 roll          % lens nwc mmu sec p k
-      2 copy            % lens nwc mmu sec p k p k 
-      side-1            % lens nwc mmu sec p k nms
-      dup               % lens nwc mmu sec p k nms nms  
-      6 1 roll          % lens nwc nms mmu sec p k nms
-      turn turn         % lens nwc nms mmu sec p k sms 
-      4 1 roll          % lens nwc nms mmu sms sec p k
-      2 copy            % lens nwc nms mmu sms sec p k p k 
-      corner-2 turn     % lens nwc nms mmu sms sec p k swc 
-      dup               % lens nwc nms mmu sms sec p k swc swc 
-      turn turn         % lens nwc nms mmu sms sec p k swc nec 
-      7 1 roll          % lens nwc nms nec mmu sms sec p k swc
-      5 1 roll          % lens nwc nms nec mmu swc sms sec p k 
-      side-2 turn       % lens nwc nms nec mmu swc sms sec wms 
-      dup               % lens nwc nms nec mmu swc sms sec wms wms
-      6 1 roll          % lens nwc nms nec wms mmu swc sms sec wms
-      turn turn         % lens nwc nms nec wms mmu swc sms sec ems
-      4 1 roll          % lens nwc nms nec wms mmu ems swc sms sec
-      nonet             % lens p'
-      exec              %
-    } /exec cvx
-  ] cvx
+  1 index           % p k p 
+  utile-1           % p k mmu
+  3 1 roll          % mmu p k 
+  2 copy            % mmu p k p k
+  corner-1          % mmu p k nwc
+  dup               % mmu p k nwc nwc
+  5 1 roll          % nwc mmu p k nwc
+  turn turn         % nwc mmu p k sec  
+  3 1 roll          % nwc mmu sec p k
+  2 copy            % nwc mmu sec p k p k 
+  side-1            % nwc mmu sec p k nms
+  dup               % nwc mmu sec p k nms nms  
+  6 1 roll          % nwc nms mmu sec p k nms
+  turn turn         % nwc nms mmu sec p k sms 
+  4 1 roll          % nwc nms mmu sms sec p k
+  2 copy            % nwc nms mmu sms sec p k p k 
+  corner-2 turn     % nwc nms mmu sms sec p k swc 
+  dup               % nwc nms mmu sms sec p k swc swc 
+  turn turn         % nwc nms mmu sms sec p k swc nec 
+  7 1 roll          % nwc nms nec mmu sms sec p k swc
+  5 1 roll          % nwc nms nec mmu swc sms sec p k 
+  side-2 turn       % nwc nms nec mmu swc sms sec wms 
+  dup               % nwc nms nec mmu swc sms sec wms wms
+  6 1 roll          % nwc nms nec wms mmu swc sms sec wms
+  turn turn         % nwc nms nec wms mmu swc sms sec ems
+  4 1 roll          % nwc nms nec wms mmu ems swc sms sec
+  nonet             % p'
 } def
 
 %%% PICTURES
