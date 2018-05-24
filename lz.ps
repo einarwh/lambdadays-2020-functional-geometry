@@ -1,0 +1,666 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: Three shades of fish - a postscript on functional geometry
+%%Creator: Einar W. Høst 
+%%Pages: 1
+%%EndComments
+%%BeginProlog
+%%EndProlog
+
+%%Page: 1 1
+
+%%% DRAWING PROCEDURES
+
+% Consumes: 
+%  [ fill-color [ r g b ] 
+%    line-color [ r g b ] ]
+/draw-lizard {
+  newpath
+
+  aload pop                 % fc lc
+  exch                      % lc fc 
+
+  0.000 0.000 moveto 
+
+  0.020  0.050
+  0.030  0.120
+  0.025  0.185 curveto 
+
+  0.100  0.120
+  0.200  0.085
+  0.310  0.090 curveto 
+  
+  0.310  0.000
+  0.310 -0.100
+  0.310 -0.313 curveto 
+  
+  0.450 -0.170
+  0.500 -0.100
+  0.625  0.070 curveto 
+
+  0.700  0.040
+  0.780  0.010
+  0.850  0.000 curveto
+
+  0.700 -0.070
+  0.563 -0.180
+  0.563 -0.313 curveto 
+
+  0.680 -0.310
+  0.780 -0.410
+  0.813 -0.375 curveto 
+
+  0.792 -0.333 
+  0.771 -0.292
+  0.750 -0.250 curveto
+
+  0.800 -0.200
+  0.900 -0.100
+  1.000  0.000 curveto
+
+  0.900  0.100
+  0.800  0.200
+  0.750  0.250 curveto
+
+  0.900  0.650
+  1.050  0.750
+  1.250  0.850 curveto
+
+  1.200  0.940 
+  1.100  0.980
+  1.000  1.000 curveto 
+
+   0.980  0.900
+   0.940  0.800
+   0.850  0.750 curveto
+
+   0.750  0.950
+   0.650  1.100
+   0.250  1.250 curveto
+
+   0.200  1.200
+   0.100  1.100
+   0.000  1.000 curveto
+
+   0.050  0.950
+   0.150  0.850
+   0.250  0.750 curveto
+
+   0.375  0.813
+   0.375  0.813
+   0.375  0.813 curveto
+
+   0.410  0.780
+   0.310  0.680
+   0.313  0.563 curveto
+
+   0.180  0.563
+   0.070  0.700
+   0.000  0.850 curveto
+
+  -0.010  0.780 
+  -0.040  0.700
+  -0.070  0.625 curveto
+
+   0.100  0.500 
+   0.170  0.450
+   0.313  0.310 curveto
+
+   0.100  0.310 
+   0.000  0.310
+  -0.090  0.310 curveto
+
+  -0.085  0.200
+  -0.120  0.100
+  -0.185  0.025 curveto
+
+  -0.120  0.030
+  -0.050  0.020
+   0.000  0.000 curveto
+
+  closepath
+  
+  % lc fc
+
+  gsave
+  aload pop                 % lc r g b
+  setrgbcolor % oc          % lc 
+  fill 
+  grestore 
+
+  pop 
+  % aload pop                 % r g b 
+  
+  0 0 0 setrgbcolor 
+
+  0.01 setlinewidth
+
+  stroke 
+} def
+
+%%% VECTOR PROCEDURES 
+
+% [x y]
+/vlength {
+  aload pop      % x y
+  dup mul        % x y*y
+  exch           % y*y x
+  dup mul        % y*y x*x
+  add 
+  sqrt 
+} def 
+
+% [x1 y1] [x2 y2]
+/dotproduct {
+  aload pop          % [x1 y1] x2 y2 
+  3 -1 roll          % x2 y2 [x1 y1]
+  aload pop          % x2 y2 x1 y1
+  exch               % x2 y2 y1 x1 
+  4 1 roll           % x1 x2 y2 y1
+  mul                % x1 x2 y
+  3 1 roll           % y x1 x2 
+  mul                % y x 
+  add                % dp
+} def 
+
+%% [x y] f -> [x' y'] where x' = x * f, y' = y * f 
+/vscale {
+  exch           % f [x y]
+  aload pop      % f x y
+  2 index        % f x y f 
+  mul            % f x y', y' = y * f
+  3 1 roll       % y' f x
+  mul            % y' x', x' = f * x
+  exch           % x' y'
+  2 array        % x' y' [. .]
+  astore         % [x' y']
+} def
+
+%% [x1 y1] [x2 y2] -> [x y], where x = x1 + x2 y1 + y2
+/vadd {
+  aload pop      % [x1 y1] x2 y2
+  3 2 roll       % x2 y2 [x1 y1]
+  aload pop      % x2 y2 x1 y1
+  exch           % x2 y2 y1 x1
+  4 -1 roll      % y2 y1 x1 x2
+  add            % y2 y1 x', x' = x1 + x2 
+  3 1 roll       % x' y2 y1
+  add            % x' y', y' = y2 + y1
+  2 array        % x' y' [. .]
+  astore         % [x' y']
+} def
+
+%% [x1 y1] [x2 y2] -> [x y], where x = x1 - x2 y1 - y2
+/vsub {
+  aload pop      % [x1 y1] x2 y2 
+  3 2 roll       % x2 y2 [x1 y1]
+  aload pop      % x2 y2 x1 y1
+  exch           % x2 y2 y1 x1
+  4 -1 roll      % y2 y1 x1 x2 
+  sub            % y2 y1 x', x' = x1 - x2
+  3 1 roll       % x' y2 y1 
+  exch           % x' y1 y2 
+  sub            % x' y', y' = y1 - y2 
+  2 array        % x' y' [. .]
+  astore         % [x' y']
+} def
+
+%% [x y] -> [x' y'] where x' = -x, y' = -y
+/vneg {
+  aload pop      % x y
+  neg            % x -y
+  exch           % -y x
+  neg            % -y -x
+  exch           % -x -y 
+  2 array        % -x -y [. .]
+  astore         % [-x -y] 
+} def
+
+
+%%% BOX PROCEDURES
+
+%% (a + b, c, -b)
+%% [ [xa ya] [xb yb] [xc yc] ]
+/turn-box { 
+  aload pop      % [xa ya] [xb yb] [xc yc]
+  exch           % [xa ya] [xc yc] [xb yb]
+  dup            % [xa ya] [xc yc] [xb yb] [xb yb]
+  4 -1 roll      % [xc yc] [xb yb] [xb yb] [xa ya]
+  vadd           % [xc yc] [xb yb] [xa+xb ya+yb]
+  3 1 roll       % [xa+xb ya+yb] [xc yc] [xb yb]
+  vneg           % [xa+xb ya+yb] [xc yc] [-xb -yb]
+  3 array        % [xa+xb ya+yb] [xc yc] [-xb -yb] [. . .]
+  astore         % [ [xa+xb ya+yb] [xc yc] [-xb -yb] ]
+} def
+
+%% (a + b, -b, c)
+%% [ [xa ya] [xb yb] [xc yc] ]
+/flip-box {
+  aload pop      % [xa ya] [xb yb] [xc yc]
+  exch           % [xa ya] [xc yc] [xb yb]
+  dup            % [xa ya] [xc yc] [xb yb] [xb yb]
+  vneg           % [xa ya] [xc yc] [xb yb] [-xb -yb]
+  3 1 roll       % [xa ya] [-xb -yb] [xc yc] [xb yb] 
+  4 -1 roll      % [-xb -yb] [xc yc] [xb yb] [xa ya]
+  vadd           % [-xb -yb] [xc yc] [xa+xb ya+yb]
+  3 1 roll       % [xa+xb ya+yb] [-xb -yb] [xc yc]
+  3 array        % [xa+xb ya+yb] [-xb -yb] [xc yc] [. . .]
+  astore         % [ [xa+xb ya+yb] [-xb -yb] [xc yc] ]
+} def
+
+%% (a’, b’, c’) = (a + (b + c) / 2, (b + c) / 2, (c − b) / 2)
+%% [ [xa ya] [xb yb] [xc yc] ]
+/toss-box {
+  aload pop      % [xa ya] [xb yb] [xc yc]
+  2 copy         % [xa ya] [xb yb] [xc yc] [xb yb] [xc yc] 
+  exch           % [xa ya] [xb yb] [xc yc] [xc yc] [xb yb]
+  vsub           % [xa ya] [xb yb] [xc yc] [xc-xb yc-yb]
+  0.5 vscale     % [xa ya] [xb yb] [xc yc] [(xc-xb)/2 (yc-yb)/2]
+  4 1 roll       % [(xc-xb)/2 (yc-yb)/2] [xa ya] [xb yb] [xc yc]
+  vadd           % [(xc-xb)/2 (yc-yb)/2] [xa ya] [xb+xc yb+yc]
+  0.5 vscale     % [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2]
+  dup            % [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2] [(xb+xc)/2 (yb+yc)/2]
+  4 1 roll       % [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [xa ya] [(xb+xc)/2 (yb+yc)/2]
+  vadd           % [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [xa+(xb+xc)/2 ya+(yb+yc)/2]
+  3 1 roll       % [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2]
+  3 array        % [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] [. . .]
+  astore         % [ [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] ]
+} def
+
+/move-box-v {      % bx f 
+  exch             % f bx
+  aload pop        % f a b c 
+  dup              % f a b c c
+  5 -1 roll        % a b c c f
+  vscale           % a b c c'
+  4 -1 roll        % b c c' a
+  vadd             % b c a'
+  3 1 roll         % a' b c 
+  3 array astore   % [ a' b c ]
+} def
+
+/move-box-h {      % bx f
+  exch             % f bx
+  aload pop        % f a b c
+  exch             % f a c b 
+  dup              % f a c b b 
+  5 -1 roll        % a c b b f
+  vscale           % a c b b'
+  4 -1 roll        % c b b' a 
+  vadd             % c b a
+  3 1 roll         % a c b 
+  exch             % a b c 
+  3 array astore   % [a' b c ]
+} def
+
+/scale-box-v {     % bx f 
+  exch             % f bx 
+  aload pop        % f a b c
+  4 -1 roll        % a b c f
+  vscale           % a b c'
+  3 array astore   % [ a b c' ]  
+} def 
+
+/scale-box-h {       % bx f 
+  exch             % f bx 
+  aload pop        % f a b c 
+  exch             % f a c b 
+  4 -1 roll        % a c b f 
+  vscale           % a c b'
+  exch             % a b' c 
+  3 array astore   % [ a b' c ]
+} def
+
+
+%%% LENS PROCEDURES
+
+% A "lens" is an array consisting of
+%  - an array of color choices, with the current color "on top" (last)
+%  - a box
+
+% lens -> lens'
+/turn-lens {            % lens
+  aload pop             % colors box 
+  turn-box              % colors box'
+  2 array astore        % lens' 
+} def 
+
+% lens f -> lens' 
+/move-lens-v {          % lens f 
+  exch                  % f lens  
+  aload pop             % f colors box
+  3 -1 roll             % colors box f 
+  move-box-v            % colors box'
+  2 array astore        % lens'
+} def 
+
+% lens f -> lens' 
+/move-lens-h {          % lens f 
+  exch                  % f lens  
+  aload pop             % f colors box
+  3 -1 roll             % colors box f 
+  move-box-h            % colors box'
+  2 array astore        % lens'
+} def 
+
+% lens f -> lens' 
+/scale-lens-v {         % lens f 
+  exch                  % f lens  
+  aload pop             % f colors box
+  3 -1 roll             % colors box f 
+  scale-box-v           % colors box'
+  2 array astore        % lens' 
+} def 
+
+% lens f -> lens' 
+/scale-lens-h {         % lens f 
+  exch                  % f lens  
+  aload pop             % f colors box
+  3 -1 roll             % colors box f 
+  scale-box-h           % colors box'
+  2 array astore        % lens' 
+} def 
+
+% array -> array'
+/rotate-array {         % arr
+  aload                 % e1 e2 .. en-1 en arr
+  length                % e1 e2 .. en-1 en n 
+  [                     % e1 e2 .. en-1 en n [
+  3 1 roll              % e1 e2 .. en-1 [ en n
+  1 add                 % e1 e2 .. en-1 [ en n+1
+  2 roll                % [ en e1 e2 .. en-1 
+  ]                     % [ en e1 e2 .. en-1 ]
+} def
+
+% lens -> lens'
+/rehue-lens {           % lens 
+  aload pop             % colors box
+  exch                  % box colors
+  rotate-array          % box colors' 
+  exch                  % colors' box 
+  2 array astore        % lens
+} def
+
+
+%%% PICTURE PROCEDURES
+
+% Consumes: a procedure that draws lines for a picture.
+% Produces: a picture-procedure that consumes a box and draws a picture.
+/create-picture {    % ls
+  [ exch             % [ d 
+    { 
+      gsave
+      exch           % d ls
+      aload pop      % d cs bx 
+      aload pop      % d cs a b c 
+      3 -1 roll      % d cs b c a
+      aload pop      % d cs b c xa ya
+
+      %(translate) == 
+      %2 copy == == 
+
+      translate      % d cs b c 
+      aload          % d cs b c xc yc c
+      vlength        % d cs b c xc yc cl
+      4 1 roll       % d cs cl b xc yc 
+      exch atan      % d cs cl b ac
+
+      %(c-angle) == 
+      %dup == 
+
+      exch           % d cs cl ac b
+      aload          % d cs cl ac xb yb b
+      vlength        % d cs cl ac xb yb bl
+      4 1 roll       % d cs cl bl ac xb yb
+      exch atan      % d cs cl bl ac ab
+
+      %(b-angle) == 
+      %dup == 
+
+      dup            % d cs cl bl ac ab ab 
+      3 1 roll       % d cs cl bl ab ac ab
+      sub            % d cs cl bl ab da
+
+      %(delta-angle) ==
+      %dup == 
+
+      dup 180 ge { 360 sub } if 
+
+      dup -180 le { 360 add } if
+
+      %(delta-angle') ==
+      %dup == 
+
+      dup abs div    % d cs cl bl ab x    | x = 1 or -1
+      dup neg        % d cs cl bl ab x -x
+      1 add 90 mul   % d cs cl bl ab x g  | g = 0 or 180
+      3 -1 roll      % d cs cl bl x g ab
+      add            % d cs cl bl x ang
+
+      %(rotate) ==
+      %dup == 
+
+      rotate         % d cs cl bl x
+      mul            % d cs cl bl'
+      exch           % d cs bl' cl
+
+      %(scale) ==
+      %2 copy == ==
+
+      scale          % d cs
+      dup            % d cs cs
+      length         % d cs n
+      1 sub          % d cs n-1
+      get            % c
+      exch           % c d 
+      exec           % 
+      grestore       
+    } /exec cvx 
+  ] cvx 
+} def 
+
+%% picture -> picture
+/turn {
+  [                     % p [
+    exch                % [ p
+    /turn-lens cvx      % [ p turn-lens 
+    exch                % [ turn-lens p 
+    /exec cvx           % [ turn-lens p exec
+  ] cvx                 % { turn-lens p exec }
+} def
+
+% Consumes: p1 p2 m n 
+% Produces: p  
+/above-ratio {
+  [                     % lens * p1 p2 m n [
+    5 1 roll            % lens [ p1 p2 m n
+    {
+      1 index           % lens p1 p2 m n m 
+      add               % lens p1 p2 m t
+      div               % lens p1 p2 f
+      dup               % lens p1 p2 f f 
+      1                 % lens p1 p2 f f 1
+      exch              % lens p1 p2 f 1 f 
+      sub               % lens p1 p2 f f'
+      dup               % lens p1 p2 f f' f'
+      3 1 roll          % lens p1 p2 f' f f'
+      6 -1 roll         % p1 p2 f' f f' lens 
+      dup               % p1 p2 f' f f' lens lens 
+      7 1 roll          % lens p1 p2 f' f f' lens
+      exch              % lens p1 p2 f' f lens f'  
+      move-lens-v       % lens p1 p2 f' f lens'    (lens' = lens f' mv)
+      exch              % lens p1 p2 f' lens' f 
+      scale-lens-v      % lens p1 p2 f' lens1
+      4 -1 roll         % lens p2 f' lens1 p1
+      exec              % lens p2 f'
+      exch              % lens f' p2 
+      3 1 roll          % p2 lens f'
+      scale-lens-v      % p2 lens2 
+      exch              % lens2 p2 
+      exec              %
+    } /exec cvx 
+  ] cvx
+} def
+
+/above {
+  1 1 above-ratio
+} def 
+
+% Consumes: p1 p2 m n 
+% Produces: p  
+/beside-ratio {
+  [                     % lens * p1 p2 m n [
+    5 1 roll            % lens [ p1 p2 m n
+    {
+      1 index           % lens p1 p2 m n m 
+      add               % lens p1 p2 m t
+      div               % lens p1 p2 f
+      dup               % lens p1 p2 f f 
+      1                 % lens p1 p2 f f 1
+      exch              % lens p1 p2 f 1 f 
+      sub               % lens p1 p2 f f'
+      exch              % lens p1 p2 f' f
+      dup               % lens p1 p2 f' f f
+      6 -1 roll         % p1 p2 f' f f lens
+      dup               % p1 p2 f' f f lens lens 
+      3 2 roll          % p1 p2 f' f lens lens f 
+      scale-lens-h      % p1 p2 f' f lens lens1 
+      6 -1 roll         % p2 f' f lens lens1 p1 
+      exec              % p2 f' f lens 
+      exch              % p2 f' lens f
+      move-lens-h       % p2 f' lens'
+      exch              % p2 lens' f'
+      scale-lens-h      % p2 lens2 
+      exch              % lens2 p2 
+      exec 
+    } /exec cvx 
+  ] cvx
+} def
+
+/beside {
+  1 1 beside-ratio 
+} def 
+
+/quartet {
+  [                % lens * nw ne sw se [
+    5 1 roll       % lens [ nw ne sw se
+    {              % lens nw ne sw se 
+      beside       % lens nw ne s 
+      4 1 roll     % s lens nw ne 
+      beside       % s lens n 
+      3 -1 roll    % lens n s 
+      above        % lens p 
+      exec 
+    } /exec cvx 
+  ] cvx   
+} def
+
+% Consumes: w m e 
+% Produces: p'
+/row {
+  [                    % lens * w m e [
+    4 1 roll           % lens [ w m e
+    {                  % lens w m e 
+      beside           % lens w me 
+      1 2 beside-ratio % lens p'
+      exec             % 
+    } /exec cvx 
+  ] cvx     
+} def
+
+% Consumes: n m s 
+% Produces: p'
+/column {
+  [                    % lens * n m s [
+    4 1 roll           % lens [ n m s
+    {                  % lens n m s 
+      above            % lens n ms  
+      1 2 above-ratio  % lens p'
+      exec             % 
+    } /exec cvx 
+  ] cvx     
+} def
+
+/nonet {
+  [                % lens * nw nm ne mw mm me sw sm se [
+    10 1 roll      % lens [ nw nm ne mw mm me sw sm se
+    {              % lens nw nm ne mw mm me sw sm se
+      row          % lens nw nm ne mw mm me s 
+      7 1 roll     % lens s nw nm ne mw mm me
+      row          % lens s nw nm ne m
+      5 1 roll     % lens m s nw nm n 
+      row          % lens m s n 
+      3 1 roll     % lens n m s 
+      column       % lens p'
+      exec 
+    } /exec cvx 
+  ] cvx   
+} def
+
+% Consumes: p1 p2 
+% Produces: p  
+/over {
+  [                % lens * p1 p2 [
+    3 1 roll       % lens [ p1 p2 
+    {              % lens p1 p2
+      2 index      % lens p1 p2 lens 
+      exch         % lens p1 lens p2 
+      exec         % lens p1 
+      exec         %
+    } /exec cvx
+  ] cvx
+} def
+
+% Consumes: p
+% Produces: p'
+/rehue {               
+  [                     % lens * p [
+    exch                % lens [ p
+    {                   % lens p
+      exch              % p lens
+      rehue-lens        % p lens'
+      exch              % lens' p 
+      exec           %
+    } /exec cvx
+  ] cvx
+} def
+
+/quartet-lizard {        % wp
+  dup turn               % wp wp 
+  rehue                  % wp bp
+  2 copy                 % wp bp wp bp 
+  turn turn              % wp bp wp bp'
+  exch                   % wp bp bp' wp 
+  turn turn              % wp bp bp' wp' 
+  quartet 
+} def
+
+/q4 {                    % p 
+  dup dup dup 
+  quartet 
+} def 
+
+%%% PICTURES
+
+/blank { pop } def 
+
+/lizard-picture { draw-lizard } create-picture def 
+
+%%% BOXES AND LENSES
+
+/some-box [ [100 200] [400 0] [0 400] ] def
+
+/some-colors [ 
+    [ [ 0 0 0 ] [ 1 1 1 ] ]         % black white 
+    [ [ 1 1 1 ] [ 0 0 0 ] ]         % white black
+  ]       
+def
+
+/some-lens [ some-colors some-box ] def
+
+some-lens /lizard-picture load quartet-lizard q4 q4 exec 
+
+% gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
+
+%%Trailer
+%%Pages:      1
+%%EOF
