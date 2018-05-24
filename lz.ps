@@ -127,14 +127,85 @@
   fill 
   grestore 
 
-  pop 
-  % aload pop                 % r g b 
-  
   0 0 0 setrgbcolor 
 
   0.01 setlinewidth
 
   stroke 
+
+  % LINES                         % lc
+  aload pop setrgbcolor           %
+
+  newpath 
+  1.050 0.890 moveto 
+  1.060 0.910
+  1.070 0.930 
+  1.075 0.960 curveto 
+
+  1.100 0.860 moveto 
+  1.135 0.890
+  1.150 0.900 
+  1.170 0.910 curveto 
+
+  0.850 0.750 moveto
+  0.858 0.715
+  0.855 0.680 
+  0.850 0.650 curveto 
+
+  0.750 0.250 moveto
+  0.700 0.200 lineto 
+
+  stroke 
+
+  % EYE                           % 
+
+  % LOWER EYE
+
+  newpath 
+  0.250 0.880 0.05 0 360 arc 
+  closepath
+
+  gsave
+  1 1 1 setrgbcolor 
+  fill
+  grestore
+
+  %aload                           % r g b lc
+  %4 1 roll                        % lc r g b 
+  %setrgbcolor                     % lc
+  stroke 
+
+  newpath 
+  0.250 0.880 0.035 0 360 arc 
+  closepath
+
+  gsave
+  0 0 0 setrgbcolor 
+  fill
+  grestore
+
+  % UPPER EYE
+
+  newpath 
+  0.250 1.120 0.05 0 360 arc 
+  closepath 
+
+  gsave
+  1 1 1 setrgbcolor 
+  fill
+  grestore
+
+  stroke
+
+  newpath 
+  0.250 1.120 0.035 0 360 arc 
+  closepath
+
+  gsave
+  0 0 0 setrgbcolor 
+  fill
+  grestore 
+  
 } def
 
 %%% VECTOR PROCEDURES 
@@ -657,7 +728,9 @@ def
 
 /some-lens [ some-colors some-box ] def
 
-some-lens /lizard-picture load quartet-lizard q4 q4 exec 
+%some-lens /lizard-picture load quartet-lizard q4 q4 exec 
+
+some-lens /lizard-picture load quartet-lizard  exec 
 
 % gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
 
