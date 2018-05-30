@@ -10,6 +10,25 @@
 
 %%% DRAWING PROCEDURES
 
+/draw-point {   % x y 
+  2 copy        % x y x y 
+  exch          % x y y x 
+  0.01 sub      % x y y x-1
+  exch          % x y x-1 y 
+  0.01 sub      % x y x-1 y-1
+  4 2 roll      % x-1 y-1 x y 
+  exch          % x-1 y-1 y x 
+  0.01 add      % x-1 y-1 y x+1
+  exch          % x-1 y-1 x+1 y
+  0.01 add      % x-1 y-1 x+1 y+1
+  4 copy        % x-1 y-1 x+1 y+1 x-1 y-1 x+1 y+1
+  3 1 roll      % x-1 y-1 x+1 y+1 x-1 y+1 y-1 x+1
+  exch          % x-1 y-1 x+1 y+1 x-1 y+1 x+1 y-1 
+  moveto lineto 
+  moveto lineto
+} def 
+
+
 % Consumes: 
 %  [ fill-color [ r g b ] 
 %    line-color [ r g b ] ]
@@ -19,103 +38,107 @@
   aload pop                 % fc lc
   exch                      % lc fc 
 
-  0.000 0.000 moveto 
+  0.000 0.000 moveto   % A   
 
   0.020  0.050
   0.030  0.120
-  0.025  0.185 curveto 
+  0.025  0.185 curveto % X
 
-  0.100  0.120
-  0.200  0.085
-  0.310  0.090 curveto 
-  
+  0.080  0.120
+  0.200  0.105
+  0.310  0.090 curveto % W
+
   0.310  0.000
   0.310 -0.100
-  0.310 -0.313 curveto 
+  0.310 -0.313 curveto % V
   
   0.450 -0.170
   0.500 -0.100
-  0.625  0.070 curveto 
+  0.630  0.065 curveto % U
 
   0.700  0.040
   0.780  0.010
-  0.850  0.000 curveto
+  0.850  0.000 curveto % T
 
   0.700 -0.070
   0.563 -0.180
-  0.563 -0.313 curveto 
+  0.563 -0.313 curveto % S
 
   0.680 -0.310
   0.780 -0.410
-  0.813 -0.375 curveto 
+  0.813 -0.375 curveto % R
 
   0.792 -0.333 
   0.771 -0.292
-  0.750 -0.250 curveto
+  0.750 -0.250 curveto % Q
 
-  0.800 -0.200
-  0.900 -0.100
-  1.000  0.000 curveto
+  1.000  0.000 lineto % P
 
-  0.900  0.100
-  0.800  0.200
-  0.750  0.250 curveto
+  0.750  0.250 lineto % O
 
-  0.900  0.650
-  1.050  0.750
-  1.250  0.850 curveto
+  0.870  0.500 lineto % ON
+
+  0.950  0.675
+  1.060  0.795
+  1.270  0.840 curveto % N 
 
   1.200  0.940 
   1.100  0.980
-  1.000  1.000 curveto 
+  1.000  1.000 curveto % M
 
-   0.980  0.900
-   0.940  0.800
-   0.850  0.750 curveto
+  0.980  0.900
+  0.940  0.800
+  0.860  0.730 curveto % L
 
-   0.750  0.950
-   0.650  1.100
-   0.250  1.250 curveto
+  0.795  0.940
+  0.675  1.050
+  0.500  1.130 curveto % KL 
 
-   0.200  1.200
-   0.100  1.100
-   0.000  1.000 curveto
+  0.250  1.250 lineto % K
 
-   0.050  0.950
-   0.150  0.850
-   0.250  0.750 curveto
+  0.000  1.000 lineto % J
 
-   0.375  0.813
-   0.375  0.813
-   0.375  0.813 curveto
+  0.250  0.750 lineto % I
 
-   0.410  0.780
-   0.310  0.680
-   0.313  0.563 curveto
+  0.300  0.780
+  0.350  0.830
+  0.375  0.813 curveto % H
 
-   0.180  0.563
-   0.070  0.700
-   0.000  0.850 curveto
+  0.410  0.780
+  0.310  0.680
+  0.313  0.563 curveto % G
+
+  0.180  0.563
+  0.070  0.700
+  0.000  0.850 curveto % F
 
   -0.010  0.780 
   -0.040  0.700
-  -0.070  0.625 curveto
+  -0.065  0.630 curveto % E
 
    0.100  0.500 
    0.170  0.450
-   0.313  0.310 curveto
+   0.313  0.310 curveto % D
 
    0.100  0.310 
    0.000  0.310
-  -0.090  0.310 curveto
+  -0.090  0.310 curveto % C
 
-  -0.085  0.200
-  -0.120  0.100
-  -0.185  0.025 curveto
+  -0.105  0.200
+  -0.120  0.080
+  -0.185  0.025 curveto % B 
 
   -0.120  0.030
   -0.050  0.020
-   0.000  0.000 curveto
+   0.000  0.000 curveto % A
+
+  %0.740 0.225 draw-point
+  %.725 0.205 draw-point
+
+
+  0.740 1.000 draw-point
+  0.645 0.480 draw-point
+
 
   closepath
   
@@ -127,9 +150,9 @@
   fill 
   grestore 
 
-  0 0 0 setrgbcolor 
+  1 0 0 setrgbcolor 
 
-  0.01 setlinewidth
+  0.007 setlinewidth
 
   stroke 
 
@@ -137,6 +160,15 @@
   aload pop setrgbcolor           %
 
   newpath 
+
+  0.090 1.000 moveto 
+
+  0.270 1.000 lineto 
+
+  0.740 1.000
+  0.645 0.480 
+  0.350 -0.210 curveto % V
+
   1.050 0.890 moveto 
   1.060 0.910
   1.070 0.930 
@@ -147,13 +179,15 @@
   1.150 0.900 
   1.170 0.910 curveto 
 
-  0.850 0.750 moveto
-  0.858 0.715
-  0.855 0.680 
-  0.850 0.650 curveto 
+  0.860 0.730 moveto
+  0.865 0.700
+  0.865 0.670 
+  0.860 0.650 curveto 
 
   0.750 0.250 moveto
-  0.700 0.200 lineto 
+  0.738 0.225
+  0.725 0.205
+  0.708 0.180 curveto 
 
   stroke 
 
@@ -162,7 +196,7 @@
   % LOWER EYE
 
   newpath 
-  0.250 0.880 0.05 0 360 arc 
+  0.270 0.880 0.072 0 360 arc 
   closepath
 
   gsave
@@ -176,7 +210,7 @@
   stroke 
 
   newpath 
-  0.250 0.880 0.035 0 360 arc 
+  0.270 0.880 0.042 0 360 arc 
   closepath
 
   gsave
@@ -187,7 +221,7 @@
   % UPPER EYE
 
   newpath 
-  0.250 1.120 0.05 0 360 arc 
+  0.270 1.120 0.072 0 360 arc 
   closepath 
 
   gsave
@@ -198,7 +232,7 @@
   stroke
 
   newpath 
-  0.250 1.120 0.035 0 360 arc 
+  0.270 1.120 0.042 0 360 arc 
   closepath
 
   gsave
@@ -718,11 +752,11 @@
 
 %%% BOXES AND LENSES
 
-/some-box [ [100 200] [400 0] [0 400] ] def
+/some-box [ [100 200] [300 0] [0 300] ] def
 
 /some-colors [ 
-    [ [ 0 0 0 ] [ 1 1 1 ] ]         % black white 
-    [ [ 1 1 1 ] [ 0 0 0 ] ]         % white black
+    [ [ 1 0 0 ] [ 1 1 1 ] ]         % black white 
+    [ [ 1 1 1 ] [ 1 0 0 ] ]         % white black
   ]       
 def
 
@@ -730,7 +764,7 @@ def
 
 %some-lens /lizard-picture load quartet-lizard q4 q4 exec 
 
-some-lens /lizard-picture load quartet-lizard  exec 
+some-lens /lizard-picture load  exec 
 
 % gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
 
