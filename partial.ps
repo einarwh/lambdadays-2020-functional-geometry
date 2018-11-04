@@ -1,0 +1,18 @@
+% a {p}  
+
+/partial {
+  [             % a {p} [
+  3 1 roll      % [ a {p} 
+  /exec cvx     % [ a {p} exec
+  ] cvx         % { a p }
+} def
+
+/make-adder {
+  [             % n [
+  exch          % [ n
+  /add cvx      % [ n add 
+  ] cvx         % { n add }
+} def 
+
+
+
