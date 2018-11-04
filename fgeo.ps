@@ -474,7 +474,7 @@
 
 %%% PICTURES
 
-/blank /pop load def 
+/blank { pop } def 
 
 /f /draw-f load create-picture def 
 /h /draw-h load create-picture def 
@@ -510,29 +510,6 @@
 
 /fish-box [ [100 400] [300 0] [0 300] ] def
 
-
 /skew-box [ [100 400] [200 20] [-30 400] ] def
 
 /big-box [ [50 200] [500 0] [0 500] ] def
-
-% some-box /fh-picture load exec 
-
-% some-box /fh-picture load utile /blank load dup 2 index quartet exec 
-
-% some-box /fh-picture load 3 corner exec
-
-% some-box /fh-picture load turn turn turn exec 
-
-% big-box /fh-picture load 3 square-limit exec 
-
-% some-box /fh-picture load dup dup dup dup dup dup dup dup nonet exec 
-
-% some-box /f-picture load toss exec  
-
-% some-box /f-picture load dup turn 3 2 above-ratio exec
-
-% some-box /f-picture load dup flip dup dup flip quartet exec 
-
-% some-box /george-picture load dup turn turn flip beside exec
-
-% some-box /george-picture load dup turn turn flip 1 index turn turn 2 index flip quartet exec
