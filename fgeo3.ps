@@ -1,236 +1,9 @@
-%!PS-Adobe-2.0 EPSF-2.0
-%%Title: Three shades of fish - a postscript on functional geometry
-%%Creator: Einar W. Høst 
-%%Pages: 1
-%%EndComments
-%%BeginProlog
-%%EndProlog
+%! 
 
-%%Page: 1 1
+%%% A postscript about recursive fish.
 
 %%% DRAWING PROCEDURES
 
-/draw-f {
-  newpath
-  0.30 0.20 moveto 
-  0.40 0.20 lineto
-  0.40 0.45 lineto
-  0.60 0.45 lineto
-  0.60 0.55 lineto
-  0.40 0.55 lineto
-  0.40 0.70 lineto
-  0.70 0.70 lineto
-  0.70 0.80 lineto
-  0.30 0.80 lineto
-  closepath
-  0.01 setlinewidth
-  stroke 
-} def
-
-/draw-george {
-  newpath
-
-  0.00 0.55 moveto
-  0.15 0.45 lineto 
-  0.30 0.55 lineto
-  0.40 0.50 lineto 
-  0.20 0.00 lineto 
-
-  0.00 0.80 moveto 
-  0.15 0.60 lineto
-  0.30 0.65 lineto
-  0.40 0.65 lineto
-  0.35 0.80 lineto
-  0.40 1.00 lineto
-
-  0.60 1.00 moveto 
-  0.65 0.80 lineto 
-  0.60 0.65 lineto 
-  0.80 0.65 lineto
-  1.00 0.45 lineto
-
-  1.00 0.20 moveto 
-  0.60 0.50 lineto 
-  0.80 0.00 lineto
-
-  0.40 0.00 moveto 
-  0.50 0.30 lineto 
-  0.60 0.00 lineto
-
-  0.01 setlinewidth
-  stroke 
-} def 
-
-/draw-hfish {
-   newpath 
-
-  % FISH SPINE 
- 
-   0.116  0.702 moveto 
-   
-   0.260  0.295 
-   0.330  0.258  
-   0.815  0.078 curveto 
-
-  % LEFT FIN OUTLINE 
-
-  -0.032  0.564 moveto 
-
-  -0.132  0.452 
-  -0.194  0.372 
-  -0.250  0.250 curveto 
-
-   0.000  0.000 lineto 
-
-   0.250  0.250 lineto 
-
-  % LEFT FIN DETAILS 
-
-  -0.170  0.237 moveto
-
-  -0.125  0.355 
-  -0.065  0.405 
-   0.002  0.436 curveto 
-
-  -0.121  0.188 moveto 
-
-  -0.060  0.300
-  -0.030  0.330 
-   0.040  0.375 curveto 
-
-  -0.058  0.125 moveto 
-
-  -0.010  0.240 
-   0.030  0.280 
-   0.100  0.321 curveto  
-  
-  -0.022  0.063 moveto 
-
-   0.060 0.200 
-   0.100 0.240 
-   0.160 0.282 curveto 
-
-  % RIGHT FIN OUTLINE
-
-   0.234  0.798 moveto 
-   
-   0.340  0.792
-   0.411  0.783
-   0.500  0.750 curveto 
-
-   0.500  0.500 lineto 
-
-   0.377  0.377 lineto
-
-  % RIGHT FIN DETAILS
-
-   0.315  0.710 moveto 
-  
-   0.378  0.732 
-   0.426  0.726
-   0.487  0.692 curveto
-
-   0.340  0.605 moveto 
-
-   0.400  0.642 
-   0.435  0.647 
-   0.489  0.626 curveto 
-
-   0.348  0.502 moveto 
-   
-   0.400  0.564 
-   0.422  0.568 
-   0.489  0.563 curveto 
-
-   0.451  0.418 moveto 
-
-   0.465  0.400
-   0.480  0.385
-   0.490  0.381 curveto 
-
-   0.421  0.388 moveto 
-
-   0.440  0.350 
-   0.455  0.335 
-   0.492  0.325 curveto
-
-  % LEFT EYE
-
-   0.053  0.658 moveto 
-   
-   0.042  0.710
-   0.042  0.760
-   0.053  0.819 curveto 
-
-   0.085  0.812
-   0.092  0.752
-   0.098  0.700 curveto 
-
-   0.085  0.687
-   0.075  0.677
-   0.053  0.658 curveto 
-
-  % RIGHT EYE
-
-   0.130  0.718 moveto 
-   
-   0.150  0.730
-   0.175  0.745
-   0.187  0.752 curveto 
-
-   0.172  0.780 
-   0.150  0.805 
-   0.112  0.845 curveto 
-
-   0.110  0.810 
-   0.110  0.795 
-   0.130  0.718 curveto  
-    
-  % MAIN FISH BODY OUTLINE
-
-   0.000  1.000 moveto 
-  -0.042  0.834 
-  -0.056  0.730 
-  -0.032  0.564 curveto
-  
-   0.055  0.355
-   0.080  0.330
-   0.250  0.250 curveto
-
-   0.372  0.194  
-   0.452  0.132 
-   0.564  0.032 curveto 
-
-   0.730  0.056  
-   0.834  0.042 
-   1.000  0.000 curveto 
-
-   0.896  0.062 
-   0.837  0.107 
-   0.766  0.202 curveto 
-
-   0.660  0.208 
-   0.589  0.217 
-   0.500  0.250 curveto 
-
-   0.377  0.377 lineto 
-
-   0.232  0.540 
-   0.368  0.650 
-   0.234  0.798 curveto 
-
-   0.163  0.893 
-   0.104  0.938 
-   0.000  1.000 curveto 
-
-   0.007 setlinewidth
-   1 setlinejoin
-   stroke 
-
-} def
-
-
-%%% TODO: should read primary and secondary color from stack.
 % Consumes: 
 %  [ primary-color [ r g b ] 
 %    secondary-color [ r g b ] ]
@@ -1052,16 +825,6 @@
 
 % Consumes: p 
 % Produces: p' 
-/ttile {
-  dup                   % p p 
-  toss flip             % p pn
-  dup                   % p pn pn  
-  turn turn turn        % p pn pe
-  over over             % p'
-} def
-
-% Consumes: p 
-% Produces: p' 
 /ttile-1 {
   dup                   % p p 
   toss flip rehue       % p pn
@@ -1079,16 +842,6 @@
   turn turn turn rehue rehue % p pn pe
   over over                  % p'
 } def
-
-% Consumes: p 
-% Produces: p' 
-/utile {
-  toss flip                  % pn
-  dup turn                   % pn pw
-  dup turn                   % pn pw ps 
-  dup turn                   % pn pw ps pe 
-  over over over             % p'
-} def 
 
 % Consumes: p
 % Produces: p'
@@ -1126,30 +879,6 @@
   dup rehue turn             % pn pw ps 
   dup rehue rehue turn       % pn pw ps pe 
   over over over             % p'
-} def 
-
-% Consumes: p n 
-% Produces: p'
-/side {
-  dup            % p n n
-  0 le           % p n, n <= 0
-  {
-    pop pop      % 
-    /blank load  % blank
-  } 
-  {              % p n, n > 1
-    1 sub        % p n-1
-    1 index      % p n-1 p
-    exch         % p p n-1 
-    side         % p s
-    dup          % p s s 
-    3 -1 roll    % s s p 
-    ttile        % s s t 
-    dup          % s s t t
-    turn         % s s t t' 
-    exch         % s s t' t 
-    quartet      % q
-  } ifelse
 } def 
 
 % Consumes: p n 
@@ -1199,30 +928,6 @@
     exch            % s s t' t 
     rehue rehue     % s s t' t^
     quartet         % q
-  } ifelse
-} def 
-
-% Consumes: p n 
-% Produces: p'
-/corner {
-  dup            % p n n
-  0 le           % p n, n <= 0
-  {
-    pop pop      % 
-    /blank load  % blank
-  } 
-  {              % p n, n > 1
-    1 sub        % p n-1
-    1 index      % p n-1 p
-    exch         % p p n-1 
-    2 copy       % p p n-1 p n-1
-    corner       % p p n-1 c 
-    3 1 roll     % p c p n-1
-    side         % p c s 
-    dup turn     % p c s s' 
-    4 -1 roll    % c s s' p 
-    utile        % c s s' u
-    quartet      % p'
   } ifelse
 } def 
 
@@ -1281,33 +986,6 @@
 % Consumes: p k
 % Produces: p' 
 /square-limit {
-  2 copy         % p k p k
-  1 index        % p k p k p 
-  utile          % p k p k u 
-  5 1 roll       % u p k p k 
-  side           % u p k z
-  3 1 roll       % u z p k 
-  corner         % u z c 
-  dup turn       % u z nw sw 
-  dup turn       % u z nw sw se 
-  dup turn       % u z nw sw se ne
-  3 1 roll       % u z nw ne sw se 
-  5 -1 roll      % u nw ne sw se n
-  dup turn       % u nw ne sw se n w 
-  dup turn       % u nw ne sw se n w s
-  dup turn       % u nw ne sw se n w s e
-  6 1 roll       % u nw ne e sw se n w s 
-  4 1 roll       % u nw ne e sw s se n w
-  6 1 roll       % u nw ne w e sw s se n
-  7 1 roll       % u nw n ne w e sw s se 
-  9 -1 roll      % nw n ne w e sw s se u 
-  5 1 roll       % nw n ne w u e sw s se 
-  nonet          % p'
-} def
-
-% Consumes: p k
-% Produces: p' 
-/sq-limit {
   1 index           % p k p 
   utile-1           % p k mmu
   3 1 roll          % mmu p k 
@@ -1341,34 +1019,18 @@
 
 /blank { pop } def 
 
-/f-picture { draw-f } create-picture def
-
-/george-picture { draw-george } create-picture def
-
-/fh-picture { draw-hfish } create-picture def 
-
-%/fish-picture { [1 1 1] [0 0 0] draw-efish } create-picture def 
-/fish-picture { draw-efish } create-picture def 
-%/fish-picture { [0 0 0] [1 1 1] draw-efish } create-picture def 
+/fish /draw-efish load create-picture def 
 
 %%% BOXES AND LENSES
 
-/some-box [ [100 200] [400 0] [0 400] ] def
+/some-box [ [100 200] [250 0] [0 250] ] def
 
 /big-box [ [50 200] [500 0] [0 500] ] def
 
 /some-colors [ 
     [ [ 1 1 1 ] [ 0 0 0 ] ]         % white black
-    [ [ 0.5 0.5 0.5 ] [ 1 1 1 ] ]   % grey white 
+    [ [ 0.6 0.3 0.8 ] [ 1 1 1 ] ]   % grey white 
     [ [ 0 0 0 ] [ 1 1 1 ] ] ]       % black white 
 def
 
 /some-lens [ some-colors some-box ] def
-
-some-lens /fish-picture load 4 sq-limit exec 
-
-% gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
-
-%%Trailer
-%%Pages:      1
-%%EOF
