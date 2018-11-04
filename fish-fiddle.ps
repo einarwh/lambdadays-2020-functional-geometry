@@ -305,7 +305,7 @@
 
 %%% BOX PROCEDURES
 
-%% (a + b, c, -b)
+%% (a, b, c) -> (a + b, c, -b)
 %% [ [xa ya] [xb yb] [xc yc] ]
 /turn-box { 
   aload pop      % [xa ya] [xb yb] [xc yc]
@@ -319,7 +319,7 @@
   astore         % [ [xa+xb ya+yb] [xc yc] [-xb -yb] ]
 } def
 
-%% (a + b, -b, c)
+%% (a, b, c) -> (a + b, -b, c)
 %% [ [xa ya] [xb yb] [xc yc] ]
 /flip-box {
   aload pop      % [xa ya] [xb yb] [xc yc]
@@ -334,7 +334,7 @@
   astore         % [ [xa+xb ya+yb] [-xb -yb] [xc yc] ]
 } def
 
-%% (a’, b’, c’) = (a + (b + c) / 2, (b + c) / 2, (c − b) / 2)
+%% (a, b, c) -> (a + (b + c) / 2, (b + c) / 2, (c − b) / 2)
 %% [ [xa ya] [xb yb] [xc yc] ]
 /toss-box {
   aload pop      % [xa ya] [xb yb] [xc yc]
@@ -411,40 +411,25 @@
       3 -1 roll      % d b c a
       aload pop      % d b c xa ya
 
-      %(translate) == 
-      %2 copy == == 
-
       translate      % d b c 
-      aload          % d b c xc yc c
-      vlength        % d b c xc yc cl
-      4 1 roll       % d cl b xc yc 
-      exch atan      % d cl b ac
 
-      %(c-angle) == 
-      %dup == 
+      aload          % d b c xc yc c
+      vlength        % d b c xc yc cl     | cl = length of c
+      4 1 roll       % d cl b xc yc 
+      exch atan      % d cl b ac          | ac = c-angle 
 
       exch           % d cl ac b
       aload          % d cl ac xb yb b
-      vlength        % d cl ac xb yb bl
+      vlength        % d cl ac xb yb bl   | bl = length of b
       4 1 roll       % d cl bl ac xb yb
-      exch atan      % d cl bl ac ab
-
-      %(b-angle) == 
-      %dup == 
+      exch atan      % d cl bl ac ab      | ab = b-angle
 
       dup            % d cl bl ac ab ab 
       3 1 roll       % d cl bl ab ac ab
-      sub            % d cl bl ab da
-
-      %(delta-angle) ==
-      %dup == 
+      sub            % d cl bl ab da      | da = delta-angle (ac - ab)
 
       dup 180 ge { 360 sub } if 
-
       dup -180 le { 360 add } if
-
-      %(delta-angle') ==
-      %dup == 
 
       dup abs div    % d cl bl ab x    | x = 1 or -1
       dup neg        % d cl bl ab x -x
@@ -452,15 +437,10 @@
       3 -1 roll      % d cl bl x g ab
       add            % d cl bl x ang
 
-      %(rotate) ==
-      %dup == 
-
       rotate         % d cl bl x
+
       mul            % d cl bl'
       exch           % d bl' cl
-
-      %(scale) ==
-      %2 copy == ==
 
       scale          % d
       exec           % 
@@ -471,36 +451,32 @@
 
 %% picture -> picture
 /turn {
+  [                 % p [
+    exch            % [ p
+    /turn-box cvx   % [ p turn-box 
+    exch            % [ turn-box p 
+    /exec cvx       % [ turn-box p exec
+  ] cvx             % { turn-box p exec }
+} def
+
+%% picture -> picture
+/flip {
   [                % p [
     exch           % [ p
-    /turn-box cvx  % [ p turn-box 
-    exch           % [ turn-box p 
-    /exec cvx      % [ turn-box p exec
-  ] cvx            % { turn-box p exec }
+    /flip-box cvx  % [ p flip-box
+    exch           % [ flip-box p 
+    /exec cvx      % [ flip-box p exec 
+  ] cvx            % { flip-box p exec }
 } def
 
-/flip {
-  [              % p [
-  exch           % [ p
-  /exec          % [ p /exec 
-  cvx            % [ p exec 
-  /flip-box      % [ p exec /flip-box 
-  cvx            % [ p exec flip-box
-  3 1 roll       % [ flip-box p exec
-  ]              % [ flip-box p exec ]
-  cvx            % { flip-box p exec }
-} def
-
+%% picture -> picture
 /toss {
-  [              % p [
-  exch           % [ p
-  /exec          % [ p /exec 
-  cvx            % [ p exec 
-  /toss-box      % [ p exec /toss-box 
-  cvx            % [ p exec toss-box
-  3 1 roll       % [ toss-box p exec
-  ]              % [ toss-box p exec ]
-  cvx            % { toss-box p exec }
+  [                % p [
+    exch           % [ p
+    /toss-box cvx  % [ p toss-box
+    exch           % [ toss-box p 
+    /exec cvx      % [ toss-box p exec 
+  ] cvx            % { toss-box p exec }
 } def
 
 % Consumes: p1 p2 m n 
@@ -575,18 +551,12 @@
   1 1 beside-ratio 
 } def 
 
-/quartet {
-  [                % box * nw ne sw se [
-    5 1 roll       % box [ nw ne sw se
-    {              % box nw ne sw se 
-      beside       % box nw ne s 
-      4 1 roll     % s box nw ne 
-      beside       % s box n 
-      3 -1 roll    % box n s 
-      above        % box p 
-      exec 
-    } /exec cvx 
-  ] cvx   
+/quartet {              % nw ne sw se
+  beside                % nw ne s 
+  3 1 roll              % s nw ne 
+  beside                % s n 
+  exch                  % n s
+  above                 % p 
 } def
 
 % Consumes: w m e 
@@ -773,20 +743,23 @@
 
 %%% PICTURES
 
-/blank { pop } def 
+/blank /pop load def 
 
-/f-picture { draw-f } create-picture def
+/f-picture /draw-f load create-picture def
 
-/george-picture { draw-george } create-picture def
+/george-picture /draw-george load create-picture def
 
-/fh-picture { draw-hfish } create-picture def 
+/fh-picture /draw-hfish load create-picture def 
 
 %%% BOXES
 
+/small-box [ [100 200] [200 0] [0 200] ] def
+
 /some-box [ [100 400] [400 0] [0 400] ] def
 
-/big-box [ [50 200] [500 0] [0 500] ] def
+/skew-box [ [100 400] [200 20] [-30 400] ] def
 
+/big-box [ [50 200] [500 0] [0 500] ] def
 
 % some-box /fh-picture load exec 
 
