@@ -1,0 +1,364 @@
+%! 
+
+%%% DRAWING PROCEDURES
+
+/draw-f {
+  newpath
+  0.30 0.20 moveto 
+  0.40 0.20 lineto
+  0.40 0.45 lineto
+  0.60 0.45 lineto
+  0.60 0.55 lineto
+  0.40 0.55 lineto
+  0.40 0.70 lineto
+  0.70 0.70 lineto
+  0.70 0.80 lineto
+  0.30 0.80 lineto
+  closepath
+  0.01 setlinewidth
+  stroke 
+} def
+
+/draw-h {
+  newpath
+  0.30 0.20 moveto 
+  0.40 0.20 lineto
+  0.40 0.45 lineto
+  0.60 0.45 lineto
+  0.60 0.20 lineto
+  0.70 0.20 lineto
+  0.70 0.80 lineto
+  0.60 0.80 lineto
+  0.60 0.55 lineto
+  0.40 0.55 lineto
+  0.40 0.80 lineto
+  0.30 0.80 lineto
+  closepath
+  0.01 setlinewidth
+  stroke 
+} def
+
+/draw-e {
+  newpath
+  0.30 0.20 moveto 
+  0.70 0.20 lineto
+  0.70 0.30 lineto
+  0.40 0.30 lineto
+  0.40 0.45 lineto
+  0.60 0.45 lineto
+  0.60 0.55 lineto
+  0.40 0.55 lineto
+  0.40 0.70 lineto
+  0.70 0.70 lineto
+  0.70 0.80 lineto
+  0.30 0.80 lineto
+  closepath
+  0.01 setlinewidth
+  stroke 
+} def
+
+/draw-n {
+  newpath
+  0.30 0.20 moveto 
+  0.40 0.20 lineto
+  0.40 0.60 lineto
+  0.60 0.20 lineto
+  0.70 0.20 lineto
+  0.70 0.80 lineto
+  0.60 0.80 lineto
+  0.60 0.40 lineto
+  0.40 0.80 lineto
+  0.30 0.80 lineto
+  closepath
+  0.01 setlinewidth
+  stroke 
+} def
+
+/draw-d {
+  newpath
+  0.30 0.20 moveto 
+  0.55 0.20 lineto
+  0.70 0.35 lineto
+  0.70 0.65 lineto
+  0.55 0.80 lineto
+  0.30 0.80 lineto
+  0.30 0.20 lineto
+
+  0.40 0.30 moveto 
+  0.52 0.30 lineto
+  0.60 0.38 lineto
+  0.60 0.62 lineto
+  0.52 0.70 lineto
+  0.40 0.70 lineto
+  closepath
+
+  0.01 setlinewidth
+  stroke 
+} def
+
+/draw-r {
+  newpath
+
+  0.30 0.20 moveto 
+  0.40 0.20 lineto
+  0.40 0.45 lineto
+  0.45 0.45 lineto
+  0.60 0.20 lineto
+  0.70 0.20 lineto
+  0.55 0.45 lineto
+  0.70 0.45 lineto
+  0.70 0.80 lineto
+  0.30 0.80 lineto
+  0.30 0.20 lineto 
+
+  0.40 0.55 moveto 
+  0.60 0.55 lineto
+  0.60 0.70 lineto
+  0.40 0.70 lineto
+  0.40 0.55 lineto
+
+  closepath
+  0.01 setlinewidth
+  stroke 
+} def
+
+/draw-s {
+  newpath
+  0.30 0.20 moveto 
+  0.70 0.20 lineto
+  0.70 0.55 lineto
+  0.40 0.55 lineto
+  0.40 0.70 lineto
+  0.70 0.70 lineto
+  0.70 0.80 lineto
+  0.30 0.80 lineto
+  0.30 0.45 lineto
+  0.60 0.45 lineto
+  0.60 0.30 lineto
+  0.30 0.30 lineto
+  closepath
+  0.01 setlinewidth
+  stroke 
+} def
+
+/draw-o {
+  newpath
+
+  0.30 0.20 moveto 
+  0.70 0.20 lineto
+  0.70 0.80 lineto
+  0.30 0.80 lineto
+  0.30 0.20 lineto
+
+  0.40 0.30 moveto 
+  0.60 0.30 lineto
+  0.60 0.70 lineto
+  0.40 0.70 lineto
+  0.40 0.30 lineto
+
+  closepath
+  0.01 setlinewidth
+  stroke 
+} def
+
+/draw-george {
+  newpath
+
+  0.00 0.55 moveto
+  0.15 0.45 lineto 
+  0.30 0.55 lineto
+  0.40 0.50 lineto 
+  0.20 0.00 lineto 
+
+  0.00 0.80 moveto 
+  0.15 0.60 lineto
+  0.30 0.65 lineto
+  0.40 0.65 lineto
+  0.35 0.80 lineto
+  0.40 1.00 lineto
+
+  0.60 1.00 moveto 
+  0.65 0.80 lineto 
+  0.60 0.65 lineto 
+  0.80 0.65 lineto
+  1.00 0.45 lineto
+
+  1.00 0.20 moveto 
+  0.60 0.50 lineto 
+  0.80 0.00 lineto
+
+  0.40 0.00 moveto 
+  0.50 0.30 lineto 
+  0.60 0.00 lineto
+
+  0.01 setlinewidth
+  stroke 
+} def 
+
+/draw-hfish {
+   newpath 
+
+  % FISH SPINE 
+ 
+   0.116  0.702 moveto 
+   
+   0.260  0.295 
+   0.330  0.258  
+   0.815  0.078 curveto 
+
+  % LEFT FIN OUTLINE 
+
+  -0.032  0.564 moveto 
+
+  -0.132  0.452 
+  -0.194  0.372 
+  -0.250  0.250 curveto 
+
+   0.000  0.000 lineto 
+
+   0.250  0.250 lineto 
+
+  % LEFT FIN DETAILS 
+
+  -0.170  0.237 moveto
+
+  -0.125  0.355 
+  -0.065  0.405 
+   0.002  0.436 curveto 
+
+  -0.121  0.188 moveto 
+
+  -0.060  0.300
+  -0.030  0.330 
+   0.040  0.375 curveto 
+
+  -0.058  0.125 moveto 
+
+  -0.010  0.240 
+   0.030  0.280 
+   0.100  0.321 curveto  
+  
+  -0.022  0.063 moveto 
+
+   0.060 0.200 
+   0.100 0.240 
+   0.160 0.282 curveto 
+
+  % RIGHT FIN OUTLINE
+
+   0.234  0.798 moveto 
+   
+   0.340  0.792
+   0.411  0.783
+   0.500  0.750 curveto 
+
+   0.500  0.500 lineto 
+
+   0.377  0.377 lineto
+
+  % RIGHT FIN DETAILS
+
+   0.315  0.710 moveto 
+  
+   0.378  0.732 
+   0.426  0.726
+   0.487  0.692 curveto
+
+   0.340  0.605 moveto 
+
+   0.400  0.642 
+   0.435  0.647 
+   0.489  0.626 curveto 
+
+   0.348  0.502 moveto 
+   
+   0.400  0.564 
+   0.422  0.568 
+   0.489  0.563 curveto 
+
+   0.451  0.418 moveto 
+
+   0.465  0.400
+   0.480  0.385
+   0.490  0.381 curveto 
+
+   0.421  0.388 moveto 
+
+   0.440  0.350 
+   0.455  0.335 
+   0.492  0.325 curveto
+
+  % LEFT EYE
+
+   0.053  0.658 moveto 
+   
+   0.042  0.710
+   0.042  0.760
+   0.053  0.819 curveto 
+
+   0.085  0.812
+   0.092  0.752
+   0.098  0.700 curveto 
+
+   0.085  0.687
+   0.075  0.677
+   0.053  0.658 curveto 
+
+  % RIGHT EYE
+
+   0.130  0.718 moveto 
+   
+   0.150  0.730
+   0.175  0.745
+   0.187  0.752 curveto 
+
+   0.172  0.780 
+   0.150  0.805 
+   0.112  0.845 curveto 
+
+   0.110  0.810 
+   0.110  0.795 
+   0.130  0.718 curveto  
+    
+  % MAIN FISH BODY OUTLINE
+
+   0.000  1.000 moveto 
+  -0.042  0.834 
+  -0.056  0.730 
+  -0.032  0.564 curveto
+  
+   0.055  0.355
+   0.080  0.330
+   0.250  0.250 curveto
+
+   0.372  0.194  
+   0.452  0.132 
+   0.564  0.032 curveto 
+
+   0.730  0.056  
+   0.834  0.042 
+   1.000  0.000 curveto 
+
+   0.896  0.062 
+   0.837  0.107 
+   0.766  0.202 curveto 
+
+   0.660  0.208 
+   0.589  0.217 
+   0.500  0.250 curveto 
+
+   0.377  0.377 lineto 
+
+   0.232  0.540 
+   0.368  0.650 
+   0.234  0.798 curveto 
+
+   0.163  0.893 
+   0.104  0.938 
+   0.000  1.000 curveto 
+
+   0.007 setlinewidth
+   1 setlinejoin
+   stroke 
+
+} def
