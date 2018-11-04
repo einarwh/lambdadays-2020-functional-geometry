@@ -366,12 +366,12 @@
 % Consumes: p1 p2 
 % Produces: p  
 /over {
-  [                % lens * p1 p2 [
-    3 1 roll       % lens [ p1 p2 
-    {              % lens p1 p2
-      2 index      % lens p1 p2 lens 
-      exch         % lens p1 lens p2 
-      exec         % lens p1 
+  [                % box * p1 p2 [
+    3 1 roll       % box [ p1 p2 
+    {              % box p1 p2
+      2 index      % box p1 p2 box 
+      exch         % box p1 box p2 
+      exec         % box p1 
       exec         %
     } /exec cvx
   ] cvx
@@ -507,6 +507,9 @@
 /small-box [ [100 200] [200 0] [0 200] ] def
 
 /some-box [ [100 400] [400 0] [0 400] ] def
+
+/fish-box [ [100 400] [300 0] [0 300] ] def
+
 
 /skew-box [ [100 400] [200 20] [-30 400] ] def
 
