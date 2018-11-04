@@ -339,55 +339,39 @@
 
 % Consumes: w m e 
 % Produces: p'
-/row {
-  [                    % box * w m e [
-    4 1 roll           % box [ w m e
-    {                  % box w m e 
-      beside           % box w me 
-      1 2 beside-ratio % box p'
-      exec             % 
-    } /exec cvx 
-  ] cvx     
+/row {                  % w m e
+  beside                % w m 
+  1 2 beside-ratio      % p'
 } def
 
 % Consumes: n m s 
 % Produces: p'
-/column {
-  [                    % box * n m s [
-    4 1 roll           % box [ n m s
-    {                  % box n m s 
-      above            % box n ms  
-      1 2 above-ratio  % box p'
-      exec             % 
-    } /exec cvx 
-  ] cvx     
+/column {               % n m s 
+  above                 % n ms
+  1 2 above-ratio       % p'
 } def
 
+% Consumes: nw nm ne mw mm me sw sm se 
+% Produces: p'
 /nonet {
-  [                % box * nw nm ne mw mm me sw sm se [
-    10 1 roll       % box [ nw nm ne mw mm me sw sm se
-    {              % box nw nm ne mw mm me sw sm se
-      row          % box nw nm ne mw mm me s 
-      7 1 roll     % box s nw nm ne mw mm me
-      row          % box s nw nm ne m
-      5 1 roll     % box m s nw nm n 
-      row          % box m s n 
-      3 1 roll     % box n m s 
-      column       % box p'
-      exec 
-    } /exec cvx 
-  ] cvx   
+  row          % nw nm ne mw mm me s 
+  7 1 roll     % s nw nm ne mw mm me
+  row          % s nw nm ne m
+  5 1 roll     % m s nw nm n 
+  row          % m s n 
+  3 1 roll     % n m s 
+  column       % p'   
 } def
 
 % Consumes: p1 p2 
 % Produces: p  
 /over {
-  [                % box * p1 p2 [
-    3 1 roll       % box [ p1 p2 
-    {              % box p1 p2
-      2 index      % box p1 p2 box 
-      exch         % box p1 box p2 
-      exec         % box p1 
+  [                % lens * p1 p2 [
+    3 1 roll       % lens [ p1 p2 
+    {              % lens p1 p2
+      2 index      % lens p1 p2 lens 
+      exch         % lens p1 lens p2 
+      exec         % lens p1 
       exec         %
     } /exec cvx
   ] cvx
@@ -396,126 +380,96 @@
 % Consumes: p 
 % Produces: p' 
 /ttile {
-  [                  % box * p [
-    exch             % box [ p
-    {                % box p
-      dup            % box p p 
-      toss flip      % box p pn
-      dup            % box p pn pn  
-      turn turn turn % box p pn pe
-      over over      % box p'
-      exec
-    } /exec cvx
-  ] cvx
+  dup                   % p p 
+  toss flip             % p pn
+  dup                   % p pn pn  
+  turn turn turn        % p pn pe
+  over over             % p'
 } def
 
 % Consumes: p 
 % Produces: p' 
 /utile {
-  [                  % box * p [
-    exch             % box [ p
-    {                % box p
-      toss flip      % box pn
-      dup turn       % box pn pw
-      dup turn       % box pn pw ps 
-      dup turn       % box pn pw ps pe 
-      over over over % box p'
-      exec           %
-    } /exec cvx
-  ] cvx
+  toss flip                  % pn
+  dup turn                   % pn pw
+  dup turn                   % pn pw ps 
+  dup turn                   % pn pw ps pe 
+  over over over             % p'
 } def 
 
 % Consumes: p n 
 % Produces: p'
 /side {
-  [                  % box * p n [
-    3 1 roll         % box [ p n
-    {                % box p n
-      dup            % box p n n
-      0 le           % box p n, n <= 0
-      {
-        pop pop      % box 
-        /blank load  % box blank
-      } 
-      {              % box p n, n > 1
-        1 sub        % box p n-1
-        1 index      % box p n-1 p
-        exch         % box p p n-1 
-        side         % box p s
-        dup          % box p s s 
-        3 -1 roll    % box s s p 
-        ttile        % box s s t 
-        dup          % box s s t t
-        turn         % box s s t t' 
-        exch         % box s s t' t 
-        quartet      % box q
-      } ifelse
-      exec           %
-    } /exec cvx
-  ] cvx
+  dup            % p n n
+  0 le           % p n, n <= 0
+  {
+    pop pop      % 
+    /blank load  % blank
+  } 
+  {              % p n, n > 1
+    1 sub        % p n-1
+    1 index      % p n-1 p
+    exch         % p p n-1 
+    side         % p s
+    dup          % p s s 
+    3 -1 roll    % s s p 
+    ttile        % s s t 
+    dup          % s s t t
+    turn         % s s t t' 
+    exch         % s s t' t 
+    quartet      % q
+  } ifelse
 } def 
 
 % Consumes: p n 
 % Produces: p'
 /corner {
-  [                  % box * p n [
-    3 1 roll         % box [ p n
-    {                % box p n
-      dup            % box p n n
-      0 le           % box p n, n <= 0
-      {
-        pop pop      % box 
-        /blank load  % box blank
-      } 
-      {              % box p n, n > 1
-        1 sub        % box p n-1
-        1 index      % box p n-1 p
-        exch         % box p p n-1 
-        2 copy       % box p p n-1 p n-1
-        corner       % box p p n-1 c 
-        3 1 roll     % box p c p n-1
-        side         % box p c s 
-        dup turn     % box p c s s' 
-        4 -1 roll    % box c s s' p 
-        utile        % box c s s' u
-        quartet      % box p'
-      } ifelse
-      exec           %
-    } /exec cvx
-  ] cvx
+  dup            % p n n
+  0 le           % p n, n <= 0
+  {
+    pop pop      % 
+    /blank load  % blank
+  } 
+  {              % p n, n > 1
+    1 sub        % p n-1
+    1 index      % p n-1 p
+    exch         % p p n-1 
+    2 copy       % p p n-1 p n-1
+    corner       % p p n-1 c 
+    3 1 roll     % p c p n-1
+    side         % p c s 
+    dup turn     % p c s s' 
+    4 -1 roll    % c s s' p 
+    utile        % c s s' u
+    quartet      % p'
+  } ifelse
 } def 
 
 % Consumes: p k
 % Produces: p' 
 /square-limit {
-  [                  % box * p k [
-    3 1 roll         % box [ p k
-    {                % box p k
-      2 copy         % box p k p k
-      1 index        % box p k p k p 
-      utile          % box p k p k u 
-      5 1 roll       % box u p k p k 
-      side           % box u p k z
-      3 1 roll       % box u z p k 
-      corner         % box u z c 
-      dup turn       % box u z nw sw 
-      dup turn       % box u z nw sw se 
-      dup turn       % box u z nw sw se ne
-      3 1 roll       % box u z nw ne sw se 
-      5 -1 roll      % box u nw ne sw se n
-      dup turn       % box u nw ne sw se n w 
-      dup turn       % box u nw ne sw se n w s
-      dup turn       % box u nw ne sw se n w s e
-      6 1 roll       % box u nw ne e sw se n w s 
-      4 1 roll       % box u nw ne e sw s se n w
-      6 1 roll       % box u nw ne w e sw s se n
-      7 1 roll       % box u nw n ne w e sw s se 
-      9 -1 roll      % box nw n ne w e sw s se u 
-      5 1 roll       % box nw n ne w u e sw s se 
-      nonet          % box p'
-      exec           %
-    } /exec cvx
-  ] cvx
+  2 copy         % p k p k
+  1 index        % p k p k p 
+  utile          % p k p k u 
+  5 1 roll       % u p k p k 
+  side           % u p k z
+  3 1 roll       % u z p k 
+  corner         % u z c 
+  dup turn       % u z nw sw 
+  dup turn       % u z nw sw se 
+  dup turn       % u z nw sw se ne
+  3 1 roll       % u z nw ne sw se 
+  5 -1 roll      % u nw ne sw se n
+  dup turn       % u nw ne sw se n w 
+  dup turn       % u nw ne sw se n w s
+  dup turn       % u nw ne sw se n w s e
+  6 1 roll       % u nw ne e sw se n w s 
+  4 1 roll       % u nw ne e sw s se n w
+  6 1 roll       % u nw ne w e sw s se n
+  7 1 roll       % u nw n ne w e sw s se 
+  9 -1 roll      % nw n ne w e sw s se u 
+  5 1 roll       % nw n ne w u e sw s se 
+  nonet          % p'
 } def
 
 %%% PICTURES
@@ -530,6 +484,19 @@
 /r /draw-r load create-picture def 
 /s /draw-s load create-picture def 
 /o /draw-o load create-picture def 
+
+/zoom {       % ?
+  /h load     % ? h 
+  /e load     % ? h e 
+  /n load     % ? h e n 
+  /d load     % ? h e n d 
+  5 -1 roll   % h e n d ? 
+  /r load     % h e n d ? r 
+  /s load     % h e n d ? r s 
+  /o load     % h e n d ? r s o
+  /n load     % h e n d ? r s o n
+  nonet 
+} def
 
 /g /draw-george load create-picture def
 
