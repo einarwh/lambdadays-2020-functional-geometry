@@ -1,7 +1,12 @@
-%! 
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: The Code Mesh LDN 2018 Logo
+%%Creator: Einar W. Høst 
+%%Pages: 1
+%%EndComments
+%%BeginProlog
+%%EndProlog
 
-%%% A postscript about code mesh.
-
+%%Page: 1 1
 %%% DRAWING PROCEDURES
 
 % Consumes: 
@@ -727,19 +732,24 @@ def
   10 4 above-ratio 
 def 
 
-
 %%% BOXES AND LENSES
 
-/logo-box [ [50 200] [450 0] [0 270] ] def
-/ldn-box [ [50 200] [450 0] [0 420] ] def
+/logo-box [ [70 300] [450 0] [0 270] ] def
+/ldn-box [ [70 200] [450 0] [0 420] ] def
 
 /some-colors [ 
     [ [ 1 1 1 ] [ 0 0 0 ] ]         % white black
     [ [ 0 0 0 ] [ 1 1 1 ] ] ]       % black white 
 def
 
-/. /erasepage cvx def 
-
 /logo-lens [ some-colors logo-box ] def
-
 /ldn-lens [ some-colors ldn-box ] def
+
+%logo-lens code-mesh 
+ldn-lens code-mesh-ldn 
+
+% gswin64 -sDEVICE=pdfwrite -o mesh-logo.pdf mesh-print.ps
+
+%%Trailer
+%%Pages:      1
+%%EOF
