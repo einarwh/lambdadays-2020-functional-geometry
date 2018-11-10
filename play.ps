@@ -1,12 +1,6 @@
-%!PS-Adobe-2.0 EPSF-2.0
-%%Title: Three shades of fish - a postscript on functional geometry
-%%Creator: Einar W. Høst 
-%%Pages: 1
-%%EndComments
-%%BeginProlog
-%%EndProlog
+%! 
 
-%%Page: 1 1
+%%% A postscript about recursive fish.
 
 %%% DRAWING PROCEDURES
 
@@ -114,7 +108,6 @@
 
    pop pop
 } def
-
 %%% VECTOR PROCEDURES 
 
 % [x y]
@@ -292,23 +285,22 @@
 % b' = 0.8 * b
 % c' = 0.8 * c 
 /shrink-box {      % bx f 
-  exch             % f bx
-  aload pop        % f a b c 
-  1                % f a b c 1
-  3 index          % f a b c 1 f
-  2 mul            % f a b c 1 f*2
-  sub              % f a b c f'
-  dup              % f a b c f' f'
-  3 1 roll         % f a b f' c f' 
-  vscale           % f a b f' c' 
-  5 1 roll         % c' f a b f' 
-  vscale           % c' f a b'
-  4 1 roll         % b' c' f a 
-  exch             % b' c' a f 
-  vscale           % b' c' a' 
-  3 1 roll         % a' b' c' 
-  3 array astore   % bx' 
-}
+  dup              % bx f f 
+  2 mul            % bx f f*2
+  1 exch sub       % bx f fs
+  exch             % bx fs f 
+  3 -1 roll        % fs f bx
+  1 index          % fs f bx f 
+  move-box-v       % fs f bx1 
+  exch             % fs bx1 f
+  move-box-h       % fs bx2
+  1 index          % fs bx2 fs 
+  scale-box-v      % fs bx3 
+  exch             % bx3 fs 
+  scale-box-h      % bx4
+} def 
+
+/shrink-box-10th { 0.1 shrink-box } def 
 
 %%% LENS PROCEDURES
 
@@ -393,6 +385,14 @@
   2 array astore        % lens
 } def
 
+/shrink-lens {          % lens f
+  exch                  % f lens 
+  aload pop             % f colors box 
+  3 -1 roll             % colors box f 
+  shrink-box            % colors box'
+  2 array astore        % lens' 
+} def 
+
 %%% PICTURE PROCEDURES
 
 % Consumes: a procedure that draws lines for a picture.
@@ -450,9 +450,6 @@
 
       %(rotate) ==
       %dup == 
-
-      %rand 16#7fffffff div 10 mul 5 sub
-      %add
 
       rotate         % d cs cl bl x
       mul            % d cs cl bl'
@@ -791,7 +788,7 @@
 
 % Consumes: p k
 % Produces: p' 
-/sq-limit {
+/square-limit {
   1 index           % p k p 
   utile-1           % p k mmu
   3 1 roll          % mmu p k 
@@ -825,30 +822,22 @@
 
 /blank { pop } def 
 
-/fish-picture { draw-fishshell } create-picture def 
+/fish /draw-fishshell load create-picture def 
 
 %%% BOXES AND LENSES
 
-/some-box [ [100 200] [400 0] [0 400] ] def
+/some-box [ [100 200] [250 0] [0 250] ] def
 
 /big-box [ [50 200] [500 0] [0 500] ] def
 
 /some-colors [ 
-    [ [ 1 1 0.5 ] [ 0 0 0 ] ]         % white black
-    [ [ 0.5 1 0.5 ] [ 1 1 1 ] ]   % grey white 
-    [ [ 1 0 0 ] [ 1 1 1 ] ] ]       % black white 
+    [ [ 1 1 1 ] [ 0 0 0 ] ]         % white black
+    [ [ 0.5 0.5 0.5 ] [ 1 1 1 ] ]   % grey white 
+    [ [ 0 0 0 ] [ 1 1 1 ] ] ]       % black white 
 def
 
 /some-lens [ some-colors some-box ] def
 
-some-lens /fish-picture load 4 sq-limit exec 
+/big-lens [ some-colors big-box ] def
 
-% gswin64 -sDEVICE=pdfwrite -o limit-4.pdf 3-color-fish.ps
-
-% a' = a + (0.1 * b + 0.1 * c) 
-% b' = 0.8 * b
-% c' = 0.8 * c 
-
-%%Trailer
-%%Pages:      1
-%%EOF
+/. /erasepage cvx def 
