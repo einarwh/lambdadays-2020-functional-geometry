@@ -506,6 +506,22 @@
   3 array astore   % [ a b' c ]
 } def
 
+% a' = a + (0.1 * b + 0.1 * c) 
+% b' = 0.8 * b
+% c' = 0.8 * c 
+/shrink-box {      % bx f 
+  dup              % bx f f 
+  3 1 roll         % f bx f 
+  move-box-v       % f bx1 
+  1 index          % f bx1 f
+  move-box-h       % f bx2
+  1 index          % f bx2 f 
+  scale-box-v      % f bx3 
+  exch             % bx3 f 
+  scale-box-h      % bx4
+} def 
+
+/shrink-box-10th { 0.1 shrink-box } def 
 
 %%% LENS PROCEDURES
 
@@ -589,6 +605,14 @@
   exch                  % colors' box 
   2 array astore        % lens
 } def
+
+/shrink-lens {          % lens f
+  exch                  % f lens 
+  aload pop             % f colors box 
+  3 -1 roll             % colors box f 
+  shrink-box            % colors box'
+  2 array astore        % lens' 
+} def 
 
 %%% PICTURE PROCEDURES
 
