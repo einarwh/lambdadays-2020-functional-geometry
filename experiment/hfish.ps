@@ -502,7 +502,7 @@
   astore         % [ [xa+(xb+xc)/2 ya+(yb+yc)/2] [(xb+xc)/2 (yb+yc)/2] [(xc-xb)/2 (yc-yb)/2] ]
 } def
 
-/move-vert {       % bx f 
+/move-box-v {       % bx f 
   exch             % f bx
   aload pop        % f a b c 
   dup              % f a b c c
@@ -514,7 +514,7 @@
   3 array astore   % [ a' b c ]
 } def
 
-/move-hori {       % bx f
+/move-box-h {       % bx f
   exch             % f bx
   aload pop        % f a b c
   exch             % f a c b 
@@ -528,7 +528,7 @@
   3 array astore   % [a' b c ]
 } def
 
-/scale-vert {      % bx f 
+/scale-box-v {      % bx f 
   exch             % f bx 
   aload pop        % f a b c
   4 -1 roll        % a b c f
@@ -536,7 +536,7 @@
   3 array astore   % [ a b c' ]  
 } def 
 
-/scale-hori {       % bx f 
+/scale-box-h {       % bx f 
   exch             % f bx 
   aload pop        % f a b c 
   exch             % f a c b 
@@ -546,6 +546,26 @@
   3 array astore   % [ a b' c ]
 } def
 
+% a' = a + (0.1 * b + 0.1 * c) 
+% b' = 0.8 * b
+% c' = 0.8 * c 
+/shrink-box-f {    % bx f 
+  dup              % bx f f 
+  2 mul            % bx f f*2
+  1 exch sub       % bx f fs
+  exch             % bx fs f 
+  3 -1 roll        % fs f bx
+  1 index          % fs f bx f 
+  move-box-v       % fs f bx1 
+  exch             % fs bx1 f
+  move-box-h       % fs bx2
+  1 index          % fs bx2 fs 
+  scale-box-v      % fs bx3 
+  exch             % bx3 fs 
+  scale-box-h      % bx4
+} def 
+
+/shrink-box-10th { 0.1 shrink-box } def 
 
 %%% PICTURE PROCEDURES
 
@@ -628,6 +648,17 @@
   ] cvx            % { toss-box p exec }
 } def
 
+/shrink-f {
+  [                     % p f [
+    3 1 roll            % [ p f
+    /shrink-box-f cvx   % [ p f shrink-box-f 
+    3 -1 roll           % [ f shrink-box-f p 
+    /exec cvx           % [ f shrink-box-f p exec
+  ] cvx                 % { f shrink-box-f p exec }
+} def
+
+/shrink { 0.1 shrink-f } def
+
 % Consumes: p1 p2 m n 
 % Produces: p  
 /above-ratio {
@@ -647,14 +678,14 @@
       dup          % p1 p2 f' f f' box box 
       7 1 roll     % box p1 p2 f' f f' box
       exch         % box p1 p2 f' f box f'  
-      move-vert    % box p1 p2 f' f box'    (box' = box f' mv)
+      move-box-v    % box p1 p2 f' f box'    (box' = box f' mv)
       exch         % box p1 p2 f' box' f 
-      scale-vert   % box p1 p2 f' box1
+      scale-box-v   % box p1 p2 f' box1
       4 -1 roll    % box p2 f' box1 p1
       exec         % box p2 f'
       exch         % box f' p2 
       3 1 roll     % p2 box f'
-      scale-vert   % p2 box2 
+      scale-box-v   % p2 box2 
       exch         % box2 p2 
       exec         %
     } /exec cvx 
@@ -683,13 +714,13 @@
       6 -1 roll    % p1 p2 f' f f box
       dup          % p1 p2 f' f f box box 
       3 2 roll     % p1 p2 f' f box box f 
-      scale-hori   % p1 p2 f' f box box1 
+      scale-box-h   % p1 p2 f' f box box1 
       6 -1 roll    % p2 f' f box box1 p1 
       exec         % p2 f' f box 
       exch         % p2 f' box f
-      move-hori    % p2 f' box'
+      move-box-h    % p2 f' box'
       exch         % p2 box' f'
-      scale-hori   % p2 box2 
+      scale-box-h   % p2 box2 
       exch         % box2 p2 
       exec 
     } /exec cvx 
@@ -885,7 +916,34 @@
 
 /big-box [ [50 200] [500 0] [0 500] ] def
 
-big-box /fish load 4 square-limit exec 
+%big-box /fish load 4 square-limit exec 
+
+/nw /g load def 
+/ne /g load flip turn turn def
+/sw /g load turn turn def 
+/se /g load flip def 
+
+/sicp 
+  /nw load /ne load /sw load /se load quartet 
+def 
+
+/sicp load
+dup shrink 
+dup shrink 
+dup shrink 
+dup shrink
+dup shrink
+dup shrink
+dup shrink
+dup shrink
+dup shrink
+dup shrink
+dup shrink
+dup shrink
+dup shrink
+dup shrink
+over over over over over over over over over over over over over over 
+some-box exch exec 
 
 % gswin64 -sDEVICE=pdfwrite -o hfish-4.pdf hfish.ps
 
