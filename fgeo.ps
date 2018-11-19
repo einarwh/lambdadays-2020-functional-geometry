@@ -2,6 +2,29 @@
 
 %%% A postscript about recursive fish.
 
+%%% FP 
+
+/compose {
+  [ 3 1 roll /exec cvx dup 3 1 roll ] cvx
+} def
+
+% p n 
+/times { 
+  dup          % p n n         
+  0 le         % p n 
+  {            % p n [n <= 0]
+    pop pop    % 
+    {}         % nop
+  } 
+  {            % p n [n > 0]
+    1 sub      % p n-1
+    1 index    % p n-1 p 
+    exch       % p p n-1
+    times      % p p'
+    compose    % p >> p'
+  } ifelse 
+} def
+
 %%% VECTOR PROCEDURES 
 
 % [x y]
@@ -247,34 +270,13 @@
 } def 
 
 %% picture -> picture
-/turn {
-  [                 % p [
-    exch            % [ p
-    /turn-box cvx   % [ p turn-box 
-    exch            % [ turn-box p 
-    /exec cvx       % [ turn-box p exec
-  ] cvx             % { turn-box p exec }
-} def
+/turn { /turn-box cvx exch compose } def 
 
 %% picture -> picture
-/flip {
-  [                % p [
-    exch           % [ p
-    /flip-box cvx  % [ p flip-box
-    exch           % [ flip-box p 
-    /exec cvx      % [ flip-box p exec 
-  ] cvx            % { flip-box p exec }
-} def
+/flip { /flip-box cvx exch compose } def 
 
 %% picture -> picture
-/toss {
-  [                % p [
-    exch           % [ p
-    /toss-box cvx  % [ p toss-box
-    exch           % [ toss-box p 
-    /exec cvx      % [ toss-box p exec 
-  ] cvx            % { toss-box p exec }
-} def
+/toss { /toss-box cvx exch compose } def
 
 /shrink-f {
   [                     % p f [
@@ -401,6 +403,7 @@
     {              % box p1 p2
       2 index      % box p1 p2 box 
       exch         % box p1 box p2 
+      exec         % box p1 
       exec         %
     } /exec cvx
   ] cvx
