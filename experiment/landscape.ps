@@ -1,0 +1,44 @@
+%!PS-Adobe-3.0
+%%Orientation: Portrait
+%%DocumentMedia: a4land 842 595 80 () ()
+%%Pages: 2
+%%EndComments
+%%EndProlog
+%%BeginSetup
+  % A4 landscape orientation
+  << /PageSize [842 595] /Orientation 0 >> setpagedevice
+%%EndSetup
+%%Page: 1 1
+%%BeginPageSetup
+%%EndPageSetup
+  % This page prints on landscape A4 portrait paper.
+  % Some printers will print this page unrotated with right
+  % part of the image truncated where it falls off the page.
+  % "%%DocumentMedia: (XXX) 842 595" and "%%Orientation: Portrait"
+  % allows normal viewing in GSview.
+  % "/PageSize [842 595] /Orientation 0" allows normal viewing 
+  % after converting to PDF.
+  % This is NOT the preferred way to do landscape documents in 
+  % PostScript and PDF, although it is valid.
+  /Helvetica findfont 220 scalefont setfont
+  72 72 moveto
+  (ABCD) show
+  showpage
+%%Page: 2 2
+%%BeginPageSetup
+%%EndPageSetup
+  % This page prints on landscape A4 portrait paper.
+  % Some printers will print this page unrotated with right
+  % part of the image truncated where it falls off the page.
+  % "%%DocumentMedia: (XXX) 842 595" and "%%Orientation: Portrait"
+  % allows normal viewing in GSview.
+  % "/PageSize [842 595] /Orientation 0" allows normal viewing 
+  % after converting to PDF.
+  % This is NOT the preferred way to do landscape documents in 
+  % PostScript and PDF, although it is valid.
+  /Helvetica findfont 220 scalefont setfont
+  72 72 moveto
+  (CDEF) show
+  showpage
+%%Trailer
+%%EOF
