@@ -1,0 +1,155 @@
+(figures.ps) run 
+
+/. /erasepage cvx def 
+
+%% Look at draw-f procedure
+
+100 100 translate
+200 200 scale
+draw-f
+3 0 translate 
+90 rotate 
+draw-f
+
+(fgeo.ps) run 
+
+%% Look at create-picture procedure 
+
+%% Create a picture!
+/f /draw-f load create-picture def 
+
+some-box
+pstack
+
+f
+
+some-box turn-box turn-box
+
+f
+
+skew-box 
+pstack 
+
+f 
+
+skew-box toss-box f
+
+/g /draw-george load create-picture def 
+
+some-box g
+
+/botbox some-box 0.5 scale-vert def 
+/topbox some-box 0.5 move-vert 0.5 scale-vert def 
+
+/gtt /g load turn turn def 
+
+botbox gtt topbox g 
+
+%% Look at above-ratio 
+
+/g load /gtt load above 
+
+some-box exch exec
+
+/g load /gtt load above 
+
+some-box turn exch exec
+
+/g load flip /g load beside 
+
+some-box exch exec
+
+/g load flip /g load 2 copy
+beside
+1 2 beside-ratio
+1 3 beside-ratio
+some-box exch exec
+
+%% Look at quartet
+
+/nw /g load def 
+/ne /g load flip turn turn def
+/sw /g load turn turn def 
+/se /g load flip def 
+
+/nw load /ne load /sw load /se load quartet 
+some-box exch exec 
+
+/nw load /ne load /sw load /se load quartet /q exch def 
+
+/q load /q load /q load /q load quartet some-box exch exec 
+
+%% Look at nonet 
+
+/h load /e load /n load /d load /e load /r load /s load /o load /n load nonet
+some-box exch exec 
+
+/h load /e load /n load /d load /e load /r load /s load /o load /n load nonet
+/name exch def 
+
+/name load zoom zoom zoom some-box exch exec 
+
+%% Look at zoom 
+
+some-box fish 
+
+/fish load dup turn turn over
+some-box exch exec 
+
+%% Look at over 
+
+/fish load ttile 
+fish-box exch exec 
+
+%% Look at ttile 
+
+/fish load utile 
+fish-box exch exec 
+
+%% Look at utile
+
+/fish load 1 side 
+some-box exch exec 
+
+/fish load 3 side 
+some-box exch exec 
+
+%% Look at side 
+
+/fish load 1 corner 
+some-box exch exec 
+
+/fish load 3 corner 
+some-box exch exec 
+
+%% Look at corner 
+
+/fish load 1 square-limit 
+some-box exch exec 
+
+/fish load 3 square-limit 
+some-box exch exec 
+
+%% In color
+
+(colors.ps) run 
+
+/fish load some-lens exch exec 
+
+/fish load rehue some-lens exch exec 
+
+%% Look at rehue
+
+/fish load rehue rehue some-lens exch exec 
+
+/fish load rehue rehue rehue some-lens exch exec 
+
+/fish load ttile-1 some-lens exch exec 
+
+%% Change color (grey -> 0.6 0.3 0.8)
+
+(colors.ps) run 
+
+/fish load ttile-1 some-lens exch exec 
+
+/fish load 4 square-limit big-lens exch exec 
