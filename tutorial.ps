@@ -121,6 +121,7 @@ def
 
 /partial 
 { [ 3 1 roll /exec cvx ] cvx }
+def 
 
 %%% DRAWING
 
@@ -130,9 +131,9 @@ def
 /g-pen { 0 1 0 setrgbcolor 6 setlinewidth } def 
 /b-pen { 0 0 1 setrgbcolor 9 setlinewidth } def 
 
-/draw-arc { 0 0 100 0 30 arc stroke }
+/draw-arc { 0 0 100 0 30 arc stroke } def
 
-/draw-circle
+/dq
 { 
     r-pen draw-arc 
     30 rotate 
@@ -141,8 +142,6 @@ def
     b-pen draw-arc 
     30 rotate  
 } def 
-
-/dq /draw-circle load def 
 
 /draw-circle { dq dq dq dq } def
 
