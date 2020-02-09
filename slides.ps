@@ -1,5 +1,5 @@
 %!PS-Adobe-2.0 EPSF-2.0
-%%Title: Slides for A PostScript on Functional Geometry at Scala.io 2019 
+%%Title: Slides for A PostScript on Functional Geometry at LambdaDays 2020 
 %%Creator: Einar W. Høst 
 %%EndComments
 %%BeginProlog
@@ -7363,6 +7363,31 @@ FontName currentdict end definefont pop
   grestore 
 } def
 
+/draw-is-pseudo-text {
+  gsave 
+  /Helvetica findfont 
+  80 scalefont 
+  setfont
+  
+  170 150 translate
+  27 rotate
+
+  /xpos 0 def 
+  /ypos 0 def 
+  /newline { 
+    ypos 40 sub 
+    /ypos exch def 
+    xpos ypos moveto 
+  } def
+  /n { show newline }
+
+  /show-red { set-red show } def 
+
+  xpos ypos moveto 
+  (PSEUDOCODE) show-red newline 
+  grestore 
+} def 
+
 /draw-picture-function-types {
   gsave 
   /FiraCode-Regular findfont
@@ -9075,6 +9100,15 @@ showpage
 
 %%Page: 6 6
 
+draw-picture-function-types
+draw-is-pseudo-text
+draw-header 
+draw-footer
+
+showpage
+
+%%Page: 7 7
+
 /draw-arrow {
   gsave 
   set-purple
@@ -9145,7 +9179,7 @@ draw-footer
 
 showpage
 
-%%Page: 7 7
+%%Page: 8 8
 
 (also george) draw-title
 /g load 
@@ -9157,7 +9191,7 @@ draw-footer
 
 showpage
 
-%%Page: 8 8 
+%%Page: 9 9 
 
 (still george) draw-title
 /g load 
@@ -9169,7 +9203,7 @@ draw-footer
 
 showpage
 
-%%Page: 9 9 
+%%Page: 10 10 
 
 (turn) draw-title
 gsave 
@@ -9189,7 +9223,7 @@ draw-footer
 
 showpage
 
-%%Page: 10 10  
+%%Page: 11 11  
 
 draw-turn-function
 draw-header 
@@ -9197,7 +9231,7 @@ draw-footer
 
 showpage
 
-%%Page: 11 11  
+%%Page: 12 12  
 
 (turn) draw-title
 
@@ -9218,7 +9252,7 @@ draw-footer
 
 showpage
 
-%%Page: 12 12  
+%%Page: 13 13  
 
 (turn >> turn) draw-title
 
@@ -9239,7 +9273,7 @@ draw-footer
 
 showpage
 
-%%Page: 13 13  
+%%Page: 14 14  
 
 (turn >> turn >> turn) draw-title
 
@@ -9260,7 +9294,7 @@ draw-footer
 
 showpage
 
-%%Page: 14 14  
+%%Page: 15 15  
 
 (turn >> turn >> turn >> turn) draw-title
 
@@ -9281,7 +9315,7 @@ draw-footer
 
 showpage
 
-%%Page: 15 15   
+%%Page: 16 16   
 
 (flip) draw-title
 gsave 
@@ -9301,7 +9335,7 @@ draw-footer
 
 showpage
 
-%%Page: 16 16  
+%%Page: 17 17  
 
 draw-flip-function
 draw-header 
@@ -9309,7 +9343,7 @@ draw-footer
 
 showpage
 
-%%Page: 17 17  
+%%Page: 18 18  
 
 (flip) draw-title
 
@@ -9330,7 +9364,7 @@ draw-footer
 
 showpage
 
-%%Page: 18 18  
+%%Page: 19 19  
 
 (flip >> flip) draw-title
 
@@ -9351,7 +9385,7 @@ draw-footer
 
 showpage
 
-%%Page: 19 19
+%%Page: 20 20
 
 (toss) draw-title
 gsave 
@@ -9371,7 +9405,7 @@ draw-footer
 
 showpage
 
-%%Page: 20 20 
+%%Page: 21 21 
 
 draw-toss-function
 draw-header 
@@ -9379,7 +9413,7 @@ draw-footer
 
 showpage
 
-%%Page: 21 21  
+%%Page: 22 22  
 
 (toss) draw-title
 
@@ -9406,7 +9440,7 @@ draw-footer
 
 showpage
 
-%%Page: 22 22
+%%Page: 23 23
 
 (above george \(\(turn >> turn\) george\)) draw-title
 
@@ -9432,7 +9466,7 @@ draw-footer
 
 showpage
 
-%%Page: 23 23 
+%%Page: 24 24 
 
 draw-above-function
 draw-header 
@@ -9440,7 +9474,7 @@ draw-footer
 
 showpage
 
-%%Page: 24 24
+%%Page: 25 25
 
 (above george \(\(turn >> turn\) george\)) draw-title
 
@@ -9455,7 +9489,7 @@ draw-footer
 
 showpage
 
-%%Page: 25 25
+%%Page: 26 26
 
 (above george \(\(turn >> turn\) george\)) draw-title
 
@@ -9482,7 +9516,7 @@ draw-footer
 
 showpage
 
-%%Page: 26 26
+%%Page: 27 27
 
 (mirrorgeorge) draw-title
 
@@ -9497,7 +9531,7 @@ draw-footer
 
 showpage
 
-%%Page: 27 27
+%%Page: 28 28
 
 (mirrorgeorge) draw-title
 
@@ -9512,7 +9546,7 @@ draw-footer
 
 showpage
 
-%%Page: 28 28
+%%Page: 29 29
 
 (aboveRatio 2 1 mirrorgeorge george) draw-title
 
@@ -9538,7 +9572,7 @@ draw-footer
 
 showpage
 
-%%Page: 29 29
+%%Page: 30 30
 
 (beside \(flip george\) george) draw-title
 
@@ -9564,7 +9598,7 @@ draw-footer
 
 showpage
 
-%%Page: 30 30
+%%Page: 31 31
 
 (besideRatio 1 2 george twingeorge) draw-title
 
@@ -9590,7 +9624,7 @@ draw-footer
 
 showpage
 
-%%Page: 31 31 
+%%Page: 32 32 
 
 (quartet g1 g2 g3 g4) draw-title
 gsave 
@@ -9610,7 +9644,7 @@ draw-footer
 
 showpage
 
-%%Page: 32 32
+%%Page: 33 33
 
 draw-quartet-function
 draw-header 
@@ -9618,7 +9652,7 @@ draw-footer
 
 showpage
 
-%%Page: 33 33
+%%Page: 34 34
 
 (toss) draw-title
 gsave 
@@ -9638,7 +9672,7 @@ draw-footer
 
 showpage
 
-%%Page: 34 34
+%%Page: 35 35
 
 (nonet h e n d e r s o n) draw-title
 gsave 
@@ -9658,7 +9692,7 @@ draw-footer
 
 showpage
 
-%%Page: 35 35
+%%Page: 36 36
 
 draw-nonet-function
 draw-header 
@@ -9666,7 +9700,7 @@ draw-footer
 
 showpage
 
-%%Page: 36 36
+%%Page: 37 37
 
 (nonets are just pictures) draw-title
 gsave 
@@ -9679,7 +9713,7 @@ draw-footer
 
 showpage
 
-%%Page: 37 37
+%%Page: 38 38
 
 (a fish picture) draw-title
 gsave 
@@ -9692,7 +9726,7 @@ draw-footer
 
 showpage
 
-%%Page: 38 38
+%%Page: 39 39
 
 (over fish \(\(turn >> turn\) fish\)) draw-title
 
@@ -9718,7 +9752,7 @@ draw-footer
 
 showpage
 
-%%Page: 39 39 
+%%Page: 40 40 
 
 draw-over-function
 draw-header 
@@ -9726,7 +9760,7 @@ draw-footer
 
 showpage
 
-%%Page: 40 40
+%%Page: 41 41
 
 (ttile) draw-title
 
@@ -9747,7 +9781,7 @@ draw-footer
 
 showpage
 
-%%Page: 41 41 
+%%Page: 42 42 
 
 draw-ttile-function
 draw-header 
@@ -9755,7 +9789,7 @@ draw-footer
 
 showpage
 
-%%Page: 42 42
+%%Page: 43 43
 
 (ttile) draw-title
 
@@ -9769,7 +9803,7 @@ draw-footer
 
 showpage
 
-%%Page: 43 43
+%%Page: 44 44
 
 (utile) draw-title
 
@@ -9790,7 +9824,7 @@ draw-footer
 
 showpage
 
-%%Page: 44 44 
+%%Page: 45 45 
 
 draw-utile-function
 draw-header 
@@ -9798,7 +9832,7 @@ draw-footer
 
 showpage
 
-%%Page: 45 45
+%%Page: 46 46
 
 (utile) draw-title
 
@@ -9812,7 +9846,7 @@ draw-footer
 
 showpage
 
-%%Page: 46 46
+%%Page: 47 47
 
 (side 0) draw-title
 
@@ -9833,7 +9867,7 @@ draw-footer
 
 showpage
 
-%%Page: 47 47
+%%Page: 48 48
 
 (side 1) draw-title
 
@@ -9854,7 +9888,7 @@ draw-footer
 
 showpage
 
-%%Page: 48 48
+%%Page: 49 49
 
 (side 2) draw-title
 
@@ -9875,7 +9909,7 @@ draw-footer
 
 showpage
 
-%%Page: 49 49
+%%Page: 50 50
 
 (side 3) draw-title
 
@@ -9896,7 +9930,7 @@ draw-footer
 
 showpage
 
-%%Page: 50 50
+%%Page: 51 51
 
 draw-side-function
 draw-header 
@@ -9904,7 +9938,7 @@ draw-footer
 
 showpage
 
-%%Page: 51 51
+%%Page: 52 52
 
 (corner 0) draw-title
 
@@ -9925,7 +9959,7 @@ draw-footer
 
 showpage
 
-%%Page: 52 52
+%%Page: 53 53
 
 (corner 1) draw-title
 
@@ -9946,7 +9980,7 @@ draw-footer
 
 showpage
 
-%%Page: 53 53
+%%Page: 54 54
 
 (corner 2) draw-title
 
@@ -9967,7 +10001,7 @@ draw-footer
 
 showpage
 
-%%Page: 54 54
+%%Page: 55 55
 
 (corner 3) draw-title
 
@@ -9988,7 +10022,7 @@ draw-footer
 
 showpage
 
-%%Page: 55 55
+%%Page: 56 56
 
 draw-corner-function
 draw-header 
@@ -9996,7 +10030,7 @@ draw-footer
 
 showpage
 
-%%Page: 56 56
+%%Page: 57 57
 
 (square-limit 0) draw-title
 
@@ -10017,7 +10051,7 @@ draw-footer
 
 showpage
 
-%%Page: 57 57
+%%Page: 58 58
 
 (square-limit 1) draw-title
 
@@ -10038,7 +10072,7 @@ draw-footer
 
 showpage
 
-%%Page: 58 58
+%%Page: 59 59
 
 (square-limit 2) draw-title
 
@@ -10059,7 +10093,7 @@ draw-footer
 
 showpage
 
-%%Page: 59 59
+%%Page: 60 60
 
 (square-limit 3) draw-title
 
@@ -10080,7 +10114,7 @@ draw-footer
 
 showpage
 
-%%Page: 60 60
+%%Page: 61 61
 
 draw-square-limit-function
 draw-header 
@@ -10088,7 +10122,7 @@ draw-footer
 
 showpage
 
-%%Page: 61 61
+%%Page: 62 62
 
 (Henderson's square limit) draw-title
 
@@ -10102,7 +10136,7 @@ draw-footer
 
 showpage
 
-%%Page: 62 62
+%%Page: 63 63
 
 draw-render-picture-quote
 draw-header 
@@ -10110,7 +10144,7 @@ draw-footer
 
 showpage
 
-%%Page: 63 63
+%%Page: 64 64
 
 draw-generate-commands-quote
 draw-header 
@@ -10118,7 +10152,7 @@ draw-footer
 
 showpage
 
-%%Page: 64 64
+%%Page: 65 65
 
 draw-java-program-quote
 draw-header 
@@ -10126,7 +10160,7 @@ draw-footer
 
 showpage
 
-%%Page: 65 65
+%%Page: 66 66
 
 draw-ps-program-quote
 draw-header 
@@ -10134,7 +10168,7 @@ draw-footer
 
 showpage
 
-%%Page: 66 66
+%%Page: 67 67
 
 draw-thinking-in-ps-quote
 draw-header 
@@ -10142,6 +10176,8 @@ draw-footer-final
 
 showpage
 
+% gswin64 -dNOSAFER -sDEVICE=pdfwrite -o pages.pdf slides.ps
+
 %%Trailer
-%%Pages:      66
+%%Pages: 67
 %%EOF
