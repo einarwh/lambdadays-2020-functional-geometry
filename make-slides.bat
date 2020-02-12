@@ -1,0 +1,1 @@
+gswin64 -dNOSAFER -sDEVICE=pdfwrite -o pages.pdf slides.ps

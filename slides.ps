@@ -7136,10 +7136,17 @@ FontName currentdict end definefont pop
 /c-color [0.153 0.694 0.357] def
 /d-color [0.7 0.7 0.7] def
 
-
 % 173, 65, 137
 /set-purple {
   0.678 0.255 0.537 setrgbcolor
+} def 
+
+/set-grey {
+  0.5 0.5 0.5 setrgbcolor
+} def 
+
+/set-light-blue {
+  0.620 0.847 1 setrgbcolor
 } def 
 
 /set-white {
@@ -7365,12 +7372,12 @@ FontName currentdict end definefont pop
 
 /draw-is-pseudo-text {
   gsave 
-  /Helvetica findfont 
-  80 scalefont 
+  /FiraCode-Regular findfont
+  120 scalefont 
   setfont
   
-  170 150 translate
-  27 rotate
+  120 120 translate
+  25 rotate
 
   /xpos 0 def 
   /ypos 0 def 
@@ -7422,13 +7429,13 @@ FontName currentdict end definefont pop
   grestore 
 } def
 
-/draw-turn-function {
+/draw-picture-box-rendering {
   gsave 
   /FiraCode-Regular findfont
-  32 scalefont
+  40 scalefont
   setfont
 
-  100 410 translate
+  100 300 translate
 
   /xpos 0 def 
   /ypos 0 def 
@@ -7441,21 +7448,79 @@ FontName currentdict end definefont pop
 
   /show-black { set-black show } def 
 
-  /show-purple { set-purple show } def 
+  /show-red { set-red show } def 
 
   xpos ypos moveto 
-  (turnBox ) show-black (:) show-purple ( Box ) show-black (->) show-purple ( Box ) show-black newline 
-  %newline 
+  (Picture ) show-black 
+  (:) show-red 
+  ( Box ) show-black 
+  (->) show-red 
+  ( Rendering) show-black
+  
+  grestore 
+} def
 
-  (turnBox ) show-black ({) show-purple ( a) show-black (,) show-purple ( b) show-black (,) show-purple ( c ) show-black (} = {) show-purple ( a ) show-black (=) show-purple ( add a b ) show-black newline 
-  (turnBox { a, b, c } = ) stringwidth pop dup % indent indent 
-  ypos moveto (,) show-purple ( b ) show-black (=) show-purple ( c ) show-black newline 
-  ypos moveto (,) show-purple ( c ) show-black (=) show-purple ( neg b ) show-black (}) show-purple newline 
+
+/draw-turn-function {
+  gsave 
+  /FiraCode-Regular findfont
+  40 scalefont
+  setfont
+
+  80 300 translate
+
+  /xpos 0 def 
+  /ypos 0 def 
+  /newline { 
+    ypos 40 sub 
+    /ypos exch def 
+    xpos ypos moveto 
+  } def
+  /n { show newline }
+
+  /show-black { set-black show } def 
+
+  /show-red { set-red show } def 
+
+  xpos ypos moveto 
+
+  (turn p \(a,b,c\)) show-black 
+  ( = ) show-red 
+  (p \(a+b,c,-b\)) show-black
+  newline
+
+  grestore 
+} def
+
+/draw-turn-function-composed {
+  gsave 
+  /FiraCode-Regular findfont
+  40 scalefont
+  setfont
+
+  100 335 translate
+
+  /xpos 0 def 
+  /ypos 0 def 
+  /newline { 
+    ypos 40 sub 
+    /ypos exch def 
+    xpos ypos moveto 
+  } def
+  /n { show newline }
+
+  /show-black { set-black show } def 
+
+  /show-red { set-red show } def 
+
+  xpos ypos moveto 
+  (turnbox \(a,b,c\)) show-black 
+  ( = ) show-red 
+  (\(a+b,c,-b\)) show-black
+  newline
+
   newline 
-
-  (turn ) show-black (:) show-purple ( Picture ) show-black (->) show-purple ( Picture ) show-black newline 
-  %newline 
-  (turn p ) show-black (=) show-purple ( turnBox ) show-black (>>) show-purple ( p ) show-black newline 
+  (turn p ) show-black (=) show-red ( p . turnbox ) show-black newline 
 
   grestore 
 } def
@@ -7498,13 +7563,13 @@ FontName currentdict end definefont pop
   grestore 
 } def
 
-/draw-toss-function {
+/draw-flip-function-composed {
   gsave 
   /FiraCode-Regular findfont
-  32 scalefont
+  40 scalefont
   setfont
 
-  70 430 translate
+  100 335 translate
 
   /xpos 0 def 
   /ypos 0 def 
@@ -7517,23 +7582,89 @@ FontName currentdict end definefont pop
 
   /show-black { set-black show } def 
 
-  /show-purple { set-purple show } def 
+  /show-red { set-red show } def 
 
   xpos ypos moveto 
-  (tossBox ) show-black (:) show-purple ( Box ) show-black (->) show-purple ( Box ) show-black newline 
+  (flipbox \(a,b,c\)) show-black 
+  ( = ) show-red 
+  (\(a+b,-b,c\)) show-black
+  newline
 
-  (tossBox ) show-black ({) show-purple ( a) show-black (,) show-purple ( b) show-black (,) show-purple ( c ) show-black (} = ) show-purple newline
-  (toss) stringwidth pop dup dup % indent indent indent
-  ypos moveto ({) show-purple ( a ) show-black (=) show-purple ( add a ) show-black (\() show-purple (scale 0.5 ) show-black (\() show-purple (add b c) show-black (\)\)) show-purple newline 
-  ypos moveto (,) show-purple ( b ) show-black (=) show-purple ( scale 0.5 ) show-black (\() show-purple (add b c) show-black (\)) show-purple newline
-  ypos moveto (,) show-purple ( c ) show-black (=) show-purple ( scale 0.5 ) show-black (\() show-purple (sub c b) show-black (\) }) show-purple newline
   newline 
-
-  (toss ) show-black (:) show-purple ( Picture ) show-black (->) show-purple ( Picture ) show-black newline 
-  (toss p ) show-black (=) show-purple ( tossBox ) show-black (>>) show-purple ( p ) show-black newline 
+  (flip p ) show-black (=) show-red ( p . flipbox ) show-black newline 
 
   grestore 
 } def
+
+/show-purple { set-purple show } def 
+
+/draw-toss-function-composed {
+  gsave 
+  /FiraCode-Regular findfont
+  40 scalefont
+  setfont
+
+  80 355 translate
+
+  /xpos 0 def 
+  /ypos 0 def 
+  /newline { 
+    ypos 50 sub 
+    /ypos exch def 
+    xpos ypos moveto 
+  } def
+  /n { show newline }
+
+  /show-black { set-black show } def 
+
+  /show-red { set-red show } def 
+
+  xpos ypos moveto 
+  (tossbox \(a,b,c\)) show-black 
+  ( = ) show-red newline
+  2 indent (\(a+\(b+c\)/2,\(b+c\)/2,\(c-b\)/2\)) show-black
+  newline
+
+  newline 
+  (toss p ) show-black (=) show-red ( p . tossbox ) show-black newline 
+
+  grestore 
+} def
+
+/draw-above-function-pseudo {
+  gsave 
+  /FiraCode-Regular findfont
+  32 scalefont
+  setfont
+
+  80 370 translate
+
+  /xpos 0 def 
+  /ypos 0 def 
+  /newline { 
+    ypos 40 sub 
+    /ypos exch def 
+    xpos ypos moveto 
+  } def
+  /n { show newline }
+
+  /show-black { set-black show } def 
+
+  /show-red { set-red show } def 
+
+  xpos ypos moveto 
+  (aboveratio m n p q \(a,b,c\)) show-black 
+  ( = ) show-red newline
+  4 indent (p \(a+c*n/\(m+n\),b,c*m/\(m+n\)\) @) show-black newline
+  4 indent (q \(a,b,c*n/\(m+n\)\)) show-black
+  newline
+
+  newline 
+  (above ) show-black (=) show-red ( aboveratio 1 1 ) show-black newline 
+
+  grestore 
+} def
+
 
 % n 
 /indent {
@@ -7544,53 +7675,13 @@ FontName currentdict end definefont pop
   moveto         %  
 } def
 
-/draw-above-function {
-  gsave 
-  /FiraCode-Regular findfont
-  28 scalefont
-  setfont
-
-  50 470 translate
-
-  /xpos 0 def 
-  /ypos 0 def 
-  /newline { 
-    ypos 36 sub 
-    /ypos exch def 
-    xpos ypos moveto 
-  } def
-  /n { show newline }
-
-  /txt { set-black show } def 
-
-  /sym { set-purple show } def 
-
-  xpos ypos moveto 
-  (aboveRatio ) txt (:) sym ( Int ) txt (->) sym ( Int ) txt (->) show-purple ( Pic ) txt (->) sym ( Pic ) txt (->) sym ( Pic) txt newline
-
-  (aboveRatio m n p1 p2 ) txt (=) sym newline
-  4 indent (\\) sym (box ) txt (->) sym newline 
-  8 indent (let) txt newline 
-  12 indent (f ) txt (=) sym ( m ) txt (/ \() sym (m ) txt (+) sym ( n) txt (\)) sym newline 
-  12 indent (\() sym (b1) txt (,) sym ( b2) txt (\) =) sym ( splitVertically f box) txt newline
-  8 indent (in) txt newline 
-  12 indent (\() sym (p1 b1) txt (\) ++ \() sym (p2 b2) txt (\)) sym newline
-  newline 
-
-  (above ) show-black (:) show-purple ( Pic ) show-black (->) show-purple ( Pic ) show-black (->) show-purple ( Pic) show-black newline
-
-  (above p1 p2 ) show-black (=) show-purple ( aboveRatio 1 1) show-black newline
-
-  grestore 
-} def
-
 /draw-over-function {
   gsave 
   /FiraCode-Regular findfont
   32 scalefont
   setfont
 
-  140 340 translate
+  115 295 translate
 
   /xpos 0 def 
   /ypos 0 def 
@@ -7603,128 +7694,16 @@ FontName currentdict end definefont pop
 
   /txt { set-black show } def 
 
-  /sym { set-purple show } def 
+  /sym { set-red show } def 
 
   xpos ypos moveto 
 
-  (over ) txt (:) show-purple ( Pic ) txt (->) sym ( Pic ) txt (->) sym ( Pic) txt newline
-
-  (over p1 p2 ) txt (=) newline 
-  4 indent (\\) sym (box ) txt (->) sym ( p1 box ) txt (++) sym ( p2 box ) txt newline
+  (over p q) txt ( = ) sym (p \(a,b,c\) @ q \(a,b,c\)) show-black newline
 
   grestore 
 } def
 
 /draw-ttile-function {
-  gsave 
-  /FiraCode-Regular findfont
-  28 scalefont
-  setfont
-
-  100 390 translate
-
-  /xpos 0 def 
-  /ypos 0 def 
-  /newline { 
-    ypos 36 sub 
-    /ypos exch def 
-    xpos ypos moveto 
-  } def
-  /n { show newline }
-
-  /txt { set-black show } def 
-
-  /sym { set-purple show } def 
-
-  xpos ypos moveto 
-
-  (ttile ) txt (:) show-purple ( Picture ) txt (->) sym ( Picture) txt newline
-
-  (ttile p ) txt (=) sym newline 
-  4 indent (let) txt newline 
-  8 indent (pn ) txt (= \() sym (toss ) txt (>>) sym ( flip) txt (\)) sym ( p) txt newline 
-  8 indent (pe ) txt (= \() sym (turn ) txt (>>) sym ( turn ) txt (>>) sym ( turn) txt (\)) sym ( p) txt newline 
-  4 indent (in) txt newline 
-  8 indent (over p ) txt (\() sym (over pn pe) txt (\)) sym newline 
-  
-  grestore 
-} def
-
-/draw-utile-function {
-  gsave 
-  /FiraCode-Regular findfont
-  28 scalefont
-  setfont
-
-  100 440 translate
-
-  /xpos 0 def 
-  /ypos 0 def 
-  /newline { 
-    ypos 36 sub 
-    /ypos exch def 
-    xpos ypos moveto 
-  } def
-  /n { show newline }
-
-  /txt { set-black show } def 
-
-  /sym { set-purple show } def 
-
-  xpos ypos moveto 
-
-  (utile ) txt (:) show-purple ( Picture ) txt (->) sym ( Picture) txt newline
-
-  (utile p ) txt (=) sym newline 
-  4 indent (let) txt newline 
-  8 indent (pn ) txt (= \() sym (toss ) txt (>>) sym ( flip) txt (\)) sym ( p) txt newline 
-  8 indent (pw ) txt (=) sym ( turn pn) txt newline 
-  8 indent (ps ) txt (=) sym ( turn pw) txt newline 
-  8 indent (pe ) txt (=) sym ( turn ps) txt newline 
-  4 indent (in) txt newline 
-  8 indent (over pn ) txt (\() sym (over pw ) txt (\() sym (over ps pe) txt (\)\)) sym newline 
-  
-  grestore 
-} def
-
-/draw-side-function {
-  gsave 
-  /FiraCode-Regular findfont
-  28 scalefont
-  setfont
-
-  110 440 translate
-
-  /xpos 0 def 
-  /ypos 0 def 
-  /newline { 
-    ypos 36 sub 
-    /ypos exch def 
-    xpos ypos moveto 
-  } def
-  /n { show newline }
-
-  /txt { set-black show } def 
-
-  /sym { set-purple show } def 
-
-  xpos ypos moveto 
-
-  (side ) txt (:) show-purple ( Int ) txt (->) sym ( Picture ) txt (->) sym ( Picture) txt newline
-
-  (side n p ) txt (=) sym newline 
-  4 indent (if n ) txt (<=) sym ( 0 then blank) txt newline 
-  4 indent (else) txt newline 
-  8 indent (let) txt newline 
-  12 indent (s ) txt (=) sym ( side ) txt (\() sym (n ) txt (-) sym ( 1) txt (\)) sym ( p) txt newline 
-  12 indent (t ) txt (=) sym ( ttile p) txt newline 
-  8 indent (in) txt newline 
-  12 indent (quartet s s ) txt (\() sym (turn t) txt (\)) sym ( t) txt newline 
-  
-  grestore 
-} def
-
-/draw-corner-function {
   gsave 
   /FiraCode-Regular findfont
   28 scalefont
@@ -7743,36 +7722,37 @@ FontName currentdict end definefont pop
 
   /txt { set-black show } def 
 
-  /sym { set-purple show } def 
+  /sym { set-red show } def 
 
   xpos ypos moveto 
 
-  (corner ) txt (:) show-purple ( Int ) txt (->) sym ( Picture ) txt (->) sym ( Picture) txt newline
+  (times 0 _) txt ( = ) sym (id) txt newline
+  (times n fn) txt ( = ) sym (fn . \(times \(n-1\) fn\)) txt newline
+  newline
 
-  (corner n p ) txt (=) sym newline 
-  4 indent (if n ) txt (<=) sym ( 0 then blank) txt newline 
-  4 indent (else) txt newline 
-  8 indent (let) txt newline 
-  12 indent (c ) txt (=) sym ( corner ) txt (\() sym (n ) txt (-) sym ( 1) txt (\)) sym ( p) txt newline 
-  12 indent (s ) txt (=) sym ( side ) txt (\() sym (n ) txt (-) sym ( 1) txt (\)) sym ( p) txt newline 
-  8 indent (in) txt newline 
-  12 indent (quartet c s ) txt (\() sym (turn s) txt (\)) sym ( ) txt (\() sym (utile p) txt (\)) sym newline 
+  (unturn) txt ( = ) sym (times 3 turn) txt newline 
+  newline
+
+  (ttile p ) txt (=) sym newline 
+  4 indent (over p) txt newline
+  9 indent (\(over \(\(flip . toss\) p\)) txt newline  
+  15 indent (\(\(unturn . flip . toss\) p\)\)) txt newline  
   
   grestore 
 } def
 
-/draw-square-limit-function {
+/draw-utile-function {
   gsave 
   /FiraCode-Regular findfont
-  22 scalefont
+  24 scalefont
   setfont
 
-  140 470 translate
+  50 350 translate
 
   /xpos 0 def 
   /ypos 0 def 
   /newline { 
-    ypos 28 sub 
+    ypos 32 sub 
     /ypos exch def 
     xpos ypos moveto 
   } def
@@ -7780,36 +7760,26 @@ FontName currentdict end definefont pop
 
   /txt { set-black show } def 
 
-  /sym { set-purple show } def 
+  /sym { set-red show } def 
 
   xpos ypos moveto 
 
-  (squareLimit ) txt (:) show-purple ( Int ) txt (->) sym ( Picture ) txt (->) sym ( Picture) txt newline
-
-  (squareLimit n p ) txt (=) sym newline 
-  4 indent (let) txt newline 
-  8 indent (mm ) txt (=) sym ( utile p) txt newline 
-  8 indent (nw ) txt (=) sym ( corner n p) txt newline 
-  8 indent (sw ) txt (=) sym ( turn nw) txt newline 
-  8 indent (se ) txt (=) sym ( turn sw) txt newline 
-  8 indent (ne ) txt (=) sym ( turn se) txt newline 
-  8 indent (nm ) txt (=) sym ( side n p) txt newline 
-  8 indent (mw ) txt (=) sym ( turn nm) txt newline 
-  8 indent (sm ) txt (=) sym ( turn mw) txt newline 
-  8 indent (me ) txt (=) sym ( turn sm) txt newline 
-  4 indent (in) txt newline 
-  8 indent (nonet nw nm ne mw mm me sw sm se) txt newline 
-
+  (utile p ) txt (=) sym newline 
+  4 indent (over \(\(flip . toss\) p\)) txt newline
+  9 indent (\(over \(\(turn . flip . toss\) p\)) txt newline  
+  15 indent (\(over \(\(turn . turn . flip . toss\) p\)) txt newline  
+  21 indent (\(\(unturn . flip . toss\) p\)\)\)) txt newline  
+  
   grestore 
 } def
 
-/draw-quartet-function {
+/draw-side-function {
   gsave 
   /FiraCode-Regular findfont
   32 scalefont
   setfont
 
-  120 340 translate
+  120 390 translate
 
   /xpos 0 def 
   /ypos 0 def 
@@ -7822,30 +7792,33 @@ FontName currentdict end definefont pop
 
   /txt { set-black show } def 
 
-  /sym { set-purple show } def 
+  /sym { set-red show } def 
 
   xpos ypos moveto 
-  (quartet ) txt (:) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P) txt newline
 
-  (quartet nw ne sw se ) txt (=) sym newline  
-  4 indent (above ) txt (\() sym (beside nw ne) txt (\)) sym newline
-  10 indent (\() sym (beside sw se) txt (\)) sym newline
+  (side 0 _) txt ( = ) sym (blank) txt newline
 
+  (side n p ) txt (=) sym newline 
+  4 indent (quartet \(side \(n-1\) p\)) txt newline
+  12 indent (\(side \(n-1\) p\)) txt newline
+  12 indent (\(turn \(ttile p\)\)) txt newline
+  12 indent (\(ttile p\)) txt newline
+  
   grestore 
 } def
 
-/draw-nonet-function {
+/draw-corner-function {
   gsave 
   /FiraCode-Regular findfont
-  22 scalefont
+  32 scalefont
   setfont
 
-  65 390 translate
+  120 390 translate
 
   /xpos 0 def 
   /ypos 0 def 
   /newline { 
-    ypos 30 sub 
+    ypos 40 sub 
     /ypos exch def 
     xpos ypos moveto 
   } def
@@ -7853,18 +7826,123 @@ FontName currentdict end definefont pop
 
   /txt { set-black show } def 
 
-  /sym { set-purple show } def 
+  /sym { set-red show } def 
 
   xpos ypos moveto 
-  (nonet ) txt (:) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P ) txt (->) sym ( P) txt newline
 
-  4 indent (let) txt newline 
-  8 indent (row w m e ) txt (=) sym ( besideRatio 1 2 w ) txt (\() sym (beside m e) txt (\)) sym newline
-  8 indent (col n m s ) txt (=) sym ( aboveRatio 1 2 n ) txt (\() sym (above m s) txt (\)) sym newline
-  4 indent (in) txt newline 
-  8 indent (col ) txt (\() sym (row nw nm ne) txt (\)) sym newline
-  12 indent (\() sym (row mw mm me) txt (\)) sym newline
-  12 indent (\() sym (row sw sm se) txt (\)) sym newline
+  (corner 0 _) txt ( = ) sym (blank) txt newline
+
+  (corner n p ) txt (=) sym newline 
+  4 indent (quartet \(corner \(n-1\) p\)) txt newline
+  12 indent (\(side \(n-1\) p\)) txt newline
+  12 indent (\(turn \(side \(n-1\) p\)\)) txt newline
+  12 indent (\(utile p\)) txt newline
+  
+  grestore 
+} def
+
+/draw-square-limit-function {
+  gsave 
+  /FiraCode-Regular findfont
+  32 scalefont
+  setfont
+
+  70 470 translate
+
+  /xpos 0 def 
+  /ypos 0 def 
+  /newline { 
+    ypos 40 sub 
+    /ypos exch def 
+    xpos ypos moveto 
+  } def
+  /n { show newline }
+
+  /txt { set-black show } def 
+
+  /sym { set-red show } def 
+
+  xpos ypos moveto 
+
+  (squarelimit n p ) txt (=) sym newline 
+  4 indent (nonet \(corner n p\)) txt newline % nw
+  10 indent (\(side n p\)) txt newline % nm                   
+  10 indent (\(times 3 turn \(corner n p\)\)) txt newline % ne 
+  10 indent (\(turn \(side n p\)\)) txt newline % mw
+  10 indent (\(utile p\)) txt newline % mm
+  10 indent (\(times 3 turn \(side n p\)\)) txt newline % me
+  10 indent (\(turn \(corner n p\)\)) txt newline % sw
+  10 indent (\(times 2 turn \(side n p\)\)) txt newline % sm
+  10 indent (\(times 2 turn \(corner n p\)\)) txt newline % se
+
+  grestore 
+} def
+
+/draw-quartet-function-pseudo {
+  gsave 
+  /FiraCode-Regular findfont
+  32 scalefont
+  setfont
+
+  170 325 translate
+
+  /xpos 0 def 
+  /ypos 0 def 
+  /newline { 
+    ypos 40 sub 
+    /ypos exch def 
+    xpos ypos moveto 
+  } def
+  /n { show newline }
+
+  /txt { set-black show } def 
+
+  /sym { set-red show } def 
+
+  xpos ypos moveto 
+
+  (quartet nw ne sw se ) txt (=) sym newline  
+  4 indent (above \(beside nw ne\)) txt newline
+  10 indent (\(beside sw se\)) txt newline
+
+  grestore 
+} def
+
+/draw-nonet-function-pseudo {
+  gsave 
+  /FiraCode-Regular findfont
+  32 scalefont
+  setfont
+
+  70 470 translate
+
+  /xpos 0 def 
+  /ypos 0 def 
+  /newline { 
+    ypos 40 sub 
+    /ypos exch def 
+    xpos ypos moveto 
+  } def
+  /n { show newline }
+
+  /txt { set-black show } def 
+
+  /sym { set-red show } def 
+
+  xpos ypos moveto 
+
+  (row w m e) txt ( = ) sym newline
+  4 indent (besideratio 1 2 w \(beside m e\)) txt newline 
+  newline
+
+  (col n m s) txt ( = ) sym newline
+  4 indent (aboveratio 1 2 n \(above m s\)) txt newline 
+  newline
+
+  (nonet nw nm ne mw mm me sw sm se) txt ( = ) sym newline 
+  4 indent (col \(row nw nm ne\)) txt newline 
+  8 indent (\(row nw nm ne\)) txt newline 
+  8 indent (\(row nw nm ne\)) txt newline 
 
   grestore 
 } def
@@ -7901,8 +7979,23 @@ FontName currentdict end definefont pop
   grestore
 } def 
 
+/draw-center-text-red {
+  gsave 
+  /FiraCode-Regular findfont
+  32 scalefont
+  setfont
+
+  0 267 translate
+  0 0 moveto
+  dup stringwidth pop pagew exch sub 2 div
+  0 moveto 
+  set-red show
+
+  grestore
+} def 
+
 /draw-implication-arrow {
-    (=>) draw-center-text
+    (=>) draw-center-text-red
 } def
 
 % xpos text
@@ -7919,8 +8012,21 @@ FontName currentdict end definefont pop
   grestore
 } def 
 
+/draw-vcenter-text-red {
+  gsave 
+  /FiraCode-Regular findfont
+  32 scalefont
+  setfont
+
+  267 translate
+  0 0 moveto
+  set-red show
+
+  grestore
+} def 
+
 /draw-implication-arrow-right {
-    (=>) 515 draw-vcenter-text
+    (=>) 515 draw-vcenter-text-red
 } def
 
 
@@ -9092,22 +9198,13 @@ showpage
 
 %%Page: 5 5
 
-draw-picture-function-types
+draw-picture-box-rendering
 draw-header 
 draw-footer
 
 showpage
 
-%%Page: 6 6
-
-draw-picture-function-types
-draw-is-pseudo-text
-draw-header 
-draw-footer
-
-showpage
-
-%%Page: 7 7
+%%Page: 6 6 
 
 /draw-arrow {
   gsave 
@@ -9179,7 +9276,7 @@ draw-footer
 
 showpage
 
-%%Page: 8 8
+%%Page: 7 7
 
 (also george) draw-title
 /g load 
@@ -9191,7 +9288,7 @@ draw-footer
 
 showpage
 
-%%Page: 9 9 
+%%Page: 8 8 
 
 (still george) draw-title
 /g load 
@@ -9203,7 +9300,7 @@ draw-footer
 
 showpage
 
-%%Page: 10 10 
+%%Page: 9 9 
 
 (turn) draw-title
 gsave 
@@ -9223,9 +9320,27 @@ draw-footer
 
 showpage
 
+%%Page: 10 10  
+
+draw-turn-function
+draw-header 
+draw-footer
+
+showpage
+
 %%Page: 11 11  
 
 draw-turn-function
+draw-is-pseudo-text
+draw-header 
+draw-footer
+
+showpage
+
+
+%%Page: 11 11  
+
+draw-turn-function-composed
 draw-header 
 draw-footer
 
@@ -9254,7 +9369,7 @@ showpage
 
 %%Page: 13 13  
 
-(turn >> turn) draw-title
+(turn . turn) draw-title
 
 /f load 
 [[75 75][150 0][0 150]]
@@ -9275,7 +9390,7 @@ showpage
 
 %%Page: 14 14  
 
-(turn >> turn >> turn) draw-title
+(turn . turn . turn) draw-title
 
 /f load 
 [[75 75][150 0][0 150]]
@@ -9296,7 +9411,7 @@ showpage
 
 %%Page: 15 15  
 
-(turn >> turn >> turn >> turn) draw-title
+(turn . turn . turn . turn) draw-title
 
 /f load 
 [[75 75][150 0][0 150]]
@@ -9337,7 +9452,7 @@ showpage
 
 %%Page: 17 17  
 
-draw-flip-function
+draw-flip-function-composed
 draw-header 
 draw-footer
 
@@ -9366,7 +9481,7 @@ showpage
 
 %%Page: 19 19  
 
-(flip >> flip) draw-title
+(flip . flip) draw-title
 
 /f load 
 [[75 75][150 0][0 150]]
@@ -9407,7 +9522,7 @@ showpage
 
 %%Page: 21 21 
 
-draw-toss-function
+draw-toss-function-composed
 draw-header 
 draw-footer
 
@@ -9442,7 +9557,7 @@ showpage
 
 %%Page: 23 23
 
-(above george \(\(turn >> turn\) george\)) draw-title
+(above george \(\(turn . turn\) george\)) draw-title
 
 gsave 
 25 150 translate
@@ -9468,7 +9583,7 @@ showpage
 
 %%Page: 24 24 
 
-draw-above-function
+draw-above-function-pseudo
 draw-header 
 draw-footer
 
@@ -9476,7 +9591,7 @@ showpage
 
 %%Page: 25 25
 
-(above george \(\(turn >> turn\) george\)) draw-title
+(above george \(\(turn . turn\) george\)) draw-title
 
 gsave
 /mg load
@@ -9491,7 +9606,7 @@ showpage
 
 %%Page: 26 26
 
-(above george \(\(turn >> turn\) george\)) draw-title
+(above george \(\(turn . turn\) george\)) draw-title
 
 gsave
 275 125 translate 
@@ -9548,7 +9663,7 @@ showpage
 
 %%Page: 29 29
 
-(aboveRatio 2 1 mirrorgeorge george) draw-title
+(aboveratio 2 1 mirrorgeorge george) draw-title
 
 gsave 
 25 150 translate
@@ -9600,7 +9715,7 @@ showpage
 
 %%Page: 31 31
 
-(besideRatio 1 2 george twingeorge) draw-title
+(besideratio 1 2 george twingeorge) draw-title
 
 gsave 
 25 150 translate
@@ -9646,7 +9761,7 @@ showpage
 
 %%Page: 33 33
 
-draw-quartet-function
+draw-quartet-function-pseudo
 draw-header 
 draw-footer
 
@@ -9694,7 +9809,7 @@ showpage
 
 %%Page: 36 36
 
-draw-nonet-function
+draw-nonet-function-pseudo
 draw-header 
 draw-footer
 
@@ -9728,7 +9843,7 @@ showpage
 
 %%Page: 39 39
 
-(over fish \(\(turn >> turn\) fish\)) draw-title
+(over fish \(\(turn . turn\) fish\)) draw-title
 
 gsave 
 50 150 translate
@@ -10032,7 +10147,7 @@ showpage
 
 %%Page: 57 57
 
-(square-limit 0) draw-title
+(squarelimit 0) draw-title
 
 gsave 
 100 150 translate
@@ -10053,7 +10168,7 @@ showpage
 
 %%Page: 58 58
 
-(square-limit 1) draw-title
+(squarelimit 1) draw-title
 
 gsave 
 100 150 translate
@@ -10074,7 +10189,7 @@ showpage
 
 %%Page: 59 59
 
-(square-limit 2) draw-title
+(squarelimit 2) draw-title
 
 gsave 
 100 150 translate
@@ -10095,7 +10210,7 @@ showpage
 
 %%Page: 60 60
 
-(square-limit 3) draw-title
+(squarelimit 3) draw-title
 
 gsave 
 100 150 translate
