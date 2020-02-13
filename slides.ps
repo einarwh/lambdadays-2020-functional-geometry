@@ -7681,7 +7681,7 @@ FontName currentdict end definefont pop
   32 scalefont
   setfont
 
-  115 295 translate
+  160 315 translate
 
   /xpos 0 def 
   /ypos 0 def 
@@ -7698,7 +7698,8 @@ FontName currentdict end definefont pop
 
   xpos ypos moveto 
 
-  (over p q) txt ( = ) sym (p \(a,b,c\) @ q \(a,b,c\)) show-black newline
+  (over p q \(a,b,c\)) txt ( = ) sym newline 
+  4 indent (p \(a,b,c\) @ q \(a,b,c\)) show-black newline
 
   grestore 
 } def
@@ -7908,6 +7909,37 @@ FontName currentdict end definefont pop
   grestore 
 } def
 
+/draw-quartet-function-alternative {
+  gsave 
+  /FiraCode-Regular findfont
+  32 scalefont
+  setfont
+
+  170 325 translate
+
+  /xpos 0 def 
+  /ypos 0 def 
+  /newline { 
+    ypos 40 sub 
+    /ypos exch def 
+    xpos ypos moveto 
+  } def
+  /n { show newline }
+
+  /txt { set-black show } def 
+
+  /sym { set-red show } def 
+
+  xpos ypos moveto 
+
+  (quartet nw ne sw se ) txt (=) sym newline  
+  4 indent (beside \(above nw sw\)) txt newline
+  11 indent (\(above ne se\)) txt newline
+
+  grestore 
+} def
+
+
 /draw-nonet-function-pseudo {
   gsave 
   /FiraCode-Regular findfont
@@ -7941,8 +7973,8 @@ FontName currentdict end definefont pop
 
   (nonet nw nm ne mw mm me sw sm se) txt ( = ) sym newline 
   4 indent (col \(row nw nm ne\)) txt newline 
-  8 indent (\(row nw nm ne\)) txt newline 
-  8 indent (\(row nw nm ne\)) txt newline 
+  8 indent (\(row mw mm me\)) txt newline 
+  8 indent (\(row sw sm se\)) txt newline 
 
   grestore 
 } def
@@ -9766,6 +9798,15 @@ draw-header
 draw-footer
 
 showpage
+
+%%Page: 33 33
+
+draw-quartet-function-alternative
+draw-header 
+draw-footer
+
+showpage
+
 
 %%Page: 34 34
 

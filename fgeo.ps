@@ -6,6 +6,16 @@
   [ 3 1 roll /exec cvx dup 3 1 roll ] cvx
 } def
 
+/flat-compose {
+  [ 
+    3 1 roll 
+    exch
+    aload length 
+    1 add -1 roll 
+    aload pop 
+  ] cvx
+} def
+
 % p n 
 /times { 
   dup          % p n n         
@@ -359,6 +369,8 @@
   1 1 beside-ratio 
 } def 
 
+% Consumes: nw ne sw se
+% Produces: p
 /quartet {              % nw ne sw se
   beside                % nw ne s 
   3 1 roll              % s nw ne 
