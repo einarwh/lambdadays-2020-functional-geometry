@@ -1051,12 +1051,30 @@
 
 /big-box [ [50 200] [500 0] [0 500] ] def
 
+/row-box [ [50 200] [450 0] [0 150] ] def
+
+%011f4b (1, 31, 75)
+%03396c (3, 57, 108)
+%005b96 (0, 91, 150)
+%6497b1 (100, 151, 177)
+%b3cde0 (179, 205, 224)
+
 /some-colors [ 
     [ [ 1 1 1 ] [ 0 0 0 ] ]         % white black
     [ [ 0.5 0.5 0.5 ] [ 1 1 1 ] ]   % grey white 
     [ [ 0 0 0 ] [ 1 1 1 ] ] ]       % black white 
 def
 
+/other-colors [ 
+    [ [ 1 1 1 ] [ 0 0 0 ] ]         % white black
+    [ [ 1 0.2 0.2 ] [ 1 1 1 ] ]   
+    [ [ 0 0 0 ] [ 1 1 1 ] ] ]       % black white 
+def
+
 /some-lens [ some-colors some-box ] def
 
 /big-lens [ some-colors big-box ] def
+
+/other-lens [ other-colors big-box ] def
+
+/row-lens [ some-colors row-box ] def
