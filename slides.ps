@@ -9370,7 +9370,7 @@ draw-footer
 showpage
 
 
-%%Page: 11 11  
+%%Page: 12 12  
 
 draw-turn-function-composed
 draw-header 
@@ -9378,7 +9378,7 @@ draw-footer
 
 showpage
 
-%%Page: 12 12  
+%%Page: 13 13  
 
 (turn) draw-title
 
@@ -9399,7 +9399,7 @@ draw-footer
 
 showpage
 
-%%Page: 13 13  
+%%Page: 14 14  
 
 (turn . turn) draw-title
 
@@ -9420,7 +9420,7 @@ draw-footer
 
 showpage
 
-%%Page: 14 14  
+%%Page: 15 15  
 
 (turn . turn . turn) draw-title
 
@@ -9441,7 +9441,7 @@ draw-footer
 
 showpage
 
-%%Page: 15 15  
+%%Page: 16 16  
 
 (turn . turn . turn . turn) draw-title
 
@@ -9462,7 +9462,7 @@ draw-footer
 
 showpage
 
-%%Page: 16 16   
+%%Page: 17 17   
 
 (flip) draw-title
 gsave 
@@ -9482,7 +9482,7 @@ draw-footer
 
 showpage
 
-%%Page: 17 17  
+%%Page: 18 18  
 
 draw-flip-function-composed
 draw-header 
@@ -9490,7 +9490,7 @@ draw-footer
 
 showpage
 
-%%Page: 18 18  
+%%Page: 19 19  
 
 (flip) draw-title
 
@@ -9511,7 +9511,7 @@ draw-footer
 
 showpage
 
-%%Page: 19 19  
+%%Page: 20 20  
 
 (flip . flip) draw-title
 
@@ -9532,7 +9532,7 @@ draw-footer
 
 showpage
 
-%%Page: 20 20
+%%Page: 21 21
 
 (toss) draw-title
 gsave 
@@ -9552,7 +9552,7 @@ draw-footer
 
 showpage
 
-%%Page: 21 21 
+%%Page: 22 22 
 
 draw-toss-function-composed
 draw-header 
@@ -9560,7 +9560,7 @@ draw-footer
 
 showpage
 
-%%Page: 22 22  
+%%Page: 23 23  
 
 (toss) draw-title
 
@@ -9587,7 +9587,98 @@ draw-footer
 
 showpage
 
-%%Page: 23 23
+%%Page: 24 24  
+
+(toss . toss) draw-title
+
+/f load 
+[[75 40][150 0][0 150]]
+75 125
+draw-picture-in-box
+
+draw-implication-arrow
+
+/f load 
+[[75 40][150 0][0 150]] toss-box toss-box
+475 125
+draw-picture-in-box
+
+[[75 40][150 0][0 150]]
+gsave
+475 125 translate
+draw-just-box
+grestore
+
+[[75 40][150 0][0 150]] toss-box
+gsave
+475 125 translate
+draw-just-box
+grestore
+
+draw-header 
+draw-footer
+
+showpage
+
+%%Page: 25 25  
+
+(toss . toss . toss . toss . toss . toss) draw-title
+
+/f load 
+[[75 40][150 0][0 150]]
+75 125
+draw-picture-in-box
+
+draw-implication-arrow
+
+/f load 
+[[75 40][150 0][0 150]] toss-box toss-box toss-box toss-box toss-box toss-box
+475 125
+draw-picture-in-box
+
+[[75 40][150 0][0 150]]
+gsave
+475 125 translate
+draw-just-box
+grestore
+
+[[75 40][150 0][0 150]] toss-box
+gsave
+475 125 translate
+draw-just-box
+grestore
+
+[[75 40][150 0][0 150]] toss-box toss-box
+gsave
+475 125 translate
+draw-just-box
+grestore
+
+[[75 40][150 0][0 150]] toss-box toss-box toss-box
+gsave
+475 125 translate
+draw-just-box
+grestore
+
+[[75 40][150 0][0 150]] toss-box toss-box toss-box toss-box
+gsave
+475 125 translate
+draw-just-box
+grestore
+
+[[75 40][150 0][0 150]] toss-box toss-box toss-box toss-box toss-box
+gsave
+475 125 translate
+draw-just-box
+grestore
+
+draw-header 
+draw-footer
+
+showpage
+
+
+%%Page: 26 26
 
 (above george \(\(turn . turn\) george\)) draw-title
 
@@ -9613,7 +9704,7 @@ draw-footer
 
 showpage
 
-%%Page: 24 24 
+%%Page: 27 27 
 
 draw-above-function-pseudo
 draw-header 
@@ -9621,7 +9712,7 @@ draw-footer
 
 showpage
 
-%%Page: 25 25
+%%Page: 28 28
 
 (above george \(\(turn . turn\) george\)) draw-title
 
@@ -9636,7 +9727,7 @@ draw-footer
 
 showpage
 
-%%Page: 26 26
+%%Page: 29 29
 
 (above george \(\(turn . turn\) george\)) draw-title
 
@@ -9663,7 +9754,7 @@ draw-footer
 
 showpage
 
-%%Page: 27 27
+%%Page: 30 30
 
 (mirrorgeorge) draw-title
 
@@ -9678,7 +9769,7 @@ draw-footer
 
 showpage
 
-%%Page: 28 28
+%%Page: 31 31
 
 (mirrorgeorge) draw-title
 
@@ -9693,7 +9784,7 @@ draw-footer
 
 showpage
 
-%%Page: 29 29
+%%Page: 32 32
 
 (aboveratio 2 1 mirrorgeorge george) draw-title
 
@@ -9719,7 +9810,7 @@ draw-footer
 
 showpage
 
-%%Page: 30 30
+%%Page: 33 33
 
 (beside \(flip george\) george) draw-title
 
@@ -9745,7 +9836,7 @@ draw-footer
 
 showpage
 
-%%Page: 31 31
+%%Page: 34 34
 
 (besideratio 1 2 george twingeorge) draw-title
 
@@ -9771,7 +9862,7 @@ draw-footer
 
 showpage
 
-%%Page: 32 32 
+%%Page: 35 35 
 
 (quartet g1 g2 g3 g4) draw-title
 gsave 
@@ -9791,7 +9882,7 @@ draw-footer
 
 showpage
 
-%%Page: 33 33
+%%Page: 36 36
 
 draw-quartet-function-pseudo
 draw-header 
@@ -9799,7 +9890,7 @@ draw-footer
 
 showpage
 
-%%Page: 33 33
+%%Page: 37 37
 
 draw-quartet-function-alternative
 draw-header 
@@ -9808,7 +9899,7 @@ draw-footer
 showpage
 
 
-%%Page: 34 34
+%%Page: 38 38
 
 (toss) draw-title
 gsave 
@@ -9828,7 +9919,7 @@ draw-footer
 
 showpage
 
-%%Page: 35 35
+%%Page: 39 39
 
 (nonet h e n d e r s o n) draw-title
 gsave 
@@ -9848,7 +9939,7 @@ draw-footer
 
 showpage
 
-%%Page: 36 36
+%%Page: 40 40 
 
 draw-nonet-function-pseudo
 draw-header 
@@ -9856,7 +9947,7 @@ draw-footer
 
 showpage
 
-%%Page: 37 37
+%%Page: 41 41
 
 (nonets are just pictures) draw-title
 gsave 
@@ -9869,7 +9960,7 @@ draw-footer
 
 showpage
 
-%%Page: 38 38
+%%Page: 42 42
 
 (a fish picture) draw-title
 gsave 
@@ -9882,7 +9973,7 @@ draw-footer
 
 showpage
 
-%%Page: 39 39
+%%Page: 43 43
 
 (over fish \(\(turn . turn\) fish\)) draw-title
 
@@ -9908,7 +9999,7 @@ draw-footer
 
 showpage
 
-%%Page: 40 40 
+%%Page: 44 44 
 
 draw-over-function
 draw-header 
@@ -9916,7 +10007,7 @@ draw-footer
 
 showpage
 
-%%Page: 41 41
+%%Page: 45 45
 
 (ttile) draw-title
 
@@ -9937,7 +10028,7 @@ draw-footer
 
 showpage
 
-%%Page: 42 42 
+%%Page: 46 46 
 
 draw-ttile-function
 draw-header 
@@ -9945,7 +10036,7 @@ draw-footer
 
 showpage
 
-%%Page: 43 43
+%%Page: 47 47
 
 (ttile) draw-title
 
@@ -9959,7 +10050,7 @@ draw-footer
 
 showpage
 
-%%Page: 44 44
+%%Page: 48 48
 
 (utile) draw-title
 
@@ -9980,7 +10071,7 @@ draw-footer
 
 showpage
 
-%%Page: 45 45 
+%%Page: 49 49 
 
 draw-utile-function
 draw-header 
@@ -9988,7 +10079,7 @@ draw-footer
 
 showpage
 
-%%Page: 46 46
+%%Page: 50 50
 
 (utile) draw-title
 
@@ -10002,7 +10093,7 @@ draw-footer
 
 showpage
 
-%%Page: 47 47
+%%Page: 51 51
 
 (side 0) draw-title
 
@@ -10023,7 +10114,7 @@ draw-footer
 
 showpage
 
-%%Page: 48 48
+%%Page: 52 52
 
 (side 1) draw-title
 
@@ -10044,7 +10135,7 @@ draw-footer
 
 showpage
 
-%%Page: 49 49
+%%Page: 53 53
 
 (side 2) draw-title
 
@@ -10065,7 +10156,7 @@ draw-footer
 
 showpage
 
-%%Page: 50 50
+%%Page: 54 54
 
 (side 3) draw-title
 
@@ -10086,7 +10177,7 @@ draw-footer
 
 showpage
 
-%%Page: 51 51
+%%Page: 55 55
 
 draw-side-function
 draw-header 
@@ -10094,7 +10185,7 @@ draw-footer
 
 showpage
 
-%%Page: 52 52
+%%Page: 56 56
 
 (corner 0) draw-title
 
@@ -10115,7 +10206,7 @@ draw-footer
 
 showpage
 
-%%Page: 53 53
+%%Page: 57 57
 
 (corner 1) draw-title
 
@@ -10136,7 +10227,7 @@ draw-footer
 
 showpage
 
-%%Page: 54 54
+%%Page: 58 58
 
 (corner 2) draw-title
 
@@ -10157,7 +10248,7 @@ draw-footer
 
 showpage
 
-%%Page: 55 55
+%%Page: 59 59
 
 (corner 3) draw-title
 
@@ -10178,7 +10269,7 @@ draw-footer
 
 showpage
 
-%%Page: 56 56
+%%Page: 60 60
 
 draw-corner-function
 draw-header 
@@ -10186,7 +10277,7 @@ draw-footer
 
 showpage
 
-%%Page: 57 57
+%%Page: 61 61
 
 (squarelimit 0) draw-title
 
@@ -10207,7 +10298,7 @@ draw-footer
 
 showpage
 
-%%Page: 58 58
+%%Page: 62 62
 
 (squarelimit 1) draw-title
 
@@ -10228,7 +10319,7 @@ draw-footer
 
 showpage
 
-%%Page: 59 59
+%%Page: 63 63
 
 (squarelimit 2) draw-title
 
@@ -10249,7 +10340,7 @@ draw-footer
 
 showpage
 
-%%Page: 60 60
+%%Page: 64 64
 
 (squarelimit 3) draw-title
 
@@ -10270,7 +10361,7 @@ draw-footer
 
 showpage
 
-%%Page: 61 61
+%%Page: 65 65
 
 draw-square-limit-function
 draw-header 
@@ -10278,7 +10369,7 @@ draw-footer
 
 showpage
 
-%%Page: 62 62
+%%Page: 66 66
 
 (Henderson's square limit) draw-title
 
@@ -10292,7 +10383,7 @@ draw-footer
 
 showpage
 
-%%Page: 63 63
+%%Page: 67 67
 
 draw-render-picture-quote
 draw-header 
@@ -10300,7 +10391,7 @@ draw-footer
 
 showpage
 
-%%Page: 64 64
+%%Page: 68 68
 
 draw-generate-commands-quote
 draw-header 
@@ -10308,7 +10399,7 @@ draw-footer
 
 showpage
 
-%%Page: 65 65
+%%Page: 69 69
 
 draw-java-program-quote
 draw-header 
@@ -10316,7 +10407,7 @@ draw-footer
 
 showpage
 
-%%Page: 66 66
+%%Page: 70 70
 
 draw-ps-program-quote
 draw-header 
@@ -10324,7 +10415,7 @@ draw-footer
 
 showpage
 
-%%Page: 67 67
+%%Page: 71 71
 
 draw-thinking-in-ps-quote
 draw-header 
@@ -10335,5 +10426,5 @@ showpage
 % gswin64 -dNOSAFER -sDEVICE=pdfwrite -o pages.pdf slides.ps
 
 %%Trailer
-%%Pages: 67
+%%Pages: 71
 %%EOF
